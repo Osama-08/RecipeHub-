@@ -1,0 +1,11 @@
+import { NextResponse } from 'next/server';
+
+export const dynamic = 'force-dynamic';
+
+export async function GET() {
+    return NextResponse.json({ message: 'GET works' });
+}
+
+export async function POST() {
+    return NextResponse.json({ message: 'POST works' }, { status: 201 });
+}

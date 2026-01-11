@@ -1,0 +1,113 @@
+﻿
+> recipe-website@0.1.0 build
+> next build
+
+   Γû▓ Next.js 15.5.9
+   - Environments: .env
+
+   Creating an optimized production build ...
+ Γ£ô Compiled successfully in 22.5s
+   Linting and checking validity of types ...
+   Collecting page data ...
+≡ƒÜÇ RecipeHub AI - Starting initialization...
+≡ƒÜÇ RecipeHub AI - Starting initialization...
+≡ƒÜÇ RecipeHub AI - Starting initialization...
+Γ£à Content exists: 2 tips, 0 hacks, 0 trends
+Γ£à RecipeHub AI initialization complete!
+Γ£à Content exists: 2 tips, 0 hacks, 0 trends
+Γ£à RecipeHub AI initialization complete!
+Γ£à Content exists: 2 tips, 0 hacks, 0 trends
+Γ£à RecipeHub AI initialization complete!
+   Generating static pages (0/60) ...
+≡ƒÜÇ RecipeHub AI - Starting initialization...
+≡ƒÜÇ RecipeHub AI - Starting initialization...
+≡ƒÜÇ RecipeHub AI - Starting initialization...
+node.exe :  Γ¿» 
+useSearchParams() 
+should be wrapped in 
+a suspense boundary 
+at page "/recipes". 
+Read more: https://nex
+tjs.org/docs/messages/
+missing-suspense-with-
+csr-bailout
+At line:1 char:1
++ & "C:\Program Files\
+nodejs/node.exe" 
+"C:\Program 
+Files\nodejs/node_mo 
+...
++ ~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
+~~~~~
+    + CategoryInfo    
+          : NotSpeci  
+  fied: ( Γ¿» useSe   
+ archP...ith-csr-b    
+ailout:String) []    
+, RemoteException
+    + FullyQualifiedE 
+   rrorId : NativeCo  
+  mmandError
+ 
+    at g (D:\RecipeWeb
+site\.next\server\chun
+ks\7998.js:1:130894)
+    at m (D:\RecipeWeb
+site\.next\server\chun
+ks\7998.js:9:15432)
+    at m (D:\RecipeWeb
+site\.next\server\app\
+recipes\page.js:1:5125
+)
+    at n3 (D:\RecipeWe
+bsite\node_modules\nex
+t\dist\compiled\next-s
+erver\app-page.runtime
+.prod.js:2:82831)
+    at n6 (D:\RecipeWe
+bsite\node_modules\nex
+t\dist\compiled\next-s
+erver\app-page.runtime
+.prod.js:2:84601)
+    at n5 (D:\RecipeWe
+bsite\node_modules\nex
+t\dist\compiled\next-s
+erver\app-page.runtime
+.prod.js:2:104801)
+    at n7 (D:\RecipeWe
+bsite\node_modules\nex
+t\dist\compiled\next-s
+erver\app-page.runtime
+.prod.js:2:102219)
+    at n8 (D:\RecipeWe
+bsite\node_modules\nex
+t\dist\compiled\next-s
+erver\app-page.runtime
+.prod.js:2:83183)
+    at n6 (D:\RecipeWe
+bsite\node_modules\nex
+t\dist\compiled\next-s
+erver\app-page.runtime
+.prod.js:2:84647)
+    at n6 (D:\RecipeWe
+bsite\node_modules\nex
+t\dist\compiled\next-s
+erver\app-page.runtime
+.prod.js:2:101560)
+Error occurred 
+prerendering page 
+"/recipes". Read 
+more: https://nextjs.o
+rg/docs/messages/prere
+nder-error
+Export encountered an 
+error on 
+/recipes/page: 
+/recipes, exiting the 
+build.
+ Γ¿» Next.js build 
+worker exited with 
+code: 1 and signal: 
+null
