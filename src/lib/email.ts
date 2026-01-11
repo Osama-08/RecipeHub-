@@ -20,19 +20,92 @@ export async function sendVerificationEmail({ email, token, name }: SendVerifica
   console.log('- Sending to:', email);
   console.log('- Verification URL:', verifyUrl);
 
+  // Check if API key is missing
+  if (!process.env.RESEND_API_KEY) {
+    const error = 'RESEND_API_KEY is not set in environment variables';
+    console.error('❌', error);
+    return { success: false, error: new Error(error) };
+  }
+
+  // Check if API key format is correct
+  if (!process.env.RESEND_API_KEY.startsWith('re_')) {
+    const error = 'RESEND_API_KEY format is incorrect. It should start with "re_"';
+    console.error('❌', error);
+    return { success: false, error: new Error(error) };
+  }
+
   try {
+    const emailFrom = process.env.EMAIL_FROM || 'RecipeHub <onboarding@resend.dev>';
+    console.log('📧 Attempting to send email with from:', emailFrom);
+
     const data = await resend.emails.send({
-      from: process.env.EMAIL_FROM || 'RecipeHub <onboarding@resend.dev>',
+      from: emailFrom,
       to: email,
       subject: 'Verify your RecipeHub account',
       html: getVerificationEmailTemplate(verifyUrl, name),
     });
 
-    console.log('✅ Email sent successfully:', data);
+    // Check if Resend returned an error in the response
+    if (data?.error) {
+      const errorMessage = data.error.message || 'Unknown error from Resend';
+      console.error('❌ Resend API Error:', errorMessage);
+      
+      // Check for domain verification error
+      if (errorMessage.includes('only send testing emails to your own email') || 
+          errorMessage.includes('verify a domain')) {
+        console.error('⚠️ Domain verification required!');
+        console.error('📖 Solution: Verify a domain at https://resend.com/domains');
+        console.error('📖 Then update EMAIL_FROM to use your verified domain');
+        
+        return { 
+          success: false, 
+          error: new Error(errorMessage),
+          errorMessage,
+          requiresDomainVerification: true
+        };
+      }
+      
+      return { 
+        success: false, 
+        error: new Error(errorMessage),
+        errorMessage
+      };
+    }
+
+    console.log('✅ Email sent successfully:', JSON.stringify(data, null, 2));
     return { success: true, data };
-  } catch (error) {
-    console.error('❌ Error sending verification email:', error);
-    return { success: false, error };
+  } catch (error: any) {
+    // Enhanced error logging
+    console.error('❌ Error sending verification email:');
+    console.error('- Error type:', error?.constructor?.name);
+    console.error('- Error message:', error?.message);
+    console.error('- Error details:', JSON.stringify(error, null, 2));
+    
+    // Check for specific Resend errors
+    if (error?.response) {
+      console.error('- API Response:', JSON.stringify(error.response, null, 2));
+    }
+    
+    // Check for domain verification error in catch block too
+    const errorMessage = error?.message || String(error);
+    if (errorMessage.includes('only send testing emails to your own email') || 
+        errorMessage.includes('verify a domain')) {
+      console.error('⚠️ Domain verification required!');
+      console.error('📖 Solution: Verify a domain at https://resend.com/domains');
+      
+      return { 
+        success: false, 
+        error: error instanceof Error ? error : new Error(errorMessage),
+        errorMessage,
+        requiresDomainVerification: true
+      };
+    }
+    
+    return { 
+      success: false, 
+      error: error instanceof Error ? error : new Error(String(error)),
+      errorMessage: errorMessage
+    };
   }
 }
 
@@ -45,18 +118,69 @@ export interface SendResetPasswordEmailParams {
 export async function sendResetPasswordEmail({ email, token, name }: SendResetPasswordEmailParams) {
   const resetUrl = `${process.env.NEXTAUTH_URL}/reset-password?token=${token}`;
 
+  // Check if API key is missing
+  if (!process.env.RESEND_API_KEY) {
+    const error = 'RESEND_API_KEY is not set in environment variables';
+    console.error('❌', error);
+    return { success: false, error: new Error(error) };
+  }
+
   try {
+    const emailFrom = process.env.EMAIL_FROM || 'RecipeHub <onboarding@resend.dev>';
     const data = await resend.emails.send({
-      from: process.env.EMAIL_FROM || 'RecipeHub <onboarding@resend.dev>',
+      from: emailFrom,
       to: email,
       subject: 'Reset your RecipeHub password',
       html: getResetPasswordEmailTemplate(resetUrl, name),
     });
 
+    // Check if Resend returned an error in the response
+    if (data?.error) {
+      const errorMessage = data.error.message || 'Unknown error from Resend';
+      console.error('❌ Resend API Error:', errorMessage);
+      
+      if (errorMessage.includes('only send testing emails to your own email') || 
+          errorMessage.includes('verify a domain')) {
+        console.error('⚠️ Domain verification required!');
+        return { 
+          success: false, 
+          error: new Error(errorMessage),
+          errorMessage,
+          requiresDomainVerification: true
+        };
+      }
+      
+      return { 
+        success: false, 
+        error: new Error(errorMessage),
+        errorMessage
+      };
+    }
+
+    console.log('✅ Password reset email sent successfully:', JSON.stringify(data, null, 2));
     return { success: true, data };
-  } catch (error) {
-    console.error('Error sending reset password email:', error);
-    return { success: false, error };
+  } catch (error: any) {
+    console.error('❌ Error sending reset password email:');
+    console.error('- Error message:', error?.message);
+    console.error('- Error details:', JSON.stringify(error, null, 2));
+    
+    const errorMessage = error?.message || String(error);
+    if (errorMessage.includes('only send testing emails to your own email') || 
+        errorMessage.includes('verify a domain')) {
+      console.error('⚠️ Domain verification required!');
+      return { 
+        success: false, 
+        error: error instanceof Error ? error : new Error(errorMessage),
+        errorMessage,
+        requiresDomainVerification: true
+      };
+    }
+    
+    return { 
+      success: false, 
+      error: error instanceof Error ? error : new Error(String(error)),
+      errorMessage: errorMessage
+    };
   }
 }
 

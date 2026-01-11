@@ -62,14 +62,23 @@ export async function POST(request: Request) {
         });
 
         if (!emailResult.success) {
+            // Log the error for debugging
+            console.error('❌ Email sending failed:', emailResult.error);
+            console.error('❌ Error message:', (emailResult.error as any)?.message);
+            
             // If email fails, delete the user and token
             await prisma.user.delete({ where: { id: user.id } });
             await prisma.verificationToken.deleteMany({
                 where: { identifier: email },
             });
 
+            // Return more detailed error message
+            const errorMessage = (emailResult.error as any)?.message || 'Failed to send verification email';
             return NextResponse.json(
-                { error: "Failed to send verification email. Please try again." },
+                { 
+                    error: "Failed to send verification email. Please check your email configuration.",
+                    details: errorMessage 
+                },
                 { status: 500 }
             );
         }
