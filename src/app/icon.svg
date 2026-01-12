@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">RecipeHub Logo</title>
+  <desc id="desc">An orange gradient circle with a stylized spoon and fork</desc>
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f97316"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+  </defs>
+  <circle cx="32" cy="32" r="30" fill="url(#g)" />
+  <!-- Spoon -->
+  <rect x="28" y="16" width="4" height="22" rx="2" fill="#fff" opacity="0.95"/>
+  <circle cx="30" cy="14" r="6" fill="#fff" opacity="0.95"/>
+  <!-- Fork -->
+  <rect x="36" y="18" width="4" height="20" rx="2" fill="#fff" opacity="0.95"/>
+  <rect x="35" y="14" width="2" height="6" rx="1" fill="#fff" opacity="0.95"/>
+  <rect x="38" y="14" width="2" height="6" rx="1" fill="#fff" opacity="0.95"/>
+  <rect x="41" y="14" width="2" height="6" rx="1" fill="#fff" opacity="0.95"/>
+</svg>
