@@ -46,7 +46,7 @@ function VerifyEmailContent() {
                 {/* Logo */}
                 <Link href="/">
                     <h1 className="text-3xl font-bold bg-gradient-to-r from-orange-600 to-amber-600 bg-clip-text text-transparent">
-                        RecipeHub
+                        CaribbeanRecipe
                     </h1>
                 </Link>
 
@@ -107,7 +107,7 @@ export default function VerifyEmailPage() {
                 <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 text-center space-y-6">
                     <Link href="/">
                         <h1 className="text-3xl font-bold bg-gradient-to-r from-orange-600 to-amber-600 bg-clip-text text-transparent">
-                            RecipeHub
+                            CaribbeanRecipe
                         </h1>
                     </Link>
                     <Loader2 className="w-20 h-20 text-orange-500 animate-spin mx-auto" />

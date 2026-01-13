@@ -48,7 +48,7 @@ export default function LoginPage() {
                 <div className="text-center">
                     <Link href="/">
                         <h1 className="text-3xl font-bold bg-gradient-to-r from-orange-600 to-amber-600 bg-clip-text text-transparent">
-                            RecipeHub
+                            CaribbeanRecipe
                         </h1>
                     </Link>
                 </div>

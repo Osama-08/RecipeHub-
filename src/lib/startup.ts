@@ -4,7 +4,7 @@
 import { autoInitializeContent, startContentScheduler } from "@/lib/auto-init";
 
 export async function initializeApp() {
-    console.log("🚀 RecipeHub AI - Starting initialization...");
+    console.log("🚀 CaribbeanRecipe AI - Starting initialization...");
 
     try {
         // Auto-initialize content if database is empty
@@ -14,7 +14,7 @@ export async function initializeApp() {
         // Uncomment the line below to enable automatic hourly generation
         // startContentScheduler(60); // Every 60 minutes
 
-        console.log("✅ RecipeHub AI initialization complete!");
+        console.log("✅ CaribbeanRecipe AI initialization complete!");
     } catch (error) {
         console.error("❌ Initialization error:", error);
     }

@@ -118,7 +118,7 @@ export async function POST(request: NextRequest) {
                 videoCreatorName: videoCreatorName || null,
                 videoCreatorChannelId: videoCreatorChannelId || null,
                 videoType: youtubeId ? "youtube" : null,
-                sourceName: "RecipeHub",
+                sourceName: "CaribbeanRecipe",
                 ingredients: {
                     create: ingredients.map((ing: any, index: number) => ({
                         amount: ing.amount,

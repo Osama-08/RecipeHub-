@@ -94,7 +94,7 @@ export default function Footer() {
 
                 {/* Bottom Bar */}
                 <div className="pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
-                    <p>© 2026 RecipeHub AI. All rights reserved.</p>
+                    <p>© 2026 CaribbeanRecipe AI. All rights reserved.</p>
                     <div className="flex items-center gap-6">
                         <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
                         <Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link>

@@ -56,7 +56,7 @@ export class OpenRouterProvider {
 
     constructor(
         apiKey?: string,
-        siteName = "RecipeHub AI",
+        siteName = "CaribbeanRecipe AI",
         siteUrl = "http://localhost:3000"
     ) {
         this.apiKey = apiKey || process.env.OPENROUTER_API_KEY || "";
@@ -313,7 +313,24 @@ Set shouldCallAPI to true if we need to fetch recipes from Spoonacular.`,
         // Extract JSON from response
         const jsonMatch = result.content.match(/\{[\s\S]*\}/);
         if (jsonMatch) {
-            return JSON.parse(jsonMatch[0]);
+            // Sanitize JSON string to remove control characters
+            const sanitizedJson = jsonMatch[0].replace(/[\x00-\x1F\x7F]/g, (char) => {
+                // Replace common control characters with their escaped equivalents
+                const replacements: Record<string, string> = {
+                    '\n': '\\n',
+                    '\r': '\\r',
+                    '\t': '\\t',
+                };
+                return replacements[char] || '';
+            });
+
+            try {
+                return JSON.parse(sanitizedJson);
+            } catch (parseError) {
+                console.error('JSON parse error:', parseError);
+                console.error('Problematic JSON:', sanitizedJson);
+                throw new Error(`Failed to parse generated content: ${parseError}`);
+            }
         }
 
         throw new Error("Failed to generate content in expected format");

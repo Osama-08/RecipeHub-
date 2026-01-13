@@ -40,7 +40,6 @@ export async function POST(req: NextRequest) {
 
 // GET /api/announcements – list recent announcements (public)
 export async function GET() {
-    // @ts-ignore
     const announcements = await (prisma as any).notification.findMany({
         where: { title: { not: "" } },
         orderBy: { createdAt: 'desc' },

@@ -97,7 +97,7 @@ export default function SignupPage() {
                 <div className="text-center">
                     <Link href="/">
                         <h1 className="text-3xl font-bold bg-gradient-to-r from-orange-600 to-amber-600 bg-clip-text text-transparent">
-                            RecipeHub
+                            CaribbeanRecipe
                         </h1>
                     </Link>
                 </div>
@@ -192,7 +192,7 @@ export default function SignupPage() {
                                 <Link href="/privacy" className="text-orange-600 hover:text-orange-700">
                                     Privacy Policy
                                 </Link>
-                                . If you live in the US you will also opt in to RecipeHub email communication.
+                                . If you live in the US you will also opt in to CaribbeanRecipe email communication.
                             </label>
                         </div>
 

@@ -1,6 +1,20 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 
+import { redirect } from "next/navigation";
+
+export async function GET(request: Request) {
+    const { searchParams } = new URL(request.url);
+    const token = searchParams.get("token");
+
+    if (!token) {
+        return redirect("/login?error=InvalidToken");
+    }
+
+    // Redirect to the UI page which will handle the POST request
+    return redirect(`/verify-email?token=${token}`);
+}
+
 export async function POST(request: Request) {
     try {
         const body = await request.json();

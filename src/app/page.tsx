@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
+import dynamic from "next/dynamic";
 import Header from "@/components/layout/Header";
 import RecipeCardFlip from "@/components/recipe/RecipeCardFlip";
 import { ChevronRight, TrendingUp, Users, Video } from "lucide-react";
@@ -9,6 +10,19 @@ import Image from "next/image";
 import Link from "next/link";
 import AnnouncementsPanel from "@/components/AnnouncementsPanel";
 import { HeroAd, MiddleAd } from "@/components/ads/AdSense";
+import { useTourManager } from "@/components/onboarding/useTourManager";
+
+// Dynamically import OnboardingTour with SSR disabled
+const OnboardingTour = dynamic(
+    () => import("@/components/onboarding/OnboardingTour"),
+    { ssr: false }
+);
+
+const ReplayTourButton = dynamic(
+    () => import("@/components/onboarding/ReplayTourButton"),
+    { ssr: false }
+);
+
 
 interface Recipe {
     id: string;
@@ -29,6 +43,12 @@ export default function Home() {
     const [recipes, setRecipes] = useState<Recipe[]>([]);
     const [loading, setLoading] = useState(true);
 
+    // Use the new tour manager
+    const { shouldStartTour, markTourAsSeen, startTour } = useTourManager({
+        pageKey: 'homepage',
+        enabled: true,
+    });
+
     useEffect(() => {
         // Fetch recipes from API
         fetch("/api/recipes?limit=9")
@@ -43,9 +63,30 @@ export default function Home() {
             });
     }, []);
 
+    const handleTutorialComplete = () => {
+        markTourAsSeen();
+    };
+
+    const handleTutorialSkip = () => {
+        markTourAsSeen();
+    };
+
     return (
         <div className="min-h-screen bg-gray-50">
             <Header />
+
+            {/* Onboarding Tutorial */}
+            <OnboardingTour
+                shouldStart={shouldStartTour}
+                onComplete={handleTutorialComplete}
+                onSkip={handleTutorialSkip}
+            />
+
+            {/* Floating Replay Tour Button */}
+            <ReplayTourButton
+                onReplay={startTour}
+                variant="floating"
+            />
 
             {/* Hero Section */}
             <section className="relative h-[600px] flex items-center overflow-hidden">

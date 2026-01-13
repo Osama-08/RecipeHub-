@@ -266,7 +266,7 @@ export default function RecipeDetailClient({ recipe }: { recipe: Recipe }) {
                         <span>
                             Submitted by{" "}
                             <span className="font-semibold text-gray-900">
-                                {recipe.author?.name || recipe.sourceName || "RecipeHub"}
+                                {recipe.author?.name || recipe.sourceName || "CaribbeanRecipe"}
                             </span>
                         </span>
                         <span>•</span>

@@ -1,4 +1,4 @@
-// Content Generator - AI-powered content creation for RecipeHub
+// Content Generator - AI-powered content creation for CaribbeanRecipe
 // Generates kitchen tips, cooking hacks, and food trend summaries
 
 import { OpenRouterProvider } from "./openrouter-provider";

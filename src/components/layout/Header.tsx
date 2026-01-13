@@ -39,8 +39,15 @@ export default function Header() {
                             <Menu className="w-6 h-6" />
                         </button>
                         <Link href="/" className="flex items-center gap-2">
+                            <Image
+                                src="/logo.jpg"
+                                alt="CaribbeanRecipe Logo"
+                                width={40}
+                                height={40}
+                                className="rounded-md object-contain"
+                            />
                             <span className="text-2xl font-bold bg-gradient-to-r from-orange-500 to-amber-500 bg-clip-text text-transparent">
-                                RecipeHub
+                                CaribbeanRecipe
                             </span>
                         </Link>
                     </div>
@@ -76,6 +83,7 @@ export default function Header() {
                                 <Link
                                     href="/saved-recipes"
                                     className="flex items-center gap-2 hover:text-orange-500 transition-colors"
+                                    data-tour="saved-recipes"
                                 >
                                     <Heart className="w-5 h-5" />
                                     <span className="hidden lg:inline">My Recipes</span>
@@ -86,6 +94,7 @@ export default function Header() {
                                     <button
                                         onClick={() => setShowUserMenu(!showUserMenu)}
                                         className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+                                        data-tour="user-menu"
                                     >
                                         {session.user?.image ? (
                                             <Image
@@ -161,6 +170,18 @@ export default function Header() {
                                             <button
                                                 onClick={() => {
                                                     setShowUserMenu(false);
+                                                    if (typeof window !== 'undefined' && (window as any).startTour) {
+                                                        (window as any).startTour();
+                                                    }
+                                                }}
+                                                className="w-full text-left px-4 py-2 text-sm text-orange-600 hover:bg-orange-50 transition-colors flex items-center gap-2"
+                                            >
+                                                🎯 Take a Tour
+                                            </button>
+                                            <div className="border-t my-2"></div>
+                                            <button
+                                                onClick={() => {
+                                                    setShowUserMenu(false);
                                                     signOut({ callbackUrl: "/" });
                                                 }}
                                                 className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors flex items-center gap-2"
@@ -194,7 +215,7 @@ export default function Header() {
             </div>
 
             {/* Desktop Navigation Menu */}
-            <nav className="border-b hidden lg:block">
+            <nav className="border-b hidden lg:block" data-tour="navigation">
                 <div className="container mx-auto px-4">
                     <ul className="flex items-center gap-8 text-sm font-medium">
                         <li>
@@ -228,12 +249,12 @@ export default function Header() {
                             </Link>
                         </li>
                         <li>
-                            <Link href="/live" className="block py-4 hover:text-orange-500 transition-colors">
+                            <Link href="/live" className="block py-4 hover:text-orange-500 transition-colors" data-tour="live-sessions">
                                 LIVE
                             </Link>
                         </li>
                         <li>
-                            <Link href="/community" className="block py-4 hover:text-orange-500 transition-colors">
+                            <Link href="/community" className="block py-4 hover:text-orange-500 transition-colors" data-tour="community">
                                 COMMUNITY
                             </Link>
                         </li>
@@ -254,7 +275,7 @@ export default function Header() {
                     <div className="fixed inset-y-0 left-0 z-50 w-72 max-w-[80vw] bg-white shadow-xl border-r flex flex-col">
                         <div className="flex items-center justify-between px-4 py-3 border-b">
                             <span className="text-xl font-bold bg-gradient-to-r from-orange-500 to-amber-500 bg-clip-text text-transparent">
-                                RecipeHub
+                                CaribbeanRecipe
                             </span>
                             <button
                                 type="button"

@@ -64,22 +64,20 @@ export async function POST(request: Request) {
         if (!emailResult.success) {
             // Log the error for debugging
             console.error('❌ Email sending failed:', emailResult.error);
-            console.error('❌ Error message:', (emailResult.error as any)?.message);
-            
-            // If email fails, delete the user and token
-            await prisma.user.delete({ where: { id: user.id } });
-            await prisma.verificationToken.deleteMany({
-                where: { identifier: email },
-            });
 
-            // Return more detailed error message
-            const errorMessage = (emailResult.error as any)?.message || 'Failed to send verification email';
+            // Check for domain verification error
+            const isDomainError = (emailResult as any).requiresDomainVerification;
+            const errorMessage = (emailResult as any).errorMessage || 'Failed to send verification email';
+
             return NextResponse.json(
-                { 
-                    error: "Failed to send verification email. Please check your email configuration.",
-                    details: errorMessage 
+                {
+                    success: false,
+                    error: "Account created but failed to send verification email.",
+                    details: errorMessage,
+                    requiresAction: isDomainError ? "DOMAIN_VERIFICATION_REQUIRED" : "CHECK_EMAIL_CONFIG",
+                    email: user.email
                 },
-                { status: 500 }
+                { status: 201 } // Still return 201 because user was created
             );
         }
 

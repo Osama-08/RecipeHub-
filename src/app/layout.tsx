@@ -11,8 +11,8 @@ import "@/lib/startup";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-    title: "RecipeHub AI - Autonomous Cooking Platform",
-    description: "Discover amazing recipes with AI-powered cooking assistance, automated content generation, live streams, and community videos.",
+    title: "CaribbeanRecipe - Premium Cooking Platform",
+    description: "Discover amazing Caribbean and international recipes with AI-powered cooking assistance, automated content generation, live streams, and community videos.",
 };
 
 export default function RootLayout({

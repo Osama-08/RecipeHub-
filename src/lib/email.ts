@@ -9,14 +9,19 @@ export interface SendVerificationEmailParams {
 }
 
 export async function sendVerificationEmail({ email, token, name }: SendVerificationEmailParams) {
-  const verifyUrl = `${process.env.NEXTAUTH_URL}/verify-email?token=${token}`;
+  // Ensure we have a valid base URL for the verification link
+  let baseUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000';
+
+  // Strip trailing slash and /api/auth if present
+  baseUrl = baseUrl.replace(/\/$/, '').replace(/\/api\/auth$/, '');
+
+  const verifyUrl = `${baseUrl}/verify-email?token=${token}`;
 
   // Debug logging
   console.log('🔍 Email Configuration Check:');
   console.log('- RESEND_API_KEY exists:', !!process.env.RESEND_API_KEY);
-  console.log('- RESEND_API_KEY starts with "re_":', process.env.RESEND_API_KEY?.startsWith('re_'));
   console.log('- EMAIL_FROM:', process.env.EMAIL_FROM || 'onboarding@resend.dev (default)');
-  console.log('- NEXTAUTH_URL:', process.env.NEXTAUTH_URL);
+  console.log('- Base URL used:', baseUrl);
   console.log('- Sending to:', email);
   console.log('- Verification URL:', verifyUrl);
 
@@ -35,13 +40,13 @@ export async function sendVerificationEmail({ email, token, name }: SendVerifica
   }
 
   try {
-    const emailFrom = process.env.EMAIL_FROM || 'RecipeHub <onboarding@resend.dev>';
+    const emailFrom = process.env.EMAIL_FROM || 'CaribbeanRecipe <onboarding@resend.dev>';
     console.log('📧 Attempting to send email with from:', emailFrom);
 
     const data = await resend.emails.send({
       from: emailFrom,
       to: email,
-      subject: 'Verify your RecipeHub account',
+      subject: 'Verify your CaribbeanRecipe account',
       html: getVerificationEmailTemplate(verifyUrl, name),
     });
 
@@ -49,24 +54,24 @@ export async function sendVerificationEmail({ email, token, name }: SendVerifica
     if (data?.error) {
       const errorMessage = data.error.message || 'Unknown error from Resend';
       console.error('❌ Resend API Error:', errorMessage);
-      
+
       // Check for domain verification error
-      if (errorMessage.includes('only send testing emails to your own email') || 
-          errorMessage.includes('verify a domain')) {
+      if (errorMessage.includes('only send testing emails to your own email') ||
+        errorMessage.includes('verify a domain')) {
         console.error('⚠️ Domain verification required!');
         console.error('📖 Solution: Verify a domain at https://resend.com/domains');
         console.error('📖 Then update EMAIL_FROM to use your verified domain');
-        
-        return { 
-          success: false, 
+
+        return {
+          success: false,
           error: new Error(errorMessage),
           errorMessage,
           requiresDomainVerification: true
         };
       }
-      
-      return { 
-        success: false, 
+
+      return {
+        success: false,
         error: new Error(errorMessage),
         errorMessage
       };
@@ -80,29 +85,29 @@ export async function sendVerificationEmail({ email, token, name }: SendVerifica
     console.error('- Error type:', error?.constructor?.name);
     console.error('- Error message:', error?.message);
     console.error('- Error details:', JSON.stringify(error, null, 2));
-    
+
     // Check for specific Resend errors
     if (error?.response) {
       console.error('- API Response:', JSON.stringify(error.response, null, 2));
     }
-    
+
     // Check for domain verification error in catch block too
     const errorMessage = error?.message || String(error);
-    if (errorMessage.includes('only send testing emails to your own email') || 
-        errorMessage.includes('verify a domain')) {
+    if (errorMessage.includes('only send testing emails to your own email') ||
+      errorMessage.includes('verify a domain')) {
       console.error('⚠️ Domain verification required!');
       console.error('📖 Solution: Verify a domain at https://resend.com/domains');
-      
-      return { 
-        success: false, 
+
+      return {
+        success: false,
         error: error instanceof Error ? error : new Error(errorMessage),
         errorMessage,
         requiresDomainVerification: true
       };
     }
-    
-    return { 
-      success: false, 
+
+    return {
+      success: false,
       error: error instanceof Error ? error : new Error(String(error)),
       errorMessage: errorMessage
     };
@@ -116,7 +121,11 @@ export interface SendResetPasswordEmailParams {
 }
 
 export async function sendResetPasswordEmail({ email, token, name }: SendResetPasswordEmailParams) {
-  const resetUrl = `${process.env.NEXTAUTH_URL}/reset-password?token=${token}`;
+  // Ensure we have a valid base URL
+  let baseUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000';
+  baseUrl = baseUrl.replace(/\/$/, '').replace(/\/api\/auth$/, '');
+
+  const resetUrl = `${baseUrl}/reset-password?token=${token}`;
 
   // Check if API key is missing
   if (!process.env.RESEND_API_KEY) {
@@ -126,11 +135,11 @@ export async function sendResetPasswordEmail({ email, token, name }: SendResetPa
   }
 
   try {
-    const emailFrom = process.env.EMAIL_FROM || 'RecipeHub <onboarding@resend.dev>';
+    const emailFrom = process.env.EMAIL_FROM || 'CaribbeanRecipe <onboarding@resend.dev>';
     const data = await resend.emails.send({
       from: emailFrom,
       to: email,
-      subject: 'Reset your RecipeHub password',
+      subject: 'Reset your CaribbeanRecipe password',
       html: getResetPasswordEmailTemplate(resetUrl, name),
     });
 
@@ -138,20 +147,20 @@ export async function sendResetPasswordEmail({ email, token, name }: SendResetPa
     if (data?.error) {
       const errorMessage = data.error.message || 'Unknown error from Resend';
       console.error('❌ Resend API Error:', errorMessage);
-      
-      if (errorMessage.includes('only send testing emails to your own email') || 
-          errorMessage.includes('verify a domain')) {
+
+      if (errorMessage.includes('only send testing emails to your own email') ||
+        errorMessage.includes('verify a domain')) {
         console.error('⚠️ Domain verification required!');
-        return { 
-          success: false, 
+        return {
+          success: false,
           error: new Error(errorMessage),
           errorMessage,
           requiresDomainVerification: true
         };
       }
-      
-      return { 
-        success: false, 
+
+      return {
+        success: false,
         error: new Error(errorMessage),
         errorMessage
       };
@@ -163,21 +172,21 @@ export async function sendResetPasswordEmail({ email, token, name }: SendResetPa
     console.error('❌ Error sending reset password email:');
     console.error('- Error message:', error?.message);
     console.error('- Error details:', JSON.stringify(error, null, 2));
-    
+
     const errorMessage = error?.message || String(error);
-    if (errorMessage.includes('only send testing emails to your own email') || 
-        errorMessage.includes('verify a domain')) {
+    if (errorMessage.includes('only send testing emails to your own email') ||
+      errorMessage.includes('verify a domain')) {
       console.error('⚠️ Domain verification required!');
-      return { 
-        success: false, 
+      return {
+        success: false,
         error: error instanceof Error ? error : new Error(errorMessage),
         errorMessage,
         requiresDomainVerification: true
       };
     }
-    
-    return { 
-      success: false, 
+
+    return {
+      success: false,
       error: error instanceof Error ? error : new Error(String(error)),
       errorMessage: errorMessage
     };
@@ -197,14 +206,14 @@ function getVerificationEmailTemplate(verifyUrl: string, name?: string): string 
 </head>
 <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
   <div style="background: linear-gradient(135deg, #f97316 0%, #f59e0b 100%); padding: 40px 20px; text-align: center; border-radius: 10px 10px 0 0;">
-    <h1 style="color: white; margin: 0; font-size: 32px;">🍳 RecipeHub</h1>
+    <h1 style="color: white; margin: 0; font-size: 32px;">🍳 CaribbeanRecipe</h1>
   </div>
   
   <div style="background: #ffffff; padding: 40px 30px; border-radius: 0 0 10px 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
     <h2 style="color: #1a1a1a; margin-top: 0;">Hi${name ? ` ${name}` : ''}! 👋</h2>
     
     <p style="font-size: 16px; color: #4a5568;">
-      Welcome to RecipeHub! We're excited to have you join our community of food lovers.
+      Welcome to CaribbeanRecipe! We're excited to have you join our community of food lovers.
     </p>
     
     <p style="font-size: 16px; color: #4a5568;">
@@ -229,17 +238,17 @@ function getVerificationEmailTemplate(verifyUrl: string, name?: string): string 
     <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 30px 0;">
     
     <p style="font-size: 14px; color: #718096; margin-bottom: 0;">
-      If you didn't create an account with RecipeHub, you can safely ignore this email.
+      If you didn't create an account with CaribbeanRecipe, you can safely ignore this email.
     </p>
     
     <p style="font-size: 14px; color: #718096; margin-top: 20px;">
       Happy cooking!<br>
-      <strong>The RecipeHub Team</strong>
+      <strong>The CaribbeanRecipe Team</strong>
     </p>
   </div>
   
   <div style="text-align: center; margin-top: 20px; padding: 20px; color: #718096; font-size: 12px;">
-    <p>© 2026 RecipeHub. All rights reserved.</p>
+    <p>© 2026 CaribbeanRecipe. All rights reserved.</p>
   </div>
 </body>
 </html>
@@ -257,7 +266,7 @@ function getResetPasswordEmailTemplate(resetUrl: string, name?: string): string 
 </head>
 <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
   <div style="background: linear-gradient(135deg, #f97316 0%, #f59e0b 100%); padding: 40px 20px; text-align: center; border-radius: 10px 10px 0 0;">
-    <h1 style="color: white; margin: 0; font-size: 32px;">🍳 RecipeHub</h1>
+    <h1 style="color: white; margin: 0; font-size: 32px;">🍳 CaribbeanRecipe</h1>
   </div>
   
   <div style="background: #ffffff; padding: 40px 30px; border-radius: 0 0 10px 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
