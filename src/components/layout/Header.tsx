@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import NotificationBell from "./NotificationBell";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function Header() {
     const [searchQuery, setSearchQuery] = useState("");
@@ -14,6 +15,7 @@ export default function Header() {
     const [showMobileMenu, setShowMobileMenu] = useState(false);
     const { data: session, status } = useSession();
     const router = useRouter();
+    const { t } = useLanguage();
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
@@ -57,7 +59,7 @@ export default function Header() {
                         <form onSubmit={handleSearch} className="relative">
                             <input
                                 type="text"
-                                placeholder="Find a recipe or ingredient"
+                                placeholder={t('header.searchPlaceholder')}
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 className="w-full px-4 py-2 pr-12 border-2 border-gray-300 rounded-lg focus:border-orange-500 focus:outline-none transition-colors"
@@ -86,7 +88,7 @@ export default function Header() {
                                     data-tour="saved-recipes"
                                 >
                                     <Heart className="w-5 h-5" />
-                                    <span className="hidden lg:inline">My Recipes</span>
+                                    <span className="hidden lg:inline">{t('header.myRecipes')}</span>
                                 </Link>
 
                                 {/* User Avatar & Menu */}
@@ -110,7 +112,7 @@ export default function Header() {
                                             </div>
                                         )}
                                         <span className="hidden lg:inline font-medium">
-                                            {session.user?.name || "Account"}
+                                            {session.user?.name || t('header.account')}
                                         </span>
                                         <ChevronDown className="w-4 h-4 hidden lg:inline" />
                                     </button>
@@ -164,7 +166,7 @@ export default function Header() {
                                                 className="block px-4 py-2 text-sm hover:bg-gray-50 transition-colors"
                                                 onClick={() => setShowUserMenu(false)}
                                             >
-                                                Settings
+                                                {t('header.settings')}
                                             </Link>
                                             <div className="border-t my-2"></div>
                                             <button
@@ -220,42 +222,42 @@ export default function Header() {
                     <ul className="flex items-center gap-8 text-sm font-medium">
                         <li>
                             <Link href="/dinners" className="block py-4 hover:text-orange-500 transition-colors">
-                                DINNERS
+                                {t('header.nav.dinners')}
                             </Link>
                         </li>
                         <li>
                             <Link href="/meals" className="block py-4 hover:text-orange-500 transition-colors">
-                                MEALS
+                                {t('header.nav.meals')}
                             </Link>
                         </li>
                         <li>
                             <Link href="/ingredients" className="block py-4 hover:text-orange-500 transition-colors">
-                                INGREDIENTS
+                                {t('header.nav.ingredients')}
                             </Link>
                         </li>
                         <li>
                             <Link href="/occasions" className="block py-4 hover:text-orange-500 transition-colors">
-                                OCCASIONS
+                                {t('header.nav.occasions')}
                             </Link>
                         </li>
                         <li>
                             <Link href="/cuisines" className="block py-4 hover:text-orange-500 transition-colors">
-                                CUISINES
+                                {t('header.nav.cuisines')}
                             </Link>
                         </li>
                         <li>
                             <Link href="/tips" className="block py-4 hover:text-orange-500 transition-colors">
-                                KITCHEN TIPS
+                                {t('header.nav.kitchenTips')}
                             </Link>
                         </li>
                         <li>
                             <Link href="/live" className="block py-4 hover:text-orange-500 transition-colors" data-tour="live-sessions">
-                                LIVE
+                                {t('header.nav.live')}
                             </Link>
                         </li>
                         <li>
                             <Link href="/community" className="block py-4 hover:text-orange-500 transition-colors" data-tour="community">
-                                KITCHENS
+                                {t('header.nav.kitchens')}
                             </Link>
                         </li>
                     </ul>
@@ -298,7 +300,7 @@ export default function Header() {
                             >
                                 <input
                                     type="text"
-                                    placeholder="Search recipes..."
+                                    placeholder={t('header.searchRecipes')}
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                     className="w-full px-3 py-2 pr-10 border-2 border-gray-200 rounded-lg focus:border-orange-500 focus:outline-none text-sm"
@@ -321,7 +323,7 @@ export default function Header() {
                                         className="block px-4 py-2.5 hover:bg-gray-50"
                                         onClick={() => setShowMobileMenu(false)}
                                     >
-                                        Dinners
+                                        {t('header.mobileNav.dinners')}
                                     </Link>
                                 </li>
                                 <li>
@@ -330,7 +332,7 @@ export default function Header() {
                                         className="block px-4 py-2.5 hover:bg-gray-50"
                                         onClick={() => setShowMobileMenu(false)}
                                     >
-                                        Meals
+                                        {t('header.mobileNav.meals')}
                                     </Link>
                                 </li>
                                 <li>
@@ -339,7 +341,7 @@ export default function Header() {
                                         className="block px-4 py-2.5 hover:bg-gray-50"
                                         onClick={() => setShowMobileMenu(false)}
                                     >
-                                        Ingredients
+                                        {t('header.mobileNav.ingredients')}
                                     </Link>
                                 </li>
                                 <li>
@@ -348,7 +350,7 @@ export default function Header() {
                                         className="block px-4 py-2.5 hover:bg-gray-50"
                                         onClick={() => setShowMobileMenu(false)}
                                     >
-                                        Occasions
+                                        {t('header.mobileNav.occasions')}
                                     </Link>
                                 </li>
                                 <li>
@@ -357,7 +359,7 @@ export default function Header() {
                                         className="block px-4 py-2.5 hover:bg-gray-50"
                                         onClick={() => setShowMobileMenu(false)}
                                     >
-                                        Cuisines
+                                        {t('header.mobileNav.cuisines')}
                                     </Link>
                                 </li>
                                 <li>
@@ -366,7 +368,7 @@ export default function Header() {
                                         className="block px-4 py-2.5 hover:bg-gray-50"
                                         onClick={() => setShowMobileMenu(false)}
                                     >
-                                        Kitchen Tips
+                                        {t('header.mobileNav.kitchenTips')}
                                     </Link>
                                 </li>
                                 <li>
@@ -375,7 +377,7 @@ export default function Header() {
                                         className="block px-4 py-2.5 hover:bg-gray-50"
                                         onClick={() => setShowMobileMenu(false)}
                                     >
-                                        Live
+                                        {t('header.mobileNav.live')}
                                     </Link>
                                 </li>
                                 <li>
@@ -384,7 +386,7 @@ export default function Header() {
                                         className="block px-4 py-2.5 hover:bg-gray-50"
                                         onClick={() => setShowMobileMenu(false)}
                                     >
-                                        Kitchens
+                                        {t('header.mobileNav.kitchens')}
                                     </Link>
                                 </li>
                             </ul>
@@ -399,7 +401,7 @@ export default function Header() {
                                         className="block w-full text-center px-4 py-2.5 rounded-lg bg-gray-100 hover:bg-gray-200 text-sm font-semibold"
                                         onClick={() => setShowMobileMenu(false)}
                                     >
-                                        Dashboard
+                                        {t('header.dashboard')}
                                     </Link>
                                     <button
                                         type="button"
@@ -409,7 +411,7 @@ export default function Header() {
                                         }}
                                         className="block w-full text-center px-4 py-2.5 rounded-lg bg-red-500 hover:bg-red-600 text-white text-sm font-semibold"
                                     >
-                                        Log Out
+                                        {t('header.logOut')}
                                     </button>
                                 </>
                             ) : (
@@ -419,14 +421,14 @@ export default function Header() {
                                         className="block w-full text-center px-4 py-2.5 rounded-lg border border-gray-300 hover:bg-gray-50 text-sm font-semibold"
                                         onClick={() => setShowMobileMenu(false)}
                                     >
-                                        Log In
+                                        {t('header.logIn')}
                                     </Link>
                                     <Link
                                         href="/signup"
                                         className="block w-full text-center px-4 py-2.5 rounded-lg bg-gradient-to-r from-orange-500 to-amber-500 text-white text-sm font-semibold hover:from-orange-600 hover:to-amber-600"
                                         onClick={() => setShowMobileMenu(false)}
                                     >
-                                        Sign Up
+                                        {t('header.signUp')}
                                     </Link>
                                 </>
                             )}

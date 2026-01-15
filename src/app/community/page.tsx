@@ -7,6 +7,7 @@ import CreatePostForm from '@/components/community/CreatePostForm';
 import PostCard from '@/components/community/PostCard';
 import Link from 'next/link';
 import { Users, MessageSquare } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface Post {
     id: string;
@@ -28,6 +29,7 @@ interface Post {
 
 export default function CommunityPage() {
     const { data: session } = useSession();
+    const { t } = useLanguage();
     const [posts, setPosts] = useState<Post[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [currentUserId, setCurrentUserId] = useState<string | null>(null);
@@ -109,9 +111,9 @@ export default function CommunityPage() {
                 <div className="container mx-auto px-4">
                     <div className="max-w-3xl mx-auto text-center">
                         <Users className="w-12 h-12 mx-auto mb-3" />
-                        <h1 className="text-4xl font-bold mb-2">Kitchens Feed</h1>
+                        <h1 className="text-4xl font-bold mb-2">{t('community.title')}</h1>
                         <p className="text-lg text-white/90">
-                            Share your culinary adventures and connect with food lovers!
+                            {t('community.subtitle')}
                         </p>
                     </div>
                 </div>
@@ -126,8 +128,8 @@ export default function CommunityPage() {
                             className="flex-1 bg-white rounded-xl p-4 text-center hover:shadow-lg transition-shadow border-2 border-purple-100"
                         >
                             <MessageSquare className="w-8 h-8 mx-auto mb-2 text-purple-500" />
-                            <h3 className="font-bold">Browse Groups</h3>
-                            <p className="text-sm text-gray-600">Join cooking communities</p>
+                            <h3 className="font-bold">{t('community.browseGroups')}</h3>
+                            <p className="text-sm text-gray-600">{t('community.browseGroupsDesc')}</p>
                         </Link>
                         {session?.user?.role === 'ADMIN' && (
                             <Link
@@ -135,8 +137,8 @@ export default function CommunityPage() {
                                 className="flex-1 bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-xl p-4 text-center hover:shadow-lg transition-shadow"
                             >
                                 <Users className="w-8 h-8 mx-auto mb-2" />
-                                <h3 className="font-bold">Create Announcement</h3>
-                                <p className="text-sm text-white/90">Admin Only</p>
+                                <h3 className="font-bold">{t('community.createAnnouncement')}</h3>
+                                <p className="text-sm text-white/90">{t('community.adminOnly')}</p>
                             </Link>
                         )}
                     </div>
@@ -148,13 +150,13 @@ export default function CommunityPage() {
                     ) : (
                         <div className="bg-white rounded-xl shadow-md p-6 text-center">
                             <p className="text-gray-600 mb-4">
-                                Sign in to share your cooking stories and recipes!
+                                {t('community.signInPrompt')}
                             </p>
                             <Link
                                 href="/login"
                                 className="inline-block px-6 py-2 bg-gradient-to-r from-orange-500 to-pink-500 text-white rounded-lg font-semibold hover:from-orange-600 hover:to-pink-600"
                             >
-                                Sign In
+                                {t('community.signIn')}
                             </Link>
                         </div>
                     )}
@@ -163,16 +165,16 @@ export default function CommunityPage() {
                     {isLoading ? (
                         <div className="text-center py-12">
                             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500 mx-auto"></div>
-                            <p className="text-gray-600 mt-4">Loading posts...</p>
+                            <p className="text-gray-600 mt-4">{t('community.loadingPosts')}</p>
                         </div>
                     ) : posts.length === 0 ? (
                         <div className="bg-white rounded-xl shadow-md p-12 text-center">
                             <MessageSquare className="w-16 h-16 mx-auto text-gray-300 mb-4" />
                             <h3 className="text-xl font-bold text-gray-800 mb-2">
-                                No posts yet
+                                {t('community.noPostsTitle')}
                             </h3>
                             <p className="text-gray-600">
-                                Be the first to share something with the community!
+                                {t('community.noPostsDesc')}
                             </p>
                         </div>
                     ) : (

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/components/providers/AuthProvider";
+import { LanguageProvider } from "@/contexts/LanguageContext";
 import Footer from "@/components/layout/Footer";
 import Script from "next/script";
 
@@ -25,14 +26,16 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className={inter.className}>
-                <AuthProvider>
-                    <div className="min-h-screen flex flex-col">
-                        <main className="flex-grow">
-                            {children}
-                        </main>
-                        <Footer />
-                    </div>
-                </AuthProvider>
+                <LanguageProvider>
+                    <AuthProvider>
+                        <div className="min-h-screen flex flex-col">
+                            <main className="flex-grow">
+                                {children}
+                            </main>
+                            <Footer />
+                        </div>
+                    </AuthProvider>
+                </LanguageProvider>
 
                 {/* Google AdSense Script */}
                 {adsenseClientId && (

@@ -4,6 +4,7 @@ import Header from "@/components/layout/Header";
 import { Globe, MapPin } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const cuisines = [
     { name: "Italian", slug: "italian", flag: "🇮🇹", description: "Pasta, pizza, and Mediterranean flavors", image: "/images/pasta.png" },
@@ -17,6 +18,8 @@ const cuisines = [
 ];
 
 export default function CuisinesPage() {
+    const { t } = useLanguage();
+
     return (
         <div className="min-h-screen bg-gray-50">
             <Header />
@@ -27,10 +30,10 @@ export default function CuisinesPage() {
                     <div className="max-w-3xl">
                         <div className="flex items-center gap-3 mb-4">
                             <Globe className="w-12 h-12" />
-                            <h1 className="text-5xl font-bold">World Cuisines</h1>
+                            <h1 className="text-5xl font-bold">{t('cuisines.title')}</h1>
                         </div>
                         <p className="text-xl text-white/90">
-                            Explore authentic recipes from around the world. From Italian classics to spicy Mexican dishes and aromatic Asian cuisine.
+                            {t('cuisines.subtitle')}
                         </p>
                     </div>
                 </div>
@@ -58,7 +61,7 @@ export default function CuisinesPage() {
                                 <p className="text-gray-600 mb-4">{cuisine.description}</p>
                                 <div className="flex items-center text-orange-600 font-semibold">
                                     <MapPin className="w-4 h-4 mr-2" />
-                                    <span>Explore Recipes →</span>
+                                    <span>{t('cuisines.viewRecipes')} →</span>
                                 </div>
                             </div>
                         </Link>

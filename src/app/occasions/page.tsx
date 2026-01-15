@@ -3,6 +3,7 @@
 import Header from "@/components/layout/Header";
 import { Calendar, PartyPopper, Clock, Heart } from "lucide-react";
 import Link from "next/link";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const occasions = [
     {
@@ -56,6 +57,8 @@ const occasions = [
 ];
 
 export default function OccasionsPage() {
+    const { t } = useLanguage();
+
     return (
         <div className="min-h-screen bg-gray-50">
             <Header />
@@ -65,9 +68,9 @@ export default function OccasionsPage() {
                 <div className="container mx-auto px-4">
                     <div className="max-w-3xl">
                         <Calendar className="w-12 h-12 mb-4" />
-                        <h1 className="text-5xl font-bold mb-4">Recipes for Every Occasion</h1>
+                        <h1 className="text-5xl font-bold mb-4">{t('occasions.title')}</h1>
                         <p className="text-xl text-white/90">
-                            Whether it&apos;s a quick weeknight dinner, holiday feast, or special celebration, find the perfect recipe for any occasion.
+                            {t('occasions.subtitle')}
                         </p>
                     </div>
                 </div>
@@ -97,7 +100,7 @@ export default function OccasionsPage() {
                                     </div>
                                     <p className="text-gray-600 mb-4">{occasion.description}</p>
                                     <div className="text-orange-600 font-semibold">
-                                        Explore Recipes →
+                                        {t('occasions.viewRecipes')} →
                                     </div>
                                 </div>
                             </Link>

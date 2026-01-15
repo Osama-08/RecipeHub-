@@ -2,10 +2,13 @@
 
 import React, { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
-import { User, Bell, Lock, Globe, Moon, Sun, Loader2 } from 'lucide-react';
+import { User, Bell, Lock, Globe, Moon, Sun, Loader2, Shield, FileText, Users, ExternalLink } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
+import Link from 'next/link';
 
 export default function SettingsPage() {
     const { data: session, update } = useSession();
+    const { language, setLanguage, t } = useLanguage();
     const [activeTab, setActiveTab] = useState('profile');
     const [darkMode, setDarkMode] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
@@ -103,10 +106,10 @@ export default function SettingsPage() {
     };
 
     const tabs = [
-        { id: 'profile', label: 'Profile', icon: User },
-        { id: 'notifications', label: 'Notifications', icon: Bell },
-        { id: 'privacy', label: 'Privacy & Security', icon: Lock },
-        { id: 'preferences', label: 'Preferences', icon: Globe },
+        { id: 'profile', label: t('settings.tabs.profile'), icon: User },
+        { id: 'notifications', label: t('settings.tabs.notifications'), icon: Bell },
+        { id: 'privacy', label: t('settings.tabs.privacy'), icon: Lock },
+        { id: 'preferences', label: t('settings.tabs.preferences'), icon: Globe },
     ];
 
     return (
@@ -116,9 +119,9 @@ export default function SettingsPage() {
                     {/* Header */}
                     <div className="mb-8">
                         <h1 className="text-4xl font-bold bg-gradient-to-r from-orange-600 to-amber-600 bg-clip-text text-transparent mb-2">
-                            Settings
+                            {t('settings.title')}
                         </h1>
-                        <p className="text-gray-600">Manage your account settings and preferences</p>
+                        <p className="text-gray-600">{t('settings.subtitle')}</p>
                     </div>
 
                     {/* Main Content */}
@@ -151,8 +154,8 @@ export default function SettingsPage() {
                                 {activeTab === 'profile' && (
                                     <form onSubmit={handleUpdateProfile} className="space-y-6">
                                         <div>
-                                            <h2 className="text-2xl font-bold text-gray-800 mb-4 dark:text-white">Profile Settings</h2>
-                                            <p className="text-gray-600 mb-6 dark:text-gray-400">Update your personal information</p>
+                                            <h2 className="text-2xl font-bold text-gray-800 mb-4 dark:text-white">{t('settings.profile.title')}</h2>
+                                            <p className="text-gray-600 mb-6 dark:text-gray-400">{t('settings.profile.subtitle')}</p>
                                         </div>
 
                                         {message.text && (
@@ -164,7 +167,7 @@ export default function SettingsPage() {
 
                                         <div className="space-y-4">
                                             <div>
-                                                <label className="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-300">Name</label>
+                                                <label className="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-300">{t('settings.profile.name')}</label>
                                                 <input
                                                     type="text"
                                                     value={name}
@@ -175,7 +178,7 @@ export default function SettingsPage() {
                                             </div>
 
                                             <div>
-                                                <label className="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-300">Email</label>
+                                                <label className="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-300">{t('settings.profile.email')}</label>
                                                 <input
                                                     type="email"
                                                     value={session?.user?.email || ''}
@@ -183,17 +186,17 @@ export default function SettingsPage() {
                                                     placeholder="your@email.com"
                                                     disabled
                                                 />
-                                                <p className="text-xs text-gray-500 mt-1">Email cannot be changed</p>
+                                                <p className="text-xs text-gray-500 mt-1">{t('settings.profile.emailNote')}</p>
                                             </div>
 
                                             <div>
-                                                <label className="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-300">Bio</label>
+                                                <label className="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-300">{t('settings.profile.bio')}</label>
                                                 <textarea
                                                     rows={4}
                                                     value={bio}
                                                     onChange={(e) => setBio(e.target.value)}
                                                     className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-orange-500 focus:outline-none transition-colors dark:bg-gray-800 dark:border-gray-700 dark:text-white"
-                                                    placeholder="Tell us about yourself..."
+                                                    placeholder={t('settings.profile.bioPlaceholder')}
                                                 />
                                             </div>
 
@@ -203,7 +206,7 @@ export default function SettingsPage() {
                                                 className="flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-lg font-semibold hover:from-orange-600 hover:to-amber-600 transition-all shadow-md hover:shadow-lg disabled:opacity-50"
                                             >
                                                 {isSaving && <Loader2 className="w-4 h-4 animate-spin" />}
-                                                Save Changes
+                                                {t('settings.profile.saveChanges')}
                                             </button>
                                         </div>
                                     </form>
@@ -268,66 +271,114 @@ export default function SettingsPage() {
                                             </div>
                                         )}
 
-                                        <form onSubmit={handleChangePassword} className="space-y-4">
-                                            <div className="p-6 bg-gray-50 rounded-xl dark:bg-gray-800 border-2 border-transparent focus-within:border-orange-500 transition-all">
-                                                <h3 className="font-bold text-gray-800 mb-4 dark:text-white flex items-center gap-2">
-                                                    <Lock className="w-5 h-5 text-orange-500" />
-                                                    Change Password
-                                                </h3>
-
-                                                <div className="space-y-4">
-                                                    <div>
-                                                        <label className="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300">Current Password</label>
-                                                        <input
-                                                            type="password"
-                                                            value={currentPassword}
-                                                            onChange={(e) => setCurrentPassword(e.target.value)}
-                                                            className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-orange-500 focus:outline-none dark:bg-gray-900 dark:border-gray-700 dark:text-white"
-                                                            required
-                                                        />
-                                                    </div>
-                                                    <div>
-                                                        <label className="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300">New Password</label>
-                                                        <input
-                                                            type="password"
-                                                            value={newPassword}
-                                                            onChange={(e) => setNewPassword(e.target.value)}
-                                                            className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-orange-500 focus:outline-none dark:bg-gray-900 dark:border-gray-700 dark:text-white"
-                                                            required
-                                                        />
-                                                    </div>
-                                                    <div>
-                                                        <label className="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-300">Confirm New Password</label>
-                                                        <input
-                                                            type="password"
-                                                            value={confirmPassword}
-                                                            onChange={(e) => setConfirmPassword(e.target.value)}
-                                                            className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-orange-500 focus:outline-none dark:bg-gray-900 dark:border-gray-700 dark:text-white"
-                                                            required
-                                                        />
+                                        <div className="space-y-4">
+                                            {/* Privacy Policy */}
+                                            <div className="p-6 bg-gray-50 rounded-xl dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700">
+                                                <div className="flex items-start justify-between">
+                                                    <div className="flex-1">
+                                                        <h3 className="font-bold text-gray-800 mb-2 dark:text-white flex items-center gap-2">
+                                                            <Shield className="w-5 h-5 text-orange-500" />
+                                                            Privacy Policy
+                                                        </h3>
+                                                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                                                            Learn how we collect, use, and protect your personal information
+                                                        </p>
+                                                        <Link
+                                                            href="/privacy-policy"
+                                                            className="inline-flex items-center gap-2 text-orange-600 hover:text-orange-700 font-medium text-sm"
+                                                        >
+                                                            Read Privacy Policy
+                                                            <ExternalLink className="w-4 h-4" />
+                                                        </Link>
                                                     </div>
                                                 </div>
-
-                                                <button
-                                                    type="submit"
-                                                    disabled={isSaving}
-                                                    className="mt-6 w-full flex items-center justify-center gap-2 px-6 py-3 bg-orange-500 text-white rounded-lg font-semibold hover:bg-orange-600 transition-all shadow-md active:scale-[0.98] disabled:opacity-50"
-                                                >
-                                                    {isSaving && <Loader2 className="w-4 h-4 animate-spin" />}
-                                                    Update Password
-                                                </button>
                                             </div>
 
-                                            <div className="p-4 bg-gray-50 rounded-lg dark:bg-gray-800 flex items-center justify-between">
-                                                <div>
-                                                    <h3 className="font-semibold text-gray-800 dark:text-white">Two-Factor Authentication</h3>
-                                                    <p className="text-sm text-gray-600 dark:text-gray-400">Add an extra layer of security</p>
+                                            {/* Terms and Conditions */}
+                                            <div className="p-6 bg-gray-50 rounded-xl dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700">
+                                                <div className="flex items-start justify-between">
+                                                    <div className="flex-1">
+                                                        <h3 className="font-bold text-gray-800 mb-2 dark:text-white flex items-center gap-2">
+                                                            <FileText className="w-5 h-5 text-orange-500" />
+                                                            Terms and Conditions
+                                                        </h3>
+                                                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                                                            Review the terms of service for using CaribbeanRecipe
+                                                        </p>
+                                                        <Link
+                                                            href="/terms"
+                                                            className="inline-flex items-center gap-2 text-orange-600 hover:text-orange-700 font-medium text-sm"
+                                                        >
+                                                            Read Terms & Conditions
+                                                            <ExternalLink className="w-4 h-4" />
+                                                        </Link>
+                                                    </div>
                                                 </div>
-                                                <button type="button" className="px-4 py-2 border-2 border-orange-500 text-orange-500 rounded-lg hover:bg-orange-50 transition-colors font-medium">
-                                                    Enable 2FA
-                                                </button>
                                             </div>
-                                        </form>
+
+                                            {/* Community Rules */}
+                                            <div className="p-6 bg-gray-50 rounded-xl dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700">
+                                                <div className="flex items-start justify-between">
+                                                    <div className="flex-1">
+                                                        <h3 className="font-bold text-gray-800 mb-2 dark:text-white flex items-center gap-2">
+                                                            <Users className="w-5 h-5 text-orange-500" />
+                                                            Community Guidelines
+                                                        </h3>
+                                                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                                                            Learn about our community standards and how to be a respectful member
+                                                        </p>
+                                                        <ul className="text-sm text-gray-700 dark:text-gray-300 space-y-2 mb-4 ml-5">
+                                                            <li className="list-disc">Be respectful and kind to all members</li>
+                                                            <li className="list-disc">Share authentic recipes and cooking experiences</li>
+                                                            <li className="list-disc">No spam, harassment, or inappropriate content</li>
+                                                            <li className="list-disc">Give credit when sharing others' recipes</li>
+                                                        </ul>
+                                                        <Link
+                                                            href="/community-guidelines"
+                                                            className="inline-flex items-center gap-2 text-orange-600 hover:text-orange-700 font-medium text-sm"
+                                                        >
+                                                            View Full Guidelines
+                                                            <ExternalLink className="w-4 h-4" />
+                                                        </Link>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            {/* Data & Account */}
+                                            <div className="p-6 bg-gray-50 rounded-xl dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700">
+                                                <div className="flex items-start justify-between">
+                                                    <div className="flex-1">
+                                                        <h3 className="font-bold text-gray-800 mb-2 dark:text-white flex items-center gap-2">
+                                                            <Lock className="w-5 h-5 text-orange-500" />
+                                                            Your Data & Privacy
+                                                        </h3>
+                                                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                                                            Manage your data and account preferences
+                                                        </p>
+                                                        <div className="space-y-3">
+                                                            <button
+                                                                type="button"
+                                                                onClick={() => alert('Data export feature coming soon!')}
+                                                                className="block text-orange-600 hover:text-orange-700 font-medium text-sm"
+                                                            >
+                                                                Download Your Data
+                                                            </button>
+                                                            <button
+                                                                type="button"
+                                                                onClick={() => {
+                                                                    if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+                                                                        alert('Account deletion feature coming soon!');
+                                                                    }
+                                                                }}
+                                                                className="block text-red-600 hover:text-red-700 font-medium text-sm"
+                                                            >
+                                                                Delete Account
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 )}
 
@@ -364,12 +415,16 @@ export default function SettingsPage() {
                                             </div>
 
                                             <div className="p-4 bg-gray-50 rounded-lg">
-                                                <h3 className="font-semibold text-gray-800 mb-2">Language</h3>
-                                                <select className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-orange-500 focus:outline-none">
-                                                    <option>English</option>
-                                                    <option>Spanish</option>
-                                                    <option>French</option>
-                                                    <option>German</option>
+                                                <h3 className="font-semibold text-gray-800 mb-2">{t('settings.preferences.language')}</h3>
+                                                <select
+                                                    value={language}
+                                                    onChange={(e) => setLanguage(e.target.value as 'en' | 'es' | 'fr' | 'de')}
+                                                    className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-orange-500 focus:outline-none"
+                                                >
+                                                    <option value="en">{t('settings.preferences.languages.en')}</option>
+                                                    <option value="es">{t('settings.preferences.languages.es')}</option>
+                                                    <option value="fr">{t('settings.preferences.languages.fr')}</option>
+                                                    <option value="de">{t('settings.preferences.languages.de')}</option>
                                                 </select>
                                             </div>
                                         </div>

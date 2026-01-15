@@ -5,6 +5,7 @@ import Header from "@/components/layout/Header";
 import RecipeCardFlip from "@/components/recipe/RecipeCardFlip";
 import { Utensils, Coffee, Sun, Moon, Cookie } from "lucide-react";
 import Link from "next/link";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface Recipe {
     id: string;
@@ -21,18 +22,19 @@ interface Recipe {
     };
 }
 
-const mealTypes = [
-    { name: "Breakfast", slug: "breakfast", icon: Coffee, color: "from-yellow-500 to-orange-500", description: "Start your day right" },
-    { name: "Lunch", slug: "lunch", icon: Sun, color: "from-green-500 to-emerald-500", description: "Midday meals" },
-    { name: "Dinner", slug: "dinner", icon: Moon, color: "from-blue-500 to-indigo-500", description: "Evening favorites" },
-    { name: "Snacks", slug: "snacks", icon: Cookie, color: "from-pink-500 to-rose-500", description: "Quick bites" },
-    { name: "Desserts", slug: "desserts", icon: Cookie, color: "from-purple-500 to-pink-500", description: "Sweet treats" },
-];
-
 export default function MealsPage() {
+    const { t } = useLanguage();
     const [selectedMeal, setSelectedMeal] = useState("breakfast");
     const [recipes, setRecipes] = useState<Recipe[]>([]);
     const [loading, setLoading] = useState(true);
+
+    const mealTypes = [
+        { name: t('meals.breakfast'), slug: "breakfast", icon: Coffee, color: "from-yellow-500 to-orange-500", description: t('meals.breakfastDesc') },
+        { name: t('meals.lunch'), slug: "lunch", icon: Sun, color: "from-green-500 to-emerald-500", description: t('meals.lunchDesc') },
+        { name: t('meals.dinner'), slug: "dinner", icon: Moon, color: "from-blue-500 to-indigo-500", description: t('meals.dinnerDesc') },
+        { name: t('meals.snacks'), slug: "snacks", icon: Cookie, color: "from-pink-500 to-rose-500", description: t('meals.snacksDesc') },
+        { name: t('meals.desserts'), slug: "desserts", icon: Cookie, color: "from-purple-500 to-pink-500", description: t('meals.dessertsDesc') },
+    ];
 
     useEffect(() => {
         setLoading(true);
@@ -109,7 +111,7 @@ export default function MealsPage() {
                             href={`/recipes?category=${selectedMeal}`}
                             className="text-orange-600 font-semibold hover:underline"
                         >
-                            View All →
+                            {t('meals.viewAll')} →
                         </Link>
                     </div>
 

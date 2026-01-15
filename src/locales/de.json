@@ -1,0 +1,189 @@
+{
+    "header": {
+        "logo": "CaribbeanRecipe",
+        "searchPlaceholder": "Rezept oder Zutat finden",
+        "myRecipes": "Meine Rezepte",
+        "account": "Konto",
+        "logIn": "Anmelden",
+        "signUp": "Registrieren",
+        "logOut": "Abmelden",
+        "dashboard": "Dashboard",
+        "savedRecipes": "Gespeicherte Rezepte",
+        "settings": "Einstellungen",
+        "takeTour": "Tour Machen",
+        "adminDashboard": "Admin-Dashboard",
+        "announcements": "Ankündigungen",
+        "searchRecipes": "Rezepte suchen...",
+        "nav": {
+            "dinners": "ABENDESSEN",
+            "meals": "MAHLZEITEN",
+            "ingredients": "ZUTATEN",
+            "occasions": "ANLÄSSE",
+            "cuisines": "KÜCHEN",
+            "kitchenTips": "KÜCHENTIPPS",
+            "live": "LIVE",
+            "kitchens": "KÜCHEN"
+        },
+        "mobileNav": {
+            "dinners": "Abendessen",
+            "meals": "Mahlzeiten",
+            "ingredients": "Zutaten",
+            "occasions": "Anlässe",
+            "cuisines": "Küchen",
+            "kitchenTips": "Küchentipps",
+            "live": "Live",
+            "kitchens": "Küchen"
+        }
+    },
+    "home": {
+        "hero": {
+            "title": "Entdecken Sie Erstaunliche Rezepte",
+            "subtitle": "Erkunden Sie Tausende köstlicher Rezepte aus der ganzen Welt",
+            "searchPlaceholder": "Rezepte suchen...",
+            "searchButton": "Suchen"
+        },
+        "categories": {
+            "title": "Nach Kategorie Durchsuchen",
+            "viewAll": "Alle Anzeigen"
+        }
+    },
+    "settings": {
+        "title": "Einstellungen",
+        "subtitle": "Verwalten Sie Ihre Kontoeinstellungen und Präferenzen",
+        "tabs": {
+            "profile": "Profil",
+            "notifications": "Benachrichtigungen",
+            "privacy": "Datenschutz und Sicherheit",
+            "preferences": "Einstellungen"
+        },
+        "profile": {
+            "title": "Profileinstellungen",
+            "subtitle": "Aktualisieren Sie Ihre persönlichen Informationen",
+            "name": "Name",
+            "email": "E-Mail",
+            "emailNote": "E-Mail kann nicht geändert werden",
+            "bio": "Biografie",
+            "bioPlaceholder": "Erzählen Sie uns von sich...",
+            "saveChanges": "Änderungen Speichern",
+            "successMessage": "Profil erfolgreich aktualisiert!",
+            "errorMessage": "Fehler beim Aktualisieren des Profils"
+        },
+        "notifications": {
+            "title": "Benachrichtigungseinstellungen",
+            "subtitle": "Wählen Sie aus, wie Sie benachrichtigt werden möchten",
+            "emailNotifications": "E-Mail-Benachrichtigungen",
+            "emailNotificationsDesc": "Benachrichtigungen per E-Mail erhalten",
+            "pushNotifications": "Push-Benachrichtigungen",
+            "pushNotificationsDesc": "Push-Benachrichtigungen im Browser erhalten"
+        },
+        "privacy": {
+            "title": "Datenschutz und Sicherheit",
+            "subtitle": "Verwalten Sie Ihre Datenschutz- und Sicherheitseinstellungen",
+            "changePassword": "Passwort Ändern",
+            "currentPassword": "Aktuelles Passwort",
+            "newPassword": "Neues Passwort",
+            "confirmPassword": "Neues Passwort Bestätigen",
+            "updatePassword": "Passwort Aktualisieren",
+            "twoFactor": "Zwei-Faktor-Authentifizierung",
+            "twoFactorDesc": "Fügen Sie eine zusätzliche Sicherheitsebene hinzu",
+            "enable2FA": "2FA Aktivieren",
+            "passwordSuccess": "Passwort erfolgreich geändert!",
+            "passwordError": "Fehler beim Ändern des Passworts",
+            "passwordMismatch": "Passwörter stimmen nicht überein"
+        },
+        "preferences": {
+            "title": "Einstellungen",
+            "subtitle": "Passen Sie Ihre Erfahrung an",
+            "darkMode": "Dunkler Modus",
+            "darkModeDesc": "Zwischen hellem und dunklem Thema wechseln",
+            "language": "Sprache",
+            "languages": {
+                "en": "Englisch",
+                "es": "Spanisch",
+                "fr": "Französisch",
+                "de": "Deutsch"
+            }
+        }
+    },
+    "community": {
+        "title": "Kitchens Feed",
+        "subtitle": "Teilen Sie Ihre kulinarischen Abenteuer und verbinden Sie sich mit Essensliebhabern!",
+        "createPost": "Beitrag Erstellen",
+        "whatsOnMind": "Was denkst du?",
+        "shareRecipe": "Teilen Sie ein Rezept, einen Tipp oder eine Kocherfahrung...",
+        "post": "Veröffentlichen",
+        "browseGroups": "Gruppen Durchsuchen",
+        "browseGroupsDesc": "Kochgemeinschaften beitreten",
+        "createAnnouncement": "Ankündigung Erstellen",
+        "adminOnly": "Nur Admin",
+        "signInPrompt": "Melden Sie sich an, um Ihre Kochgeschichten und Rezepte zu teilen!",
+        "signIn": "Anmelden",
+        "loadingPosts": "Beiträge werden geladen...",
+        "noPostsTitle": "Noch keine Beiträge",
+        "noPostsDesc": "Seien Sie der Erste, der etwas mit der Community teilt!",
+        "groups": "Gruppen",
+        "createGroup": "Gruppe Erstellen",
+        "myGroups": "Meine Gruppen",
+        "discoverGroups": "Gruppen Entdecken",
+        "joinGroup": "Gruppe Beitreten",
+        "leaveGroup": "Gruppe Verlassen",
+        "members": "Mitglieder",
+        "posts": "Beiträge"
+    },
+    "meals": {
+        "breakfast": "Frühstück",
+        "breakfastDesc": "Starten Sie Ihren Tag richtig",
+        "lunch": "Mittagessen",
+        "lunchDesc": "Mittagsmahlzeiten",
+        "dinner": "Abendessen",
+        "dinnerDesc": "Abendfavoriten",
+        "snacks": "Snacks",
+        "snacksDesc": "Schnelle Häppchen",
+        "desserts": "Desserts",
+        "dessertsDesc": "Süße Leckereien",
+        "breakfastRecipes": "Frühstücksrezepte",
+        "viewAll": "Alle Anzeigen"
+    },
+    "ingredients": {
+        "title": "Rezepte nach Zutaten Finden",
+        "subtitle": "Geben Sie ein, was Sie zu Hause haben, und unsere KI schlägt Ihnen die perfekte Mahlzeit vor!",
+        "popularIngredients": "Beliebte Zutaten",
+        "howItWorks": "Wie Es Funktioniert",
+        "step1Title": "Geben Sie Ihre Zutaten Ein",
+        "step1Desc": "Geben Sie die verfügbaren Zutaten ein",
+        "step2Title": "Erhalten Sie Rezeptübereinstimmungen",
+        "step2Desc": "Wir zeigen Ihnen Rezepte, die diese Zutaten verwenden",
+        "step3Title": "Fangen Sie an zu Kochen!",
+        "step3Desc": "Folgen Sie den Schritt-für-Schritt-Anweisungen",
+        "ctaTitle": "Können Sie nicht finden, was Sie suchen?",
+        "ctaDesc": "Durchsuchen Sie alle unsere Rezepte oder suchen Sie nach Küche und Mahlzeitentyp",
+        "browseAll": "Alle Rezepte Durchsuchen"
+    },
+    "occasions": {
+        "title": "Rezepte für Jeden Anlass",
+        "subtitle": "Finden Sie das perfekte Gericht für jede Feier oder Zusammenkunft",
+        "viewRecipes": "Rezepte Anzeigen"
+    },
+    "cuisines": {
+        "title": "Weltküchen Erkunden",
+        "subtitle": "Entdecken Sie authentische Rezepte aus der ganzen Welt",
+        "viewRecipes": "Rezepte Anzeigen"
+    },
+    "tips": {
+        "title": "Küchentipps & Tricks",
+        "subtitle": "Meistern Sie Kochtechniken und lernen Sie Profi-Koch-Geheimnisse",
+        "allTips": "Alle Küchentipps",
+        "readMore": "Mehr Lesen"
+    },
+    "common": {
+        "loading": "Lädt...",
+        "error": "Ein Fehler ist aufgetreten",
+        "success": "Erfolg!",
+        "cancel": "Abbrechen",
+        "save": "Speichern",
+        "delete": "Löschen",
+        "edit": "Bearbeiten",
+        "close": "Schließen",
+        "submit": "Absenden"
+    }
+}

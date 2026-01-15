@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Header from "@/components/layout/Header";
 import { Lightbulb, ChefHat, Loader2 } from "lucide-react";
 import Link from "next/link";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface KitchenTip {
     id: string;
@@ -16,6 +17,7 @@ interface KitchenTip {
 }
 
 export default function KitchenTipsPage() {
+    const { t } = useLanguage();
     const [tips, setTips] = useState<KitchenTip[]>([]);
     const [loading, setLoading] = useState(true);
 
@@ -63,9 +65,9 @@ export default function KitchenTipsPage() {
                 <div className="container mx-auto px-4">
                     <div className="max-w-3xl">
                         <ChefHat className="w-12 h-12 mb-4" />
-                        <h1 className="text-5xl font-bold mb-4">Kitchen Tips & Tricks</h1>
+                        <h1 className="text-5xl font-bold mb-4">{t('tips.title')}</h1>
                         <p className="text-xl text-white/90">
-                            Master the art of cooking with AI-generated expert tips, techniques, and kitchen hacks. From basic skills to advanced techniques.
+                            {t('tips.subtitle')}
                         </p>
                     </div>
                 </div>

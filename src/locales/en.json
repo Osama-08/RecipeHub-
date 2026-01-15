@@ -1,0 +1,189 @@
+{
+    "header": {
+        "logo": "CaribbeanRecipe",
+        "searchPlaceholder": "Find a recipe or ingredient",
+        "myRecipes": "My Recipes",
+        "account": "Account",
+        "logIn": "Log In",
+        "signUp": "Sign Up",
+        "logOut": "Log Out",
+        "dashboard": "Dashboard",
+        "savedRecipes": "Saved Recipes",
+        "settings": "Settings",
+        "takeTour": "Take a Tour",
+        "adminDashboard": "Admin Dashboard",
+        "announcements": "Announcements",
+        "searchRecipes": "Search recipes...",
+        "nav": {
+            "dinners": "DINNERS",
+            "meals": "MEALS",
+            "ingredients": "INGREDIENTS",
+            "occasions": "OCCASIONS",
+            "cuisines": "CUISINES",
+            "kitchenTips": "KITCHEN TIPS",
+            "live": "LIVE",
+            "kitchens": "KITCHENS"
+        },
+        "mobileNav": {
+            "dinners": "Dinners",
+            "meals": "Meals",
+            "ingredients": "Ingredients",
+            "occasions": "Occasions",
+            "cuisines": "Cuisines",
+            "kitchenTips": "Kitchen Tips",
+            "live": "Live",
+            "kitchens": "Kitchens"
+        }
+    },
+    "home": {
+        "hero": {
+            "title": "Discover Amazing Recipes",
+            "subtitle": "Explore thousands of delicious recipes from around the world",
+            "searchPlaceholder": "Search for recipes...",
+            "searchButton": "Search"
+        },
+        "categories": {
+            "title": "Browse by Category",
+            "viewAll": "View All"
+        }
+    },
+    "settings": {
+        "title": "Settings",
+        "subtitle": "Manage your account settings and preferences",
+        "tabs": {
+            "profile": "Profile",
+            "notifications": "Notifications",
+            "privacy": "Privacy & Security",
+            "preferences": "Preferences"
+        },
+        "profile": {
+            "title": "Profile Settings",
+            "subtitle": "Update your personal information",
+            "name": "Name",
+            "email": "Email",
+            "emailNote": "Email cannot be changed",
+            "bio": "Bio",
+            "bioPlaceholder": "Tell us about yourself...",
+            "saveChanges": "Save Changes",
+            "successMessage": "Profile updated successfully!",
+            "errorMessage": "Failed to update profile"
+        },
+        "notifications": {
+            "title": "Notification Settings",
+            "subtitle": "Choose how you want to be notified",
+            "emailNotifications": "Email Notifications",
+            "emailNotificationsDesc": "Receive notifications via email",
+            "pushNotifications": "Push Notifications",
+            "pushNotificationsDesc": "Receive push notifications in browser"
+        },
+        "privacy": {
+            "title": "Privacy & Security",
+            "subtitle": "Manage your privacy and security settings",
+            "changePassword": "Change Password",
+            "currentPassword": "Current Password",
+            "newPassword": "New Password",
+            "confirmPassword": "Confirm New Password",
+            "updatePassword": "Update Password",
+            "twoFactor": "Two-Factor Authentication",
+            "twoFactorDesc": "Add an extra layer of security",
+            "enable2FA": "Enable 2FA",
+            "passwordSuccess": "Password changed successfully!",
+            "passwordError": "Failed to change password",
+            "passwordMismatch": "Passwords do not match"
+        },
+        "preferences": {
+            "title": "Preferences",
+            "subtitle": "Customize your experience",
+            "darkMode": "Dark Mode",
+            "darkModeDesc": "Switch between light and dark theme",
+            "language": "Language",
+            "languages": {
+                "en": "English",
+                "es": "Spanish",
+                "fr": "French",
+                "de": "German"
+            }
+        }
+    },
+    "community": {
+        "title": "Kitchens Feed",
+        "subtitle": "Share your culinary adventures and connect with food lovers!",
+        "createPost": "Create Post",
+        "whatsOnMind": "What's on your mind?",
+        "shareRecipe": "Share a recipe, tip, or cooking experience...",
+        "post": "Post",
+        "browseGroups": "Browse Groups",
+        "browseGroupsDesc": "Join cooking communities",
+        "createAnnouncement": "Create Announcement",
+        "adminOnly": "Admin Only",
+        "signInPrompt": "Sign in to share your cooking stories and recipes!",
+        "signIn": "Sign In",
+        "loadingPosts": "Loading posts...",
+        "noPostsTitle": "No posts yet",
+        "noPostsDesc": "Be the first to share something with the community!",
+        "groups": "Groups",
+        "createGroup": "Create Group",
+        "myGroups": "My Groups",
+        "discoverGroups": "Discover Groups",
+        "joinGroup": "Join Group",
+        "leaveGroup": "Leave Group",
+        "members": "Members",
+        "posts": "Posts"
+    },
+    "meals": {
+        "breakfast": "Breakfast",
+        "breakfastDesc": "Start your day right",
+        "lunch": "Lunch",
+        "lunchDesc": "Midday meals",
+        "dinner": "Dinner",
+        "dinnerDesc": "Evening favorites",
+        "snacks": "Snacks",
+        "snacksDesc": "Quick bites",
+        "desserts": "Desserts",
+        "dessertsDesc": "Sweet treats",
+        "breakfastRecipes": "Breakfast Recipes",
+        "viewAll": "View All"
+    },
+    "ingredients": {
+        "title": "Find Recipes by Ingredients",
+        "subtitle": "Enter what you have at home, and our AI will suggest the perfect meal!",
+        "popularIngredients": "Popular Ingredients",
+        "howItWorks": "How It Works",
+        "step1Title": "Enter Your Ingredients",
+        "step1Desc": "Type in the ingredients you have available",
+        "step2Title": "Get Recipe Matches",
+        "step2Desc": "We'll show you recipes that use those ingredients",
+        "step3Title": "Start Cooking!",
+        "step3Desc": "Follow the step-by-step instructions",
+        "ctaTitle": "Can't find what you're looking for?",
+        "ctaDesc": "Browse all our recipes or search by cuisine and meal type",
+        "browseAll": "Browse All Recipes"
+    },
+    "occasions": {
+        "title": "Recipes for Every Occasion",
+        "subtitle": "Find the perfect dish for any celebration or gathering",
+        "viewRecipes": "View Recipes"
+    },
+    "cuisines": {
+        "title": "Explore World Cuisines",
+        "subtitle": "Discover authentic recipes from around the globe",
+        "viewRecipes": "View Recipes"
+    },
+    "tips": {
+        "title": "Kitchen Tips & Tricks",
+        "subtitle": "Master cooking techniques and learn pro chef secrets",
+        "allTips": "All Kitchen Tips",
+        "readMore": "Read More"
+    },
+    "common": {
+        "loading": "Loading...",
+        "error": "An error occurred",
+        "success": "Success!",
+        "cancel": "Cancel",
+        "save": "Save",
+        "delete": "Delete",
+        "edit": "Edit",
+        "close": "Close",
+        "submit": "Submit"
+    }
+}
