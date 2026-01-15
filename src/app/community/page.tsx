@@ -109,7 +109,7 @@ export default function CommunityPage() {
                 <div className="container mx-auto px-4">
                     <div className="max-w-3xl mx-auto text-center">
                         <Users className="w-12 h-12 mx-auto mb-3" />
-                        <h1 className="text-4xl font-bold mb-2">Community Feed</h1>
+                        <h1 className="text-4xl font-bold mb-2">Kitchens Feed</h1>
                         <p className="text-lg text-white/90">
                             Share your culinary adventures and connect with food lovers!
                         </p>

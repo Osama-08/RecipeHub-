@@ -255,7 +255,7 @@ export default function Header() {
                         </li>
                         <li>
                             <Link href="/community" className="block py-4 hover:text-orange-500 transition-colors" data-tour="community">
-                                COMMUNITY
+                                KITCHENS
                             </Link>
                         </li>
                     </ul>
@@ -384,7 +384,7 @@ export default function Header() {
                                         className="block px-4 py-2.5 hover:bg-gray-50"
                                         onClick={() => setShowMobileMenu(false)}
                                     >
-                                        Community
+                                        Kitchens
                                     </Link>
                                 </li>
                             </ul>

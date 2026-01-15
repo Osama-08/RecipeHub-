@@ -11,6 +11,7 @@ import Link from "next/link";
 import AnnouncementsPanel from "@/components/AnnouncementsPanel";
 import { HeroAd, MiddleAd } from "@/components/ads/AdSense";
 import { useTourManager } from "@/components/onboarding/useTourManager";
+import RotatingBanner from "@/components/home/RotatingBanner";
 
 // Dynamically import OnboardingTour with SSR disabled
 const OnboardingTour = dynamic(
@@ -90,16 +91,7 @@ export default function Home() {
 
             {/* Hero Section */}
             <section className="relative h-[600px] flex items-center overflow-hidden">
-                <div className="absolute inset-0">
-                    <Image
-                        src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1200&auto=format&fit=crop"
-                        alt="Delicious Food"
-                        fill
-                        className="object-cover brightness-50"
-                        priority
-                        unoptimized
-                    />
-                </div>
+                <RotatingBanner />
                 <div className="container mx-auto px-4 relative z-10 text-white">
                     <div className="max-w-3xl animate-in fade-in slide-in-from-left duration-1000">
                         <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full mb-6">

@@ -38,7 +38,7 @@ export const homepageTutorialSteps: TutorialStep[] = [
     {
         element: '[data-tour="community"]',
         intro: `<div style="padding: 4px;">
-            <div style="display: inline-block; background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-bottom: 12px;">COMMUNITY</div>
+            <div style="display: inline-block; background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-bottom: 12px;">KITCHENS</div>
             <h3 style="margin: 0 0 10px 0; font-size: 20px; font-weight: 700; color: #1e293b;">👥 Join Our Community</h3>
             <p style="margin: 0; color: #64748b; font-size: 15px; line-height: 1.6;">Connect with other food lovers, share your creations, join groups, and discover new recipes from passionate home cooks and chefs!</p>
         </div>`,

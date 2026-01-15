@@ -6,27 +6,52 @@ Your CaribbeanRecipe website package contains everything you need to launch a pr
 
 ## 📁 Main Documentation Files (START HERE!)
 
-### 1. 🚀 [DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md)
-**Your complete step-by-step guide to getting the website live.**
+### 1. 🚀 [COMPLETE_SETUP_GUIDE.md](./COMPLETE_SETUP_GUIDE.md) ⭐ **START HERE!**
+**Your complete step-by-step guide from zero to live website.**
 
-- ⏱️ Time: 1-2 hours (first time)
-- 🎯 For: Complete beginners
-- 📚 Covers: Everything from setup to going live
-- 💡 Includes: Screenshots, tips, and troubleshooting
+- ⏱️ Time: 4-6 hours (can be done over multiple days)
+- 🎯 For: Complete beginners and non-technical users
+- 📚 Covers: Everything from unzipping to going live
+- 💡 Includes: Detailed instructions, checkpoints, troubleshooting
+- ✨ **Most comprehensive guide - perfect for Fiverr clients!**
 
-**Start with this file if you're new to web development!**
+**This is the main guide you should follow if you're new to web development!**
 
 ---
 
-### 2. ⚡ [QUICK_START.md](./QUICK_START.md)
-**Fast-track guide for getting live quickly.**
+### 2. ⚡ [QUICK_REFERENCE.md](./QUICK_REFERENCE.md)
+**Quick reference for commands, URLs, and checklists.**
 
-- ⏱️ Time: 30-40 minutes
-- 🎯 For: Experienced users or those in a hurry
-- 📚 Covers: Essential steps only
-- 💡 Includes: Command shortcuts and quick tips
+- ⏱️ Time: 5 minutes to read
+- 🎯 For: Quick lookups while setting up
+- 📚 Covers: Commands, URLs, troubleshooting tips
+- 💡 Includes: Checklist and quick fixes
 
-**Use this if you're comfortable with technical tools.**
+**Use this as a reference while following the main guide.**
+
+---
+
+### 3. ✅ [SETUP_CHECKLIST.md](./SETUP_CHECKLIST.md)
+**Track your progress with this interactive checklist.**
+
+- ⏱️ Time: Use throughout setup
+- 🎯 For: Keeping track of completed steps
+- 📚 Covers: All setup steps in checklist format
+- 💡 Includes: Notes section for important info
+
+**Print this or keep it open while setting up!**
+
+---
+
+### 4. 📋 [CLIENT_SETUP_GUIDE.md](./CLIENT_SETUP_GUIDE.md)
+**Alternative comprehensive guide (original version).**
+
+- ⏱️ Time: 4-6 hours
+- 🎯 For: Complete beginners
+- 📚 Covers: Complete setup process
+- 💡 Includes: Detailed instructions
+
+**Alternative to COMPLETE_SETUP_GUIDE.md - both are comprehensive.**
 
 ---
 
@@ -210,7 +235,7 @@ After following the deployment guide, you should have:
 
 ### Step-by-Step Support
 
-1. **Read the guides** - 90% of questions are answered in DEPLOYMENT_GUIDE.md
+1. **Read the guides** - 90% of questions are answered in COMPLETE_SETUP_GUIDE.md
 2. **Check troubleshooting section** - Common issues and fixes
 3. **Google the error** - Most errors have solutions online
 4. **Check documentation** - Links provided for each service
@@ -229,7 +254,7 @@ After following the deployment guide, you should have:
 
 **Never deployed a website before? No problem!**
 
-1. **Day 1**: Read DEPLOYMENT_GUIDE.md (30 min)
+1. **Day 1**: Read COMPLETE_SETUP_GUIDE.md (30 min)
 2. **Day 2**: Install Node.js and dependencies (15 min)
 3. **Day 3**: Get API keys (30-60 min)
 4. **Day 4**: Test locally (30 min)
@@ -244,17 +269,18 @@ Most of this time is just signing up for services and copying/pasting API keys!
 
 ## 🚀 Ready to Start?
 
-### For Beginners:
-1. Open **[DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md)**
+### For Beginners (Recommended):
+1. Open **[COMPLETE_SETUP_GUIDE.md](./COMPLETE_SETUP_GUIDE.md)** ⭐
 2. Follow it step-by-step
-3. Don't skip any steps
-4. Your website will be live in 1-2 hours!
+3. Use **[SETUP_CHECKLIST.md](./SETUP_CHECKLIST.md)** to track progress
+4. Refer to **[QUICK_REFERENCE.md](./QUICK_REFERENCE.md)** for quick lookups
+5. Don't skip any steps
+6. Your website will be live in 4-6 hours (can be done over multiple days)!
 
-### For Experienced Users:
-1. Open **[QUICK_START.md](./QUICK_START.md)**
-2. Skim through the steps
-3. Get your API keys
-4. Deploy in 30 minutes!
+### For Quick Reference:
+1. Open **[QUICK_REFERENCE.md](./QUICK_REFERENCE.md)** for commands and URLs
+2. Use **[SETUP_CHECKLIST.md](./SETUP_CHECKLIST.md)** to track progress
+3. Follow **[COMPLETE_SETUP_GUIDE.md](./COMPLETE_SETUP_GUIDE.md)** for detailed steps
 
 ---
 
@@ -305,7 +331,7 @@ The deployment guides will walk you through every single step. Take your time, f
 
 ---
 
-*Have questions? Check the Troubleshooting section in DEPLOYMENT_GUIDE.md or the documentation links in each guide.*
+*Have questions? Check the Troubleshooting section in COMPLETE_SETUP_GUIDE.md or the documentation links in each guide.*
 
 **Last Updated:** January 2026
 **Version:** 1.0  
