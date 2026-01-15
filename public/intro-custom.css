@@ -193,19 +193,75 @@
 /* Responsive adjustments */
 @media (max-width: 640px) {
     .introjs-tooltip {
-        min-width: 280px !important;
+        min-width: 260px !important;
         max-width: 90vw !important;
+        margin: 10px !important;
     }
     
     .introjs-tooltiptext {
-        padding: 20px !important;
+        padding: 16px !important;
+        font-size: 14px !important;
     }
     
     .introjs-tooltip-header {
-        padding: 16px 20px 10px !important;
+        padding: 14px 16px 8px !important;
+    }
+    
+    .introjs-tooltip-title {
+        font-size: 16px !important;
     }
     
     .introjs-tooltipbuttons {
-        padding: 12px 20px !important;
+        padding: 10px 16px !important;
+        flex-wrap: wrap !important;
+        gap: 8px !important;
+    }
+    
+    .introjs-button {
+        font-size: 13px !important;
+        padding: 8px 16px !important;
+    }
+    
+    .introjs-bullets {
+        padding: 8px !important;
+    }
+    
+    .introjs-bullets ul li a {
+        width: 6px !important;
+        height: 6px !important;
+    }
+    
+    .introjs-bullets ul li a.active {
+        width: 18px !important;
+    }
+}
+
+/* Extra small mobile devices */
+@media (max-width: 380px) {
+    .introjs-tooltip {
+        min-width: 240px !important;
+        max-width: 95vw !important;
+    }
+    
+    .introjs-tooltiptext {
+        padding: 12px !important;
+        font-size: 13px !important;
+    }
+    
+    .introjs-tooltip-header {
+        padding: 12px 12px 6px !important;
+    }
+    
+    .introjs-tooltip-title {
+        font-size: 15px !important;
+    }
+    
+    .introjs-tooltipbuttons {
+        padding: 8px 12px !important;
+    }
+    
+    .introjs-button {
+        font-size: 12px !important;
+        padding: 6px 12px !important;
     }
 }

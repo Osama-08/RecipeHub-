@@ -167,3 +167,41 @@
     page-break-inside: avoid;
   }
 }
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  /* Auth page adjustments */
+  .min-h-screen.flex {
+    flex-direction: column;
+  }
+  
+  /* Fix logo text overflow on mobile */
+  h1.text-3xl.font-bold.bg-gradient-to-r {
+    font-size: 1.5rem !important;
+    word-break: break-word;
+    text-align: center;
+  }
+  
+  /* Ensure auth forms are properly centered */
+  .w-full.max-w-md {
+    padding: 0 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Smaller screens - further reduce logo size */
+  h1.text-3xl.font-bold.bg-gradient-to-r {
+    font-size: 1.25rem !important;
+  }
+  
+  /* Title adjustments */
+  h2.text-3xl.font-bold {
+    font-size: 1.75rem !important;
+  }
+  
+  /* Button and input adjustments */
+  input.w-full,
+  button.w-full {
+    font-size: 14px !important;
+  }
+}
