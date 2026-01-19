@@ -260,7 +260,7 @@ export default function SettingsPage() {
                                 {activeTab === 'privacy' && (
                                     <div className="space-y-6">
                                         <div>
-                                            <h2 className="text-2xl font-bold text-gray-800 mb-4 dark:text-white">Privacy & Security</h2>
+                                            <h2 className="text-2xl font-bold text-gray-800 mb-2 dark:text-white">Privacy & Security</h2>
                                             <p className="text-gray-600 mb-6 dark:text-gray-400">Manage your privacy and security settings</p>
                                         </div>
 
@@ -271,98 +271,142 @@ export default function SettingsPage() {
                                             </div>
                                         )}
 
-                                        <div className="space-y-4">
-                                            {/* Privacy Policy */}
-                                            <div className="p-6 bg-gray-50 rounded-xl dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700">
-                                                <div className="flex items-start justify-between">
-                                                    <div className="flex-1">
-                                                        <h3 className="font-bold text-gray-800 mb-2 dark:text-white flex items-center gap-2">
-                                                            <Shield className="w-5 h-5 text-orange-500" />
-                                                            Privacy Policy
-                                                        </h3>
-                                                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                                                            Learn how we collect, use, and protect your personal information
-                                                        </p>
-                                                        <Link
-                                                            href="/privacy-policy"
-                                                            className="inline-flex items-center gap-2 text-orange-600 hover:text-orange-700 font-medium text-sm"
-                                                        >
-                                                            Read Privacy Policy
-                                                            <ExternalLink className="w-4 h-4" />
-                                                        </Link>
+                                        {/* Card Grid Layout */}
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            {/* Privacy Policy Card */}
+                                            <div className="group bg-white dark:bg-gray-800 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border-2 border-gray-100 dark:border-gray-700 hover:border-orange-200 dark:hover:border-orange-900 overflow-hidden">
+                                                <div className="p-6">
+                                                    <div className="flex items-center gap-3 mb-4">
+                                                        <div className="p-3 bg-gradient-to-br from-orange-100 to-amber-100 dark:from-orange-900/30 dark:to-amber-900/30 rounded-xl">
+                                                            <Shield className="w-6 h-6 text-orange-600 dark:text-orange-400" />
+                                                        </div>
+                                                        <div className="flex-1">
+                                                            <h3 className="font-bold text-lg text-gray-800 dark:text-white">Privacy Policy</h3>
+                                                        </div>
                                                     </div>
+                                                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
+                                                        Learn how we collect, use, and protect your personal information
+                                                    </p>
+                                                    <Link
+                                                        href="/privacy-policy"
+                                                        className="inline-flex items-center gap-2 text-orange-600 hover:text-orange-700 dark:text-orange-400 dark:hover:text-orange-300 font-semibold text-sm group-hover:gap-3 transition-all"
+                                                    >
+                                                        Read Privacy Policy
+                                                        <ExternalLink className="w-4 h-4" />
+                                                    </Link>
                                                 </div>
                                             </div>
 
-                                            {/* Terms and Conditions */}
-                                            <div className="p-6 bg-gray-50 rounded-xl dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700">
-                                                <div className="flex items-start justify-between">
-                                                    <div className="flex-1">
-                                                        <h3 className="font-bold text-gray-800 mb-2 dark:text-white flex items-center gap-2">
-                                                            <FileText className="w-5 h-5 text-orange-500" />
-                                                            Terms and Conditions
-                                                        </h3>
-                                                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                                                            Review the terms of service for using CaribbeanRecipe
-                                                        </p>
-                                                        <Link
-                                                            href="/terms"
-                                                            className="inline-flex items-center gap-2 text-orange-600 hover:text-orange-700 font-medium text-sm"
-                                                        >
-                                                            Read Terms & Conditions
-                                                            <ExternalLink className="w-4 h-4" />
-                                                        </Link>
+                                            {/* Terms and Conditions Card */}
+                                            <div className="group bg-white dark:bg-gray-800 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border-2 border-gray-100 dark:border-gray-700 hover:border-orange-200 dark:hover:border-orange-900 overflow-hidden">
+                                                <div className="p-6">
+                                                    <div className="flex items-center gap-3 mb-4">
+                                                        <div className="p-3 bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-xl">
+                                                            <FileText className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                                                        </div>
+                                                        <div className="flex-1">
+                                                            <h3 className="font-bold text-lg text-gray-800 dark:text-white">Terms & Conditions</h3>
+                                                        </div>
                                                     </div>
+                                                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
+                                                        Review the terms of service for using RecipeHub
+                                                    </p>
+                                                    <Link
+                                                        href="/terms"
+                                                        className="inline-flex items-center gap-2 text-orange-600 hover:text-orange-700 dark:text-orange-400 dark:hover:text-orange-300 font-semibold text-sm group-hover:gap-3 transition-all"
+                                                    >
+                                                        Read Terms & Conditions
+                                                        <ExternalLink className="w-4 h-4" />
+                                                    </Link>
                                                 </div>
                                             </div>
 
-                                            {/* Community Rules */}
-                                            <div className="p-6 bg-gray-50 rounded-xl dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700">
-                                                <div className="flex items-start justify-between">
-                                                    <div className="flex-1">
-                                                        <h3 className="font-bold text-gray-800 mb-2 dark:text-white flex items-center gap-2">
-                                                            <Users className="w-5 h-5 text-orange-500" />
-                                                            Community Guidelines
-                                                        </h3>
-                                                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                                                            Learn about our community standards and how to be a respectful member
-                                                        </p>
-                                                        <ul className="text-sm text-gray-700 dark:text-gray-300 space-y-2 mb-4 ml-5">
-                                                            <li className="list-disc">Be respectful and kind to all members</li>
-                                                            <li className="list-disc">Share authentic recipes and cooking experiences</li>
-                                                            <li className="list-disc">No spam, harassment, or inappropriate content</li>
-                                                            <li className="list-disc">Give credit when sharing others' recipes</li>
-                                                        </ul>
-                                                        <Link
-                                                            href="/community-guidelines"
-                                                            className="inline-flex items-center gap-2 text-orange-600 hover:text-orange-700 font-medium text-sm"
-                                                        >
-                                                            View Full Guidelines
-                                                            <ExternalLink className="w-4 h-4" />
-                                                        </Link>
+                                            {/* Community Guidelines Card */}
+                                            <div className="group bg-white dark:bg-gray-800 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border-2 border-gray-100 dark:border-gray-700 hover:border-orange-200 dark:hover:border-orange-900 overflow-hidden">
+                                                <div className="p-6">
+                                                    <div className="flex items-center gap-3 mb-4">
+                                                        <div className="p-3 bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 rounded-xl">
+                                                            <Users className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+                                                        </div>
+                                                        <div className="flex-1">
+                                                            <h3 className="font-bold text-lg text-gray-800 dark:text-white">Community Guidelines</h3>
+                                                        </div>
                                                     </div>
+                                                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 leading-relaxed">
+                                                        Learn about our community standards
+                                                    </p>
+                                                    <ul className="text-xs text-gray-700 dark:text-gray-300 space-y-1.5 mb-4">
+                                                        <li className="flex items-start gap-2">
+                                                            <span className="text-purple-500 mt-0.5">•</span>
+                                                            <span>Be respectful and kind to all members</span>
+                                                        </li>
+                                                        <li className="flex items-start gap-2">
+                                                            <span className="text-purple-500 mt-0.5">•</span>
+                                                            <span>Share authentic recipes and experiences</span>
+                                                        </li>
+                                                        <li className="flex items-start gap-2">
+                                                            <span className="text-purple-500 mt-0.5">•</span>
+                                                            <span>No spam or inappropriate content</span>
+                                                        </li>
+                                                    </ul>
+                                                    <Link
+                                                        href="/community-guidelines"
+                                                        className="inline-flex items-center gap-2 text-orange-600 hover:text-orange-700 dark:text-orange-400 dark:hover:text-orange-300 font-semibold text-sm group-hover:gap-3 transition-all"
+                                                    >
+                                                        View Full Guidelines
+                                                        <ExternalLink className="w-4 h-4" />
+                                                    </Link>
                                                 </div>
                                             </div>
 
-                                            {/* Data & Account */}
-                                            <div className="p-6 bg-gray-50 rounded-xl dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700">
-                                                <div className="flex items-start justify-between">
-                                                    <div className="flex-1">
-                                                        <h3 className="font-bold text-gray-800 mb-2 dark:text-white flex items-center gap-2">
-                                                            <Lock className="w-5 h-5 text-orange-500" />
-                                                            Your Data & Privacy
-                                                        </h3>
-                                                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                                                            Manage your data and account preferences
-                                                        </p>
-                                                        <div className="space-y-3">
-                                                            <button
-                                                                type="button"
-                                                                onClick={() => alert('Data export feature coming soon!')}
-                                                                className="block text-orange-600 hover:text-orange-700 font-medium text-sm"
-                                                            >
-                                                                Download Your Data
-                                                            </button>
+                                            {/* Download Your Data Card */}
+                                            <div className="group bg-white dark:bg-gray-800 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border-2 border-gray-100 dark:border-gray-700 hover:border-green-200 dark:hover:border-green-900 overflow-hidden">
+                                                <div className="p-6">
+                                                    <div className="flex items-center gap-3 mb-4">
+                                                        <div className="p-3 bg-gradient-to-br from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 rounded-xl">
+                                                            <FileText className="w-6 h-6 text-green-600 dark:text-green-400" />
+                                                        </div>
+                                                        <div className="flex-1">
+                                                            <h3 className="font-bold text-lg text-gray-800 dark:text-white">Download Your Data</h3>
+                                                        </div>
+                                                    </div>
+                                                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
+                                                        Export a copy of all your personal data, recipes, and activity
+                                                    </p>
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => alert('Data export feature coming soon!')}
+                                                        className="w-full px-4 py-2.5 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white font-semibold rounded-lg transition-all shadow-md hover:shadow-lg"
+                                                    >
+                                                        Download Data
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            {/* Delete Account Card - Full Width */}
+                                            <div className="md:col-span-2 group bg-white dark:bg-gray-800 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border-2 border-red-100 dark:border-red-900/50 hover:border-red-300 dark:hover:border-red-700 overflow-hidden">
+                                                <div className="p-6">
+                                                    <div className="flex flex-col md:flex-row md:items-center gap-6">
+                                                        <div className="flex items-start gap-4 flex-1">
+                                                            <div className="p-3 bg-gradient-to-br from-red-100 to-rose-100 dark:from-red-900/30 dark:to-rose-900/30 rounded-xl">
+                                                                <Lock className="w-6 h-6 text-red-600 dark:text-red-400" />
+                                                            </div>
+                                                            <div className="flex-1">
+                                                                <h3 className="font-bold text-lg text-gray-800 dark:text-white mb-2">Delete Account</h3>
+                                                                <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                                                                    Permanently delete your account and all associated data. This action cannot be undone.
+                                                                </p>
+                                                                <div className="mt-3 flex flex-wrap gap-2">
+                                                                    <span className="inline-flex items-center px-2.5 py-1 bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 text-xs font-medium rounded-full">
+                                                                        ⚠️ Irreversible
+                                                                    </span>
+                                                                    <span className="inline-flex items-center px-2.5 py-1 bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 text-xs font-medium rounded-full">
+                                                                        All data will be lost
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div className="md:w-48">
                                                             <button
                                                                 type="button"
                                                                 onClick={() => {
@@ -370,7 +414,7 @@ export default function SettingsPage() {
                                                                         alert('Account deletion feature coming soon!');
                                                                     }
                                                                 }}
-                                                                className="block text-red-600 hover:text-red-700 font-medium text-sm"
+                                                                className="w-full px-6 py-3 bg-gradient-to-r from-red-500 to-rose-500 hover:from-red-600 hover:to-rose-600 text-white font-bold rounded-lg transition-all shadow-md hover:shadow-lg"
                                                             >
                                                                 Delete Account
                                                             </button>
