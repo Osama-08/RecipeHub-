@@ -50,6 +50,9 @@ model User {
   // Reactions and Notifications
   reactions       Reaction[] @relation("UserReactions")
   notifications   Notification[] @relation("UserNotifications")
+  
+  // Influencer profile
+  influencerProfile Influencer?
 }
 
 model Account {
@@ -626,6 +629,57 @@ model Notification {
   createdAt DateTime @default(now())
   
   @@index([userId, isRead])
+  @@index([createdAt])
+}
+
+// ===================================
+// INFLUENCER SYSTEM
+// ===================================
+
+model Influencer {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Profile information
+  displayName String
+  bio         String?  @db.Text
+  
+  // Social media links (all optional)
+  facebookUrl  String?
+  instagramUrl String?
+  tiktokUrl    String?
+  youtubeUrl   String?
+  
+  // Videos posted by this influencer
+  videos      InfluencerVideo[]
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@index([userId])
+}
+
+model InfluencerVideo {
+  id           String     @id @default(cuid())
+  influencerId String
+  influencer   Influencer @relation(fields: [influencerId], references: [id], onDelete: Cascade)
+  
+  title        String
+  description  String?    @db.Text
+  
+  // Video source (YouTube or uploaded file)
+  videoType    String     // "youtube" or "uploaded"
+  youtubeId    String?    // YouTube video ID
+  videoUrl     String?    // UploadThing URL for uploaded videos
+  thumbnailUrl String?    // Thumbnail image
+  
+  views        Int        @default(0)
+  
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  
+  @@index([influencerId])
   @@index([createdAt])
 }
 
