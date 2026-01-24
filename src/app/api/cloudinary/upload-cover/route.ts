@@ -1,0 +1,70 @@
+import { NextRequest, NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { prisma } from "@/lib/db";
+import cloudinary from "@/lib/cloudinary";
+
+// Upload cover image to Cloudinary (Admin only)
+export async function POST(req: NextRequest) {
+    try {
+        const session = await getServerSession(authOptions);
+
+        if (!session?.user?.email) {
+            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        }
+
+        // Check if user is admin
+        const user = await prisma.user.findUnique({
+            where: { email: session.user.email },
+            select: { role: true, id: true }
+        });
+
+        if (!user || user.role !== "ADMIN") {
+            return NextResponse.json({ error: "Admin access required" }, { status: 403 });
+        }
+
+        const formData = await req.formData();
+        const file = formData.get("file") as File;
+
+        if (!file) {
+            return NextResponse.json({ error: "No file provided" }, { status: 400 });
+        }
+
+        // Convert file to buffer
+        const bytes = await file.arrayBuffer();
+        const buffer = Buffer.from(bytes);
+
+        // Upload to Cloudinary
+        const result = await new Promise((resolve, reject) => {
+            cloudinary.uploader.upload_stream(
+                {
+                    resource_type: "image",
+                    folder: "e-store-covers",
+                    use_filename: true,
+                    unique_filename: true,
+                    transformation: [
+                        { width: 800, height: 1000, crop: "limit" },
+                        { quality: "auto" }
+                    ]
+                },
+                (error, result) => {
+                    if (error) reject(error);
+                    else resolve(result);
+                }
+            ).end(buffer);
+        });
+
+        const uploadResult = result as any;
+
+        return NextResponse.json({
+            url: uploadResult.secure_url,
+            publicId: uploadResult.public_id,
+        });
+    } catch (error) {
+        console.error("Cloudinary cover upload error:", error);
+        return NextResponse.json(
+            { error: "Upload failed" },
+            { status: 500 }
+        );
+    }
+}

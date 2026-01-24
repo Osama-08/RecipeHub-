@@ -1,6 +1,6 @@
 "use client";
 
-import { Search, Heart, Menu, User, LogOut, ChevronDown, X } from "lucide-react";
+import { Search, Heart, Menu, User, LogOut, ChevronDown, X, BookOpen } from "lucide-react";
 import { useState } from "react";
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -251,6 +251,12 @@ export default function Header() {
                             </Link>
                         </li>
                         <li>
+                            <Link href="/e-store" className="block py-4 hover:text-orange-500 transition-colors flex items-center gap-2">
+                                <BookOpen className="w-4 h-4" />
+                                E Store
+                            </Link>
+                        </li>
+                        <li>
                             <Link href="/live" className="block py-4 hover:text-orange-500 transition-colors" data-tour="live-sessions">
                                 {t('header.nav.live')}
                             </Link>
@@ -369,6 +375,16 @@ export default function Header() {
                                         onClick={() => setShowMobileMenu(false)}
                                     >
                                         {t('header.mobileNav.kitchenTips')}
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link
+                                        href="/e-store"
+                                        className="block px-4 py-2.5 hover:bg-gray-50 flex items-center gap-2"
+                                        onClick={() => setShowMobileMenu(false)}
+                                    >
+                                        <BookOpen className="w-4 h-4" />
+                                        E Store
                                     </Link>
                                 </li>
                                 <li>

@@ -4,6 +4,7 @@ import "./globals.css";
 import { AuthProvider } from "@/components/providers/AuthProvider";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import Footer from "@/components/layout/Footer";
+import ToastProvider from "@/components/ToastProvider";
 import Script from "next/script";
 
 // Import startup initialization
@@ -34,6 +35,7 @@ export default function RootLayout({
                             </main>
                             <Footer />
                         </div>
+                        <ToastProvider />
                     </AuthProvider>
                 </LanguageProvider>
 

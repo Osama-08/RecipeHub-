@@ -53,6 +53,9 @@ model User {
   
   // Influencer profile
   influencerProfile Influencer?
+  
+  // E Store - Cooking documents uploaded by admin
+  cookingDocuments  CookingDocument[]
 }
 
 model Account {
@@ -681,5 +684,49 @@ model InfluencerVideo {
   
   @@index([influencerId])
   @@index([createdAt])
+}
+
+// ===================================
+// COOKING E STORE
+// ===================================
+
+model CookingDocument {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  description String?  @db.Text
+  category    String   // "Recipe Books", "Cooking Guides", "Techniques", "Nutrition", etc.
+  
+  // File information
+  fileUrl     String   // UploadThing URL
+  fileName    String   // Original file name
+  fileSize    Int      // Size in bytes
+  fileType    String   // "pdf", "doc", "docx", "epub"
+  
+  // Preview/Cover
+  coverImageUrl String? // Optional cover image
+  
+  // Metadata
+  author      String?  // Author/Publisher
+  publishedYear Int?   // Year of publication
+  
+  // Stats
+  downloads   Int      @default(0)
+  views       Int      @default(0)
+  
+  // Uploaded by (admin)
+  uploadedById String
+  uploadedBy   User    @relation(fields: [uploadedById], references: [id])
+  
+  // Featured flag
+  featured    Boolean  @default(false)
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@index([slug])
+  @@index([category])
+  @@index([uploadedById])
+  @@index([featured])
 }
 
