@@ -9,6 +9,7 @@ import YouTubeEmbed from "./YouTubeEmbed";
 import AIRecipeChat from "./AIRecipeChat";
 import VoiceGuide from "./VoiceGuide";
 import ReviewSection from "./ReviewSection";
+import FloatingVideoPlayer from "./FloatingVideoPlayer";
 import { InRecipeAd } from "../ads/AdSense";
 import AffiliateLink, { IngredientAffiliateLink } from "../ads/AffiliateLink";
 
@@ -551,6 +552,9 @@ export default function RecipeDetailClient({ recipe }: { recipe: Recipe }) {
 
                 {/* AI Recipe Chat - Floating Assistant */}
                 <AIRecipeChat recipeId={recipe.id} recipeTitle={recipe.title} />
+
+                {/* Floating YouTube Video Player */}
+                <FloatingVideoPlayer recipeTitle={recipe.title} />
             </div>
         </div>
     );
