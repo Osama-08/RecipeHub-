@@ -221,37 +221,37 @@ export default function Header() {
                 <div className="container mx-auto px-4">
                     <ul className="flex items-center gap-8 text-sm font-medium">
                         <li>
-                            <Link href="/dinners" className="block py-4 hover:text-orange-500 transition-colors">
+                            <Link href="/dinners" className="block py-4 hover:text-orange-500 transition-colors" data-tour="nav-dinners">
                                 {t('header.nav.dinners')}
                             </Link>
                         </li>
                         <li>
-                            <Link href="/meals" className="block py-4 hover:text-orange-500 transition-colors">
+                            <Link href="/meals" className="block py-4 hover:text-orange-500 transition-colors" data-tour="nav-meals">
                                 {t('header.nav.meals')}
                             </Link>
                         </li>
                         <li>
-                            <Link href="/ingredients" className="block py-4 hover:text-orange-500 transition-colors">
+                            <Link href="/ingredients" className="block py-4 hover:text-orange-500 transition-colors" data-tour="nav-ingredients">
                                 {t('header.nav.ingredients')}
                             </Link>
                         </li>
                         <li>
-                            <Link href="/occasions" className="block py-4 hover:text-orange-500 transition-colors">
+                            <Link href="/occasions" className="block py-4 hover:text-orange-500 transition-colors" data-tour="nav-occasions">
                                 {t('header.nav.occasions')}
                             </Link>
                         </li>
                         <li>
-                            <Link href="/cuisines" className="block py-4 hover:text-orange-500 transition-colors">
+                            <Link href="/cuisines" className="block py-4 hover:text-orange-500 transition-colors" data-tour="nav-cuisines">
                                 {t('header.nav.cuisines')}
                             </Link>
                         </li>
                         <li>
-                            <Link href="/tips" className="block py-4 hover:text-orange-500 transition-colors">
+                            <Link href="/tips" className="block py-4 hover:text-orange-500 transition-colors" data-tour="nav-kitchen-tips">
                                 {t('header.nav.kitchenTips')}
                             </Link>
                         </li>
                         <li>
-                            <Link href="/e-store" className="block py-4 hover:text-orange-500 transition-colors flex items-center gap-2">
+                            <Link href="/e-store" className="block py-4 hover:text-orange-500 transition-colors flex items-center gap-2" data-tour="nav-estore">
                                 <BookOpen className="w-4 h-4" />
                                 E Store
                             </Link>

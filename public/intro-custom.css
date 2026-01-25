@@ -5,12 +5,13 @@
 
 .introjs-tooltip {
     background: white !important;
-    border: none !important;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
-    border-radius: 16px !important;
+    border: 2px solid #e2e8f0 !important;
+    box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.25), 0 4px 12px -4px rgba(0, 0, 0, 0.12) !important;
+    border-radius: 4px !important;
     padding: 0 !important;
     min-width: 350px !important;
     max-width: 450px !important;
+    position: relative !important;
 }
 
 .introjs-tooltiptext {
@@ -45,7 +46,7 @@
     font-size: 14px !important;
     font-weight: 600 !important;
     padding: 10px 20px !important;
-    border-radius: 10px !important;
+    border-radius: 4px !important;
     border: none !important;
     cursor: pointer !important;
     transition: all 0.2s !important;
@@ -58,12 +59,19 @@
 }
 
 .introjs-skipbutton {
-    background: #f1f5f9 !important;
-    color: #64748b !important;
+    position: absolute !important;
+    top: 16px !important;
+    right: 16px !important;
+    background: transparent !important;
+    color: #94a3b8 !important;
+    padding: 4px 8px !important;
+    font-size: 13px !important;
+    z-index: 10 !important;
 }
 
 .introjs-skipbutton:hover {
-    background: #e2e8f0 !important;
+    background: #f1f5f9 !important;
+    color: #64748b !important;
 }
 
 .introjs-prevbutton {
@@ -141,9 +149,9 @@
 
 .introjs-helperLayer {
     background: transparent !important;
-    border: 2px solid #f97316 !important;
+    border: 3px solid #f97316 !important;
     box-shadow: 0 0 0 5000px rgba(0, 0, 0, 0.8), 0 0 20px rgba(249, 115, 22, 0.5) !important;
-    border-radius: 12px !important;
+    border-radius: 4px !important;
 }
 
 .introjs-fixedTooltip {
@@ -180,6 +188,7 @@
         opacity: 0;
         transform: scale(0.95);
     }
+
     to {
         opacity: 1;
         transform: scale(1);
@@ -197,40 +206,40 @@
         max-width: 90vw !important;
         margin: 10px !important;
     }
-    
+
     .introjs-tooltiptext {
         padding: 16px !important;
         font-size: 14px !important;
     }
-    
+
     .introjs-tooltip-header {
         padding: 14px 16px 8px !important;
     }
-    
+
     .introjs-tooltip-title {
         font-size: 16px !important;
     }
-    
+
     .introjs-tooltipbuttons {
         padding: 10px 16px !important;
         flex-wrap: wrap !important;
         gap: 8px !important;
     }
-    
+
     .introjs-button {
         font-size: 13px !important;
         padding: 8px 16px !important;
     }
-    
+
     .introjs-bullets {
         padding: 8px !important;
     }
-    
+
     .introjs-bullets ul li a {
         width: 6px !important;
         height: 6px !important;
     }
-    
+
     .introjs-bullets ul li a.active {
         width: 18px !important;
     }
@@ -242,24 +251,24 @@
         min-width: 240px !important;
         max-width: 95vw !important;
     }
-    
+
     .introjs-tooltiptext {
         padding: 12px !important;
         font-size: 13px !important;
     }
-    
+
     .introjs-tooltip-header {
         padding: 12px 12px 6px !important;
     }
-    
+
     .introjs-tooltip-title {
         font-size: 15px !important;
     }
-    
+
     .introjs-tooltipbuttons {
         padding: 8px 12px !important;
     }
-    
+
     .introjs-button {
         font-size: 12px !important;
         padding: 6px 12px !important;

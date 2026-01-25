@@ -375,9 +375,36 @@ export default function SettingsPage() {
                                                     </p>
                                                     <button
                                                         type="button"
-                                                        onClick={() => alert('Data export feature coming soon!')}
-                                                        className="w-full px-4 py-2.5 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white font-semibold rounded-lg transition-all shadow-md hover:shadow-lg"
+                                                        onClick={async () => {
+                                                            try {
+                                                                setIsSaving(true);
+                                                                const response = await fetch('/api/user/download-data');
+
+                                                                if (!response.ok) {
+                                                                    throw new Error('Failed to download data');
+                                                                }
+
+                                                                const blob = await response.blob();
+                                                                const url = window.URL.createObjectURL(blob);
+                                                                const a = document.createElement('a');
+                                                                a.href = url;
+                                                                a.download = `recipehub-data-export-${Date.now()}.json`;
+                                                                document.body.appendChild(a);
+                                                                a.click();
+                                                                window.URL.revokeObjectURL(url);
+                                                                document.body.removeChild(a);
+
+                                                                setMessage({ type: 'success', text: 'Data exported successfully!' });
+                                                            } catch (error) {
+                                                                setMessage({ type: 'error', text: 'Failed to export data' });
+                                                            } finally {
+                                                                setIsSaving(false);
+                                                            }
+                                                        }}
+                                                        disabled={isSaving}
+                                                        className="w-full px-4 py-2.5 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white font-semibold rounded-lg transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                                                     >
+                                                        {isSaving && <Loader2 className="w-4 h-4 animate-spin" />}
                                                         Download Data
                                                     </button>
                                                 </div>

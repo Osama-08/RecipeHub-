@@ -93,31 +93,53 @@ export default function OnboardingTour({ shouldStart, onComplete, onSkip }: Onbo
     useEffect(() => {
         if (typeof window !== 'undefined') {
             (window as any).startTour = async () => {
+                // First, exit any existing tour
                 if (introRef.current) {
-                    hasStartedRef.current = false;
-                    introRef.current.exit(true);
+                    try {
+                        introRef.current.exit(true);
+                    } catch (e) {
+                        // Ignore errors if tour wasn't running
+                    }
                 }
 
+                // Reset the ref to allow tour to start again
+                hasStartedRef.current = false;
+
+                // Import intro.js
                 const introJs = (await import('intro.js')).default;
 
+                // Give a small delay to ensure cleanup completes
                 setTimeout(() => {
-                    const intro = introJs();
-                    introRef.current = intro;
+                    try {
+                        const intro = introJs();
+                        introRef.current = intro;
+                        hasStartedRef.current = true;
 
-                    intro.setOptions({
-                        steps: homepageTutorialSteps,
-                        showProgress: true,
-                        showBullets: true,
-                        exitOnOverlayClick: false,
-                        exitOnEsc: true,
-                        nextLabel: 'Next →',
-                        prevLabel: '← Back',
-                        doneLabel: 'Done ✓',
-                        skipLabel: 'Skip Tour',
-                    });
+                        intro.setOptions({
+                            steps: homepageTutorialSteps,
+                            showProgress: true,
+                            showBullets: true,
+                            exitOnOverlayClick: false,
+                            exitOnEsc: true,
+                            nextLabel: 'Next →',
+                            prevLabel: '← Back',
+                            doneLabel: 'Done ✓',
+                            skipLabel: 'Skip Tour',
+                            hidePrev: false,
+                            hideNext: false,
+                            scrollToElement: true,
+                            scrollPadding: 30,
+                            showStepNumbers: false,
+                            disableInteraction: true,
+                            overlayOpacity: 0.8,
+                        });
 
-                    intro.start();
-                }, 100);
+                        intro.start();
+                    } catch (error) {
+                        console.error('Error starting manual tour:', error);
+                        hasStartedRef.current = false;
+                    }
+                }, 200);
             };
         }
     }, []);

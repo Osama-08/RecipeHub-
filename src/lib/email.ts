@@ -1,6 +1,15 @@
-import { Resend } from 'resend';
+import nodemailer from 'nodemailer';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Create a transporter using Gmail SMTP
+const createTransporter = () => {
+  return nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.GMAIL_USER,
+      pass: process.env.GMAIL_APP_PASSWORD,
+    },
+  });
+};
 
 export interface SendVerificationEmailParams {
   email: string;
@@ -19,66 +28,37 @@ export async function sendVerificationEmail({ email, token, name }: SendVerifica
 
   // Debug logging
   console.log('🔍 Email Configuration Check:');
-  console.log('- RESEND_API_KEY exists:', !!process.env.RESEND_API_KEY);
-  console.log('- EMAIL_FROM:', process.env.EMAIL_FROM || 'onboarding@resend.dev (default)');
+  console.log('- GMAIL_USER exists:', !!process.env.GMAIL_USER);
+  console.log('- GMAIL_APP_PASSWORD exists:', !!process.env.GMAIL_APP_PASSWORD);
+  console.log('- EMAIL_FROM:', process.env.EMAIL_FROM || 'RecipeHub <noreply@gmail.com> (default)');
   console.log('- Base URL used:', baseUrl);
   console.log('- Sending to:', email);
   console.log('- Verification URL:', verifyUrl);
 
-  // Check if API key is missing
-  if (!process.env.RESEND_API_KEY) {
-    const error = 'RESEND_API_KEY is not set in environment variables';
-    console.error('❌', error);
-    return { success: false, error: new Error(error) };
-  }
-
-  // Check if API key format is correct
-  if (!process.env.RESEND_API_KEY.startsWith('re_')) {
-    const error = 'RESEND_API_KEY format is incorrect. It should start with "re_"';
+  // Check if credentials are missing
+  if (!process.env.GMAIL_USER || !process.env.GMAIL_APP_PASSWORD) {
+    const error = 'Gmail credentials (GMAIL_USER or GMAIL_APP_PASSWORD) are not set in environment variables';
     console.error('❌', error);
     return { success: false, error: new Error(error) };
   }
 
   try {
-    const emailFrom = process.env.EMAIL_FROM || 'CaribbeanRecipe <onboarding@resend.dev>';
+    const transporter = createTransporter();
+    const emailFrom = process.env.EMAIL_FROM || 'RecipeHub <noreply@gmail.com>';
+
     console.log('📧 Attempting to send email with from:', emailFrom);
 
-    const data = await resend.emails.send({
+    const mailOptions = {
       from: emailFrom,
       to: email,
-      subject: 'Verify your CaribbeanRecipe account',
+      subject: 'Verify your RecipeHub account',
       html: getVerificationEmailTemplate(verifyUrl, name),
-    });
+    };
 
-    // Check if Resend returned an error in the response
-    if (data?.error) {
-      const errorMessage = data.error.message || 'Unknown error from Resend';
-      console.error('❌ Resend API Error:', errorMessage);
+    const info = await transporter.sendMail(mailOptions);
 
-      // Check for domain verification error
-      if (errorMessage.includes('only send testing emails to your own email') ||
-        errorMessage.includes('verify a domain')) {
-        console.error('⚠️ Domain verification required!');
-        console.error('📖 Solution: Verify a domain at https://resend.com/domains');
-        console.error('📖 Then update EMAIL_FROM to use your verified domain');
-
-        return {
-          success: false,
-          error: new Error(errorMessage),
-          errorMessage,
-          requiresDomainVerification: true
-        };
-      }
-
-      return {
-        success: false,
-        error: new Error(errorMessage),
-        errorMessage
-      };
-    }
-
-    console.log('✅ Email sent successfully:', JSON.stringify(data, null, 2));
-    return { success: true, data };
+    console.log('✅ Email sent successfully:', JSON.stringify(info, null, 2));
+    return { success: true, data: info };
   } catch (error: any) {
     // Enhanced error logging
     console.error('❌ Error sending verification email:');
@@ -86,24 +66,18 @@ export async function sendVerificationEmail({ email, token, name }: SendVerifica
     console.error('- Error message:', error?.message);
     console.error('- Error details:', JSON.stringify(error, null, 2));
 
-    // Check for specific Resend errors
+    // Check for specific Gmail errors
     if (error?.response) {
-      console.error('- API Response:', JSON.stringify(error.response, null, 2));
+      console.error('- SMTP Response:', error.response);
     }
 
-    // Check for domain verification error in catch block too
     const errorMessage = error?.message || String(error);
-    if (errorMessage.includes('only send testing emails to your own email') ||
-      errorMessage.includes('verify a domain')) {
-      console.error('⚠️ Domain verification required!');
-      console.error('📖 Solution: Verify a domain at https://resend.com/domains');
 
-      return {
-        success: false,
-        error: error instanceof Error ? error : new Error(errorMessage),
-        errorMessage,
-        requiresDomainVerification: true
-      };
+    // Provide helpful error messages for common issues
+    if (errorMessage.includes('Invalid login') || errorMessage.includes('Username and Password not accepted')) {
+      console.error('⚠️ Invalid Gmail credentials!');
+      console.error('📖 Solution: Check that GMAIL_USER and GMAIL_APP_PASSWORD are correct');
+      console.error('📖 Make sure you are using an App Password, not your regular Gmail password');
     }
 
     return {
@@ -127,62 +101,38 @@ export async function sendResetPasswordEmail({ email, token, name }: SendResetPa
 
   const resetUrl = `${baseUrl}/reset-password?token=${token}`;
 
-  // Check if API key is missing
-  if (!process.env.RESEND_API_KEY) {
-    const error = 'RESEND_API_KEY is not set in environment variables';
+  // Check if credentials are missing
+  if (!process.env.GMAIL_USER || !process.env.GMAIL_APP_PASSWORD) {
+    const error = 'Gmail credentials (GMAIL_USER or GMAIL_APP_PASSWORD) are not set in environment variables';
     console.error('❌', error);
     return { success: false, error: new Error(error) };
   }
 
   try {
-    const emailFrom = process.env.EMAIL_FROM || 'CaribbeanRecipe <onboarding@resend.dev>';
-    const data = await resend.emails.send({
+    const transporter = createTransporter();
+    const emailFrom = process.env.EMAIL_FROM || 'RecipeHub <noreply@gmail.com>';
+
+    const mailOptions = {
       from: emailFrom,
       to: email,
-      subject: 'Reset your CaribbeanRecipe password',
+      subject: 'Reset your RecipeHub password',
       html: getResetPasswordEmailTemplate(resetUrl, name),
-    });
+    };
 
-    // Check if Resend returned an error in the response
-    if (data?.error) {
-      const errorMessage = data.error.message || 'Unknown error from Resend';
-      console.error('❌ Resend API Error:', errorMessage);
+    const info = await transporter.sendMail(mailOptions);
 
-      if (errorMessage.includes('only send testing emails to your own email') ||
-        errorMessage.includes('verify a domain')) {
-        console.error('⚠️ Domain verification required!');
-        return {
-          success: false,
-          error: new Error(errorMessage),
-          errorMessage,
-          requiresDomainVerification: true
-        };
-      }
-
-      return {
-        success: false,
-        error: new Error(errorMessage),
-        errorMessage
-      };
-    }
-
-    console.log('✅ Password reset email sent successfully:', JSON.stringify(data, null, 2));
-    return { success: true, data };
+    console.log('✅ Password reset email sent successfully:', JSON.stringify(info, null, 2));
+    return { success: true, data: info };
   } catch (error: any) {
     console.error('❌ Error sending reset password email:');
     console.error('- Error message:', error?.message);
     console.error('- Error details:', JSON.stringify(error, null, 2));
 
     const errorMessage = error?.message || String(error);
-    if (errorMessage.includes('only send testing emails to your own email') ||
-      errorMessage.includes('verify a domain')) {
-      console.error('⚠️ Domain verification required!');
-      return {
-        success: false,
-        error: error instanceof Error ? error : new Error(errorMessage),
-        errorMessage,
-        requiresDomainVerification: true
-      };
+
+    if (errorMessage.includes('Invalid login') || errorMessage.includes('Username and Password not accepted')) {
+      console.error('⚠️ Invalid Gmail credentials!');
+      console.error('📖 Solution: Check that GMAIL_USER and GMAIL_APP_PASSWORD are correct');
     }
 
     return {
@@ -248,7 +198,7 @@ function getVerificationEmailTemplate(verifyUrl: string, name?: string): string 
   </div>
   
   <div style="text-align: center; margin-top: 20px; padding: 20px; color: #718096; font-size: 12px;">
-    <p>© 2026 CaribbeanRecipe. All rights reserved.</p>
+    <p>© 2026 RecipeHub. All rights reserved.</p>
   </div>
 </body>
 </html>

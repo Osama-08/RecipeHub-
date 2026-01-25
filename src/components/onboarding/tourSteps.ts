@@ -16,13 +16,73 @@ export const homepageTutorialSteps: TutorialStep[] = [
         title: 'Welcome',
     },
     {
-        element: '[data-tour="navigation"]',
+        element: '[data-tour="nav-dinners"]',
         intro: `<div style="padding: 4px;">
-            <div style="display: inline-block; background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-bottom: 12px;">NAVIGATION</div>
-            <h3 style="margin: 0 0 10px 0; font-size: 20px; font-weight: 700; color: #1e293b;">🧭 Explore Our Recipes</h3>
-            <p style="margin: 0; color: #64748b; font-size: 15px; line-height: 1.6;">Browse through different categories like <strong>Dinners</strong>, <strong>Meals</strong>, <strong>Cuisines</strong>, and <strong>Ingredients</strong> to find the perfect recipe for any occasion.</p>
+            <div style="display: inline-block; background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-bottom: 12px;">DINNERS</div>
+            <h3 style="margin: 0 0 10px 0; font-size: 20px; font-weight: 700; color: #1e293b;">🍽️ Dinner Recipes</h3>
+            <p style="margin: 0; color: #64748b; font-size: 15px; line-height: 1.6;">Discover delicious dinner recipes perfect for any evening meal. From quick weeknight dishes to special occasion feasts!</p>
         </div>`,
-        title: 'Navigation',
+        title: 'Dinners',
+        position: 'bottom',
+    },
+    {
+        element: '[data-tour="nav-meals"]',
+        intro: `<div style="padding: 4px;">
+            <div style="display: inline-block; background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-bottom: 12px;">MEALS</div>
+            <h3 style="margin: 0 0 10px 0; font-size: 20px; font-weight: 700; color: #1e293b;">🍳 All Meals</h3>
+            <p style="margin: 0; color: #64748b; font-size: 15px; line-height: 1.6;">Browse recipes for breakfast, lunch, snacks, and more. Find the perfect meal for any time of day!</p>
+        </div>`,
+        title: 'Meals',
+        position: 'bottom',
+    },
+    {
+        element: '[data-tour="nav-ingredients"]',
+        intro: `<div style="padding: 4px;">
+            <div style="display: inline-block; background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-bottom: 12px;">INGREDIENTS</div>
+            <h3 style="margin: 0 0 10px 0; font-size: 20px; font-weight: 700; color: #1e293b;">🥘 Search by Ingredient</h3>
+            <p style="margin: 0; color: #64748b; font-size: 15px; line-height: 1.6;">Have specific ingredients? Find recipes that use what you already have in your kitchen!</p>
+        </div>`,
+        title: 'Ingredients',
+        position: 'bottom',
+    },
+    {
+        element: '[data-tour="nav-occasions"]',
+        intro: `<div style="padding: 4px;">
+            <div style="display: inline-block; background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-bottom: 12px;">OCCASIONS</div>
+            <h3 style="margin: 0 0 10px 0; font-size: 20px; font-weight: 700; color: #1e293b;">🎉 Special Occasions</h3>
+            <p style="margin: 0; color: #64748b; font-size: 15px; line-height: 1.6;">Planning a celebration? Find recipes perfect for holidays, parties, and special events!</p>
+        </div>`,
+        title: 'Occasions',
+        position: 'bottom',
+    },
+    {
+        element: '[data-tour="nav-cuisines"]',
+        intro: `<div style="padding: 4px;">
+            <div style="display: inline-block; background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-bottom: 12px;">CUISINES</div>
+            <h3 style="margin: 0 0 10px 0; font-size: 20px; font-weight: 700; color: #1e293b;">🌍 World Cuisines</h3>
+            <p style="margin: 0; color: #64748b; font-size: 15px; line-height: 1.6;">Explore authentic Caribbean dishes and cuisines from around the world. Travel through taste!</p>
+        </div>`,
+        title: 'Cuisines',
+        position: 'bottom',
+    },
+    {
+        element: '[data-tour="nav-kitchen-tips"]',
+        intro: `<div style="padding: 4px;">
+            <div style="display: inline-block; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-bottom: 12px;">TIPS & TRICKS</div>
+            <h3 style="margin: 0 0 10px 0; font-size: 20px; font-weight: 700; color: #1e293b;">💡 Kitchen Tips</h3>
+            <p style="margin: 0; color: #64748b; font-size: 15px; line-height: 1.6;">Learn expert cooking tips, techniques, and hacks to make you a better chef!</p>
+        </div>`,
+        title: 'Kitchen Tips',
+        position: 'bottom',
+    },
+    {
+        element: '[data-tour="nav-estore"]',
+        intro: `<div style="padding: 4px;">
+            <div style="display: inline-block; background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-bottom: 12px;">SHOP</div>
+            <h3 style="margin: 0 0 10px 0; font-size: 20px; font-weight: 700; color: #1e293b;">📚 E Store</h3>
+            <p style="margin: 0; color: #64748b; font-size: 15px; line-height: 1.6;">Browse cookbooks, kitchen tools, and ingredients. Everything you need for your culinary journey!</p>
+        </div>`,
+        title: 'E Store',
         position: 'bottom',
     },
     {
@@ -70,7 +130,7 @@ export const homepageTutorialSteps: TutorialStep[] = [
             <div style="font-size: 48px; margin-bottom: 16px;">🎉</div>
             <h2 style="margin: 0 0 12px 0; font-size: 26px; font-weight: 700; color: #ea580c;">You're All Set!</h2>
             <p style="margin: 0 0 16px 0; font-size: 16px; color: #64748b; line-height: 1.6;">Start exploring delicious recipes, join live sessions, and connect with fellow food enthusiasts!</p>
-            <p style="margin: 0; font-size: 14px; color: #94a3b8;">💡 Tip: Each section has its own detailed tour when you visit it for the first time.</p>
+            <p style="margin: 0; font-size: 14px; color: #94a3b8;">💡 Tip: You can replay this tour anytime from your profile menu.</p>
         </div>`,
         title: 'Ready to Cook!',
     },
