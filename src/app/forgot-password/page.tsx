@@ -71,10 +71,10 @@ export default function ForgotPasswordPage() {
                                 Email Sent!
                             </h3>
                             <p className="text-green-700 text-sm mb-4">
-                                If an account exists with <strong>{email}</strong>, you'll receive a password reset link shortly.
+                                If an account exists with <strong>{email}</strong>, you&apos;ll receive a password reset link shortly.
                             </p>
                             <p className="text-green-600 text-xs">
-                                Please check your spam folder if you don't see it in your inbox.
+                                Please check your spam folder if you don&apos;t see it in your inbox.
                             </p>
                         </div>
 

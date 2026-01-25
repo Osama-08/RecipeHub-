@@ -154,7 +154,7 @@ Set shouldCallAPI to true if we need to fetch recipes from Spoonacular.`,
                 model,
                 messages,
                 temperature: options.temperature ?? 0.7,
-                max_tokens: options.max_tokens ?? 1000,
+                max_tokens: options.max_tokens ?? 400,
                 top_p: options.top_p ?? 1,
             }),
         });
@@ -223,7 +223,7 @@ Set shouldCallAPI to true if we need to fetch recipes from Spoonacular.`,
             { role: "user", content: userMessage },
         ];
 
-        const result = await this.chat(messages, model, { max_tokens: 500 });
+        const result = await this.chat(messages, model, { max_tokens: 400 });
 
         return {
             response: result.content,
@@ -313,23 +313,21 @@ Set shouldCallAPI to true if we need to fetch recipes from Spoonacular.`,
         // Extract JSON from response
         const jsonMatch = result.content.match(/\{[\s\S]*\}/);
         if (jsonMatch) {
-            // Sanitize JSON string to remove control characters
-            const sanitizedJson = jsonMatch[0].replace(/[\x00-\x1F\x7F]/g, (char) => {
-                // Replace common control characters with their escaped equivalents
-                const replacements: Record<string, string> = {
-                    '\n': '\\n',
-                    '\r': '\\r',
-                    '\t': '\\t',
-                };
-                return replacements[char] || '';
-            });
-
             try {
-                return JSON.parse(sanitizedJson);
+                // Try parsing the JSON directly - modern parsers handle formatting fine
+                return JSON.parse(jsonMatch[0]);
             } catch (parseError) {
-                console.error('JSON parse error:', parseError);
-                console.error('Problematic JSON:', sanitizedJson);
-                throw new Error(`Failed to parse generated content: ${parseError}`);
+                // If parsing fails, try removing only problematic control characters
+                // but keep newlines, tabs, and carriage returns as they're valid in JSON
+                const cleanedJson = jsonMatch[0].replace(/[\x00-\x09\x0B\x0C\x0E-\x1F\x7F]/g, '');
+
+                try {
+                    return JSON.parse(cleanedJson);
+                } catch (secondError) {
+                    console.error('JSON parse error:', parseError);
+                    console.error('Problematic JSON:', jsonMatch[0]);
+                    throw new Error(`Failed to parse generated content: ${parseError}`);
+                }
             }
         }
 
@@ -405,7 +403,7 @@ Set shouldCallAPI to true if we need to fetch recipes from Spoonacular.`,
 
         const result = await this.chat(messages, "openai/gpt-4-turbo", {
             temperature: 0.3,
-            max_tokens: 1500,
+            max_tokens: 400,
         });
 
         const jsonMatch = result.content.match(/\{[\s\S]*\}/);

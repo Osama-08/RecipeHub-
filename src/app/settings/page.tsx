@@ -1,10 +1,11 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { useSession } from 'next-auth/react';
+import { useSession, signOut } from 'next-auth/react';
 import { User, Bell, Lock, Globe, Moon, Sun, Loader2, Shield, FileText, Users, ExternalLink } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import Link from 'next/link';
+import toast from 'react-hot-toast';
 
 export default function SettingsPage() {
     const { data: session, update } = useSession();
@@ -436,10 +437,76 @@ export default function SettingsPage() {
                                                         <div className="md:w-48">
                                                             <button
                                                                 type="button"
-                                                                onClick={() => {
-                                                                    if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
-                                                                        alert('Account deletion feature coming soon!');
-                                                                    }
+                                                                onClick={async () => {
+                                                                    // Show confirmation toast with action buttons
+                                                                    toast((t) => (
+                                                                        <div className="flex flex-col gap-3">
+                                                                            <div>
+                                                                                <p className="font-bold text-gray-800">Delete Account?</p>
+                                                                                <p className="text-sm text-gray-600 mt-1">
+                                                                                    This will permanently delete your account and all associated data. This action cannot be undone.
+                                                                                </p>
+                                                                            </div>
+                                                                            <div className="flex gap-2">
+                                                                                <button
+                                                                                    onClick={() => {
+                                                                                        toast.dismiss(t.id);
+                                                                                    }}
+                                                                                    className="flex-1 px-4 py-2 bg-gray-200 text-gray-800 rounded-lg font-semibold hover:bg-gray-300 transition-colors"
+                                                                                >
+                                                                                    Cancel
+                                                                                </button>
+                                                                                <button
+                                                                                    onClick={async () => {
+                                                                                        toast.dismiss(t.id);
+
+                                                                                        // Show loading toast
+                                                                                        const loadingToast = toast.loading('Deleting account...');
+
+                                                                                        try {
+                                                                                            const response = await fetch('/api/user/delete-account', {
+                                                                                                method: 'DELETE',
+                                                                                            });
+
+                                                                                            toast.dismiss(loadingToast);
+
+                                                                                            if (response.ok) {
+                                                                                                // Show success toast
+                                                                                                toast.success('Account deleted successfully! Redirecting...', {
+                                                                                                    duration: 3000,
+                                                                                                    icon: '✅',
+                                                                                                });
+
+                                                                                                // Sign out and redirect after 1.5 seconds
+                                                                                                setTimeout(async () => {
+                                                                                                    await signOut({ callbackUrl: '/' });
+                                                                                                }, 1500);
+                                                                                            } else {
+                                                                                                const data = await response.json();
+                                                                                                toast.error(data.error || 'Failed to delete account', {
+                                                                                                    duration: 4000,
+                                                                                                });
+                                                                                            }
+                                                                                        } catch (error) {
+                                                                                            toast.dismiss(loadingToast);
+                                                                                            toast.error('An error occurred while deleting your account', {
+                                                                                                duration: 4000,
+                                                                                            });
+                                                                                        }
+                                                                                    }}
+                                                                                    className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg font-semibold hover:bg-red-700 transition-colors"
+                                                                                >
+                                                                                    Delete
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    ), {
+                                                                        duration: Infinity,
+                                                                        position: 'top-center',
+                                                                        style: {
+                                                                            maxWidth: '500px',
+                                                                        },
+                                                                    });
                                                                 }}
                                                                 className="w-full px-6 py-3 bg-gradient-to-r from-red-500 to-rose-500 hover:from-red-600 hover:to-rose-600 text-white font-bold rounded-lg transition-all shadow-md hover:shadow-lg"
                                                             >

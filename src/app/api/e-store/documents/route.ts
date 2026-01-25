@@ -69,7 +69,7 @@ export async function GET(request: NextRequest) {
     }
 }
 
-// POST /api/e-store/documents - Upload a new document (Admin only)
+// POST /api/e-store/documents - Upload a new document (Authenticated users only)
 export async function POST(request: NextRequest) {
     try {
         const session = await getServerSession(authOptions);
@@ -81,15 +81,16 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        // Check if user is admin
+        // Get user ID
         const user = await prisma.user.findUnique({
             where: { email: session.user.email! },
+            select: { id: true }
         });
 
-        if (!user || user.role !== "ADMIN") {
+        if (!user) {
             return NextResponse.json(
-                { error: "Forbidden - Admin access required" },
-                { status: 403 }
+                { error: "User not found" },
+                { status: 404 }
             );
         }
 
@@ -106,6 +107,7 @@ export async function POST(request: NextRequest) {
             author,
             publishedYear,
             featured,
+            price,
         } = body;
 
         // Validate required fields
@@ -151,6 +153,7 @@ export async function POST(request: NextRequest) {
                 author,
                 publishedYear: publishedYear ? parseInt(publishedYear) : null,
                 featured: featured || false,
+                price: price || 0, // Default to free if no price provided
                 uploadedById: user.id,
             },
             include: {

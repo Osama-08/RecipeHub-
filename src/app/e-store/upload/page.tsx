@@ -31,7 +31,7 @@ const CATEGORIES = [
     "Other",
 ];
 
-export default function EStoreAdminPage() {
+export default function EStoreUploadPage() {
     const { data: session, status } = useSession();
     const router = useRouter();
     const [documents, setDocuments] = useState<Document[]>([]);
@@ -57,12 +57,7 @@ export default function EStoreAdminPage() {
         if (status === "unauthenticated") {
             router.push("/login");
         } else if (status === "authenticated") {
-            const userRole = session?.user && 'role' in session.user ? session.user.role : null;
-            if (userRole !== "ADMIN") {
-                router.push("/e-store");
-            } else {
-                fetchDocuments();
-            }
+            fetchDocuments();
         }
     }, [status, session, router]);
 
@@ -272,10 +267,10 @@ export default function EStoreAdminPage() {
                 <div className="flex items-center justify-between mb-8">
                     <div>
                         <h1 className="text-4xl font-black text-gray-900 mb-2">
-                            E Store Management
+                            Upload Document
                         </h1>
                         <p className="text-gray-600">
-                            Manage cooking documents and resources
+                            Share your cooking books, guides, and resources with the community
                         </p>
                     </div>
                     <button

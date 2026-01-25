@@ -1,11 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { useSession } from "next-auth/react";
 import Header from "@/components/layout/Header";
-import { Download, Eye, Calendar, User, ArrowLeft, FileText, X } from "lucide-react";
+import { Download, Eye, Calendar, User, ArrowLeft, FileText, X, CreditCard } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import toast from "react-hot-toast";
 
 interface Document {
     id: string;
@@ -23,6 +25,7 @@ interface Document {
     downloads: number;
     views: number;
     featured: boolean;
+    price: number; // Price in cents
     uploadedBy: {
         name: string;
         image?: string;
@@ -33,15 +36,36 @@ interface Document {
 export default function DocumentDetailPage() {
     const params = useParams();
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const { data: session } = useSession();
     const [document, setDocument] = useState<Document | null>(null);
     const [loading, setLoading] = useState(true);
     const [showPreview, setShowPreview] = useState(false);
+    const [hasPurchased, setHasPurchased] = useState(false);
+    const [checkingPurchase, setCheckingPurchase] = useState(false);
+    const [purchasing, setPurchasing] = useState(false);
 
     useEffect(() => {
         if (params.slug) {
             fetchDocument(params.slug as string);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [params.slug]);
+
+    useEffect(() => {
+        // Check for payment status in URL
+        const paymentStatus = searchParams.get("payment");
+        if (paymentStatus === "success") {
+            toast.success("🎉 Payment successful! You can now download the document.");
+            // Refresh page to update purchase status
+            window.history.replaceState({}, "", window.location.pathname);
+            fetchDocument(params.slug as string);
+        } else if (paymentStatus === "cancelled") {
+            toast.error("Payment was cancelled.");
+            window.history.replaceState({}, "", window.location.pathname);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [searchParams]);
 
     const fetchDocument = async (slug: string) => {
         try {
@@ -56,12 +80,68 @@ export default function DocumentDetailPage() {
                     const res = await fetch(`/api/e-store/documents/${doc.id}`);
                     const data = await res.json();
                     setDocument(data);
+
+                    // Check if user has purchased (only if logged in and document is not free)
+                    if (session && data.price > 0) {
+                        checkPurchaseStatus(doc.id);
+                    }
                 }
             }
         } catch (error) {
             console.error("Failed to fetch document:", error);
         } finally {
             setLoading(false);
+        }
+    };
+
+    const checkPurchaseStatus = async (documentId: string) => {
+        setCheckingPurchase(true);
+        try {
+            const res = await fetch(`/api/e-store/purchases/${documentId}`);
+            if (res.ok) {
+                const data = await res.json();
+                setHasPurchased(data.hasPurchased);
+            }
+        } catch (error) {
+            console.error("Failed to check purchase status:", error);
+        } finally {
+            setCheckingPurchase(false);
+        }
+    };
+
+    const handlePurchase = async () => {
+        if (!session) {
+            toast.error("Please login to purchase this document");
+            router.push("/login");
+            return;
+        }
+
+        if (!document) return;
+
+        setPurchasing(true);
+        try {
+            const res = await fetch("/api/stripe/checkout", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    documentId: document.id,
+                }),
+            });
+
+            const data = await res.json();
+
+            if (res.ok && data.url) {
+                // Redirect to Stripe Checkout
+                window.location.href = data.url;
+            } else {
+                toast.error(data.error || "Failed to create checkout session");
+            }
+        } catch (error: any) {
+            toast.error(error?.message || "Failed to initiate purchase");
+        } finally {
+            setPurchasing(false);
         }
     };
 
@@ -89,6 +169,12 @@ export default function DocumentDetailPage() {
         if (document) {
             window.open(`/api/e-store/documents/${document.id}/download`, '_blank');
         }
+    };
+
+    const canDownload = () => {
+        if (!document) return false;
+        if (document.price === 0) return true; // Free documents
+        return hasPurchased; // Paid documents require purchase
     };
 
     if (loading) {
@@ -175,6 +261,19 @@ export default function DocumentDetailPage() {
                                     </p>
                                 )}
 
+                                {/* Price Display */}
+                                <div className="mb-6">
+                                    {document.price === 0 ? (
+                                        <span className="inline-block bg-green-100 text-green-700 text-xl font-bold px-4 py-2 rounded-full">
+                                            FREE
+                                        </span>
+                                    ) : (
+                                        <span className="inline-block bg-gradient-to-r from-orange-500 to-amber-500 text-white text-3xl font-bold px-6 py-3 rounded-full">
+                                            ${(document.price / 100).toFixed(2)}
+                                        </span>
+                                    )}
+                                </div>
+
                                 {document.description && (
                                     <p className="text-gray-600 mb-6 leading-relaxed">
                                         {document.description}
@@ -238,13 +337,25 @@ export default function DocumentDetailPage() {
                                         <Eye className="w-6 h-6" />
                                         Preview
                                     </button>
-                                    <button
-                                        onClick={handleDownload}
-                                        className="w-full bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2 transition-all shadow-lg hover:shadow-xl hover:scale-105"
-                                    >
-                                        <Download className="w-6 h-6" />
-                                        Download
-                                    </button>
+
+                                    {canDownload() ? (
+                                        <button
+                                            onClick={handleDownload}
+                                            className="w-full bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2 transition-all shadow-lg hover:shadow-xl hover:scale-105"
+                                        >
+                                            <Download className="w-6 h-6" />
+                                            Download
+                                        </button>
+                                    ) : (
+                                        <button
+                                            onClick={handlePurchase}
+                                            disabled={purchasing || checkingPurchase}
+                                            className="w-full bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2 transition-all shadow-lg hover:shadow-xl hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                                        >
+                                            <CreditCard className="w-6 h-6" />
+                                            {purchasing ? "Processing..." : `Purchase $${(document.price / 100).toFixed(2)}`}
+                                        </button>
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -284,15 +395,8 @@ export default function DocumentDetailPage() {
                                         Preview not available for {document?.fileType.toUpperCase()} files
                                     </p>
                                     <p className="text-sm text-gray-500">
-                                        Please download the file to view its contents
+                                        Please {canDownload() ? 'download' : 'purchase and download'} the file to view its contents
                                     </p>
-                                    <button
-                                        onClick={handleDownload}
-                                        className="mt-4 px-6 py-3 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white rounded-xl font-bold flex items-center gap-2"
-                                    >
-                                        <Download className="w-5 h-5" />
-                                        Download {document?.fileType.toUpperCase()}
-                                    </button>
                                 </div>
                             )}
                         </div>

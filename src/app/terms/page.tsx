@@ -146,7 +146,7 @@ export default function TermsAndConditionsPage() {
                         </div>
                         <div className="p-4 bg-orange-50 rounded-lg border-l-4 border-orange-500">
                             <p className="text-gray-700 text-sm leading-relaxed mb-3">
-                                <strong>AS IS BASIS:</strong> The service is provided on an "AS IS" and "AS AVAILABLE" basis
+                                <strong>AS IS BASIS:</strong> The service is provided on an &quot;AS IS&quot; and &quot;AS AVAILABLE&quot; basis
                                 without warranties of any kind, either express or implied.
                             </p>
                             <p className="text-gray-700 text-sm leading-relaxed mb-3">
@@ -205,7 +205,7 @@ export default function TermsAndConditionsPage() {
                         <h2 className="text-2xl font-bold text-gray-800 mb-4">Changes to Terms</h2>
                         <p className="text-gray-700 leading-relaxed">
                             We reserve the right to modify or replace these Terms at any time. If a revision is material, we
-                            will provide at least 30 days' notice prior to any new terms taking effect. What constitutes a
+                            will provide at least 30 days&apos; notice prior to any new terms taking effect. What constitutes a
                             material change will be determined at our sole discretion. By continuing to access or use our
                             service after revisions become effective, you agree to be bound by the revised terms.
                         </p>

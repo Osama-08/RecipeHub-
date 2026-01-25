@@ -92,7 +92,7 @@ export default function CommunityGuidelinesPage() {
                             <div className="p-2 bg-green-100 rounded-lg">
                                 <Shield className="w-6 h-6 text-green-600" />
                             </div>
-                            <h2 className="text-2xl font-bold text-gray-800">Community Do's ✅</h2>
+                            <h2 className="text-2xl font-bold text-gray-800">Community Do&apos;s ✅</h2>
                         </div>
                         <div className="space-y-3">
                             <div className="flex items-start gap-3 p-4 bg-green-50 rounded-lg border-l-4 border-green-500">
@@ -110,7 +110,7 @@ export default function CommunityGuidelinesPage() {
                                 <div>
                                     <h3 className="font-semibold text-gray-800 mb-1">Share Authentic Recipes</h3>
                                     <p className="text-sm text-gray-700">
-                                        Post recipes you've personally tried, tested, and enjoyed. Include accurate measurements,
+                                        Post recipes you&apos;ve personally tried, tested, and enjoyed. Include accurate measurements,
                                         clear instructions, and helpful tips.
                                     </p>
                                 </div>
@@ -120,7 +120,7 @@ export default function CommunityGuidelinesPage() {
                                 <div>
                                     <h3 className="font-semibold text-gray-800 mb-1">Give Credit Where Due</h3>
                                     <p className="text-sm text-gray-700">
-                                        If you're sharing a recipe inspired by someone else, credit the original source. Respect
+                                        If you&apos;re sharing a recipe inspired by someone else, credit the original source. Respect
                                         intellectual property and copyright.
                                     </p>
                                 </div>
@@ -154,7 +154,7 @@ export default function CommunityGuidelinesPage() {
                             <div className="p-2 bg-red-100 rounded-lg">
                                 <AlertCircle className="w-6 h-6 text-red-600" />
                             </div>
-                            <h2 className="text-2xl font-bold text-gray-800">Community Don'ts ❌</h2>
+                            <h2 className="text-2xl font-bold text-gray-800">Community Don&apos;ts ❌</h2>
                         </div>
                         <div className="space-y-3">
                             <div className="flex items-start gap-3 p-4 bg-red-50 rounded-lg border-l-4 border-red-500">

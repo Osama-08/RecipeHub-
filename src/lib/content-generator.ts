@@ -1,7 +1,7 @@
 // Content Generator - AI-powered content creation for CaribbeanRecipe
 // Generates kitchen tips, cooking hacks, and food trend summaries
 
-import { OpenRouterProvider } from "./openrouter-provider";
+import { GroqProvider } from "./groq-provider";
 import { prisma } from "./db";
 import { generateSlug } from "./slug";
 
@@ -16,10 +16,10 @@ export interface GeneratedContent {
 }
 
 export class ContentGenerator {
-    private openRouter: OpenRouterProvider;
+    private groq: GroqProvider;
 
     constructor() {
-        this.openRouter = new OpenRouterProvider();
+        this.groq = new GroqProvider();
     }
 
     /**
@@ -33,9 +33,9 @@ export class ContentGenerator {
         category: string;
     }> {
         // Generate content using AI
-        const generated = await this.openRouter.generateContent("kitchen-tip", {
+        const generated = await this.groq.generateContent("kitchen-tip", {
             category,
-            model: "anthropic/claude-3.5-sonnet",
+            model: "llama-3.3-70b-versatile",
         });
 
         // Create slug
@@ -71,9 +71,9 @@ export class ContentGenerator {
         difficulty: string;
     }> {
         // Generate content using AI
-        const generated = await this.openRouter.generateContent("cooking-hack", {
+        const generated = await this.groq.generateContent("cooking-hack", {
             difficulty,
-            model: "anthropic/claude-3.5-sonnet",
+            model: "llama-3.3-70b-versatile",
         });
 
         // Create slug
@@ -113,8 +113,8 @@ export class ContentGenerator {
         content: string;
     }> {
         // Generate content using AI
-        const generated = await this.openRouter.generateContent("food-trend", {
-            model: "anthropic/claude-3.5-sonnet",
+        const generated = await this.groq.generateContent("food-trend", {
+            model: "llama-3.3-70b-versatile",
         });
 
         // Create slug

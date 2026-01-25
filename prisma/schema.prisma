@@ -56,6 +56,7 @@ model User {
   
   // E Store - Cooking documents uploaded by admin
   cookingDocuments  CookingDocument[]
+  purchases         Purchase[]
 }
 
 model Account {
@@ -714,9 +715,15 @@ model CookingDocument {
   downloads   Int      @default(0)
   views       Int      @default(0)
   
+  // Pricing - amount in cents (e.g., 999 = $9.99, 0 = free)
+  price       Int      @default(0)
+  
   // Uploaded by (admin)
   uploadedById String
   uploadedBy   User    @relation(fields: [uploadedById], references: [id])
+  
+  // Purchase tracking
+  purchases   Purchase[]
   
   // Featured flag
   featured    Boolean  @default(false)
@@ -729,4 +736,26 @@ model CookingDocument {
   @@index([uploadedById])
   @@index([featured])
 }
+
+// ===================================
+// PURCHASE TRACKING
+// ===================================
+
+model Purchase {
+  id                    String   @id @default(cuid())
+  userId                String
+  user                  User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  documentId            String
+  document              CookingDocument @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  amount                Int      // Amount paid in cents
+  stripePaymentIntentId String   @unique
+  status                String   @default("pending") // "pending", "completed", "failed"
+  createdAt             DateTime @default(now())
+  
+  @@unique([userId, documentId])
+  @@index([userId])
+  @@index([documentId])
+  @@index([stripePaymentIntentId])
+}
+
 

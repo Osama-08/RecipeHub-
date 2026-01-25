@@ -176,7 +176,7 @@ export class AIRecipeAssistant {
                 model: "gpt-4",
                 messages,
                 temperature: 0.7,
-                max_tokens: 500,
+                max_tokens: 400,
             }),
         });
 

@@ -4,23 +4,13 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import cloudinary from "@/lib/cloudinary";
 
-// Upload document to Cloudinary (Admin only)
+// Upload document to Cloudinary (Authenticated users only)
 export async function POST(req: NextRequest) {
     try {
         const session = await getServerSession(authOptions);
 
         if (!session?.user?.email) {
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-        }
-
-        // Check if user is admin
-        const user = await prisma.user.findUnique({
-            where: { email: session.user.email },
-            select: { role: true, id: true }
-        });
-
-        if (!user || user.role !== "ADMIN") {
-            return NextResponse.json({ error: "Admin access required" }, { status: 403 });
         }
 
         const formData = await req.formData();

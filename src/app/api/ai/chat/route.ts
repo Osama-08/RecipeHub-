@@ -100,11 +100,11 @@ export async function POST(request: NextRequest) {
             }
         }
 
-        // Initialize AI assistant with OpenRouter
-        const openRouter = new (await import("@/lib/openrouter-provider")).OpenRouterProvider();
+        // Initialize AI assistant with Groq (faster and higher limits)
+        const groq = new (await import("@/lib/groq-provider")).GroqProvider();
 
-        // Get AI response using OpenRouter with recipe context
-        const { response, tokensUsed } = await openRouter.chatWithRecipeContext(
+        // Get AI response using Groq with recipe context
+        const { response, tokensUsed } = await groq.chatWithRecipeContext(
             {
                 title: recipe.title,
                 ingredients: recipe.ingredients.map(ing => ({

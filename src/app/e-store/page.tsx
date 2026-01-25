@@ -38,6 +38,7 @@ export default function EStorePage() {
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
 
+    const isAuthenticated = !!session?.user;
     const isAdmin = session?.user && 'role' in session.user && session.user.role === 'ADMIN';
 
     useEffect(() => {
@@ -46,6 +47,7 @@ export default function EStorePage() {
 
     useEffect(() => {
         fetchDocuments();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedCategory, page]);
 
     const fetchCategories = async () => {
@@ -109,12 +111,12 @@ export default function EStorePage() {
                             Explore our curated collection of cooking books, guides, and documents.
                             Download valuable resources to enhance your culinary skills!
                         </p>
-                        {isAdmin && (
+                        {isAuthenticated && (
                             <Link
-                                href="/e-store/admin"
+                                href="/e-store/upload"
                                 className="inline-block px-8 py-4 bg-white text-orange-600 rounded-2xl font-bold hover:bg-gray-100 transition-all hover:scale-105 shadow-xl"
                             >
-                                📚 Manage Documents
+                                📤 Upload Document
                             </Link>
                         )}
                     </div>
@@ -161,9 +163,9 @@ export default function EStorePage() {
                                             ? "Try adjusting your search or filters"
                                             : "No documents available yet. Check back soon!"}
                                     </p>
-                                    {isAdmin && (
+                                    {isAuthenticated && (
                                         <Link
-                                            href="/e-store/admin"
+                                            href="/e-store/upload"
                                             className="inline-block px-6 py-3 bg-orange-500 text-white rounded-lg font-semibold hover:bg-orange-600 transition-colors"
                                         >
                                             Upload First Document

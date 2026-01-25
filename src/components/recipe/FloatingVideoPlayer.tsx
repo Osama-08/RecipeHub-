@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { X, Minimize2, Maximize2, Loader2 } from "lucide-react";
+import Image from "next/image";
 
 interface VideoData {
     videoId: string;
@@ -161,11 +162,14 @@ export default function FloatingVideoPlayer({ recipeTitle }: FloatingVideoPlayer
                             onClick={() => setIsMinimized(false)}
                         >
                             <div className="flex items-center gap-3 p-3 w-[300px]">
-                                <img
-                                    src={video.thumbnail}
-                                    alt={video.title}
-                                    className="w-20 h-14 object-cover rounded"
-                                />
+                                <div className="relative w-20 h-14 flex-shrink-0">
+                                    <Image
+                                        src={video.thumbnail}
+                                        alt={video.title}
+                                        fill
+                                        className="object-cover rounded"
+                                    />
+                                </div>
                                 <div className="flex-1 min-w-0">
                                     <p className="text-xs font-semibold text-gray-900 line-clamp-2">
                                         {video.title}

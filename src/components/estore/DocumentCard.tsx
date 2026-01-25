@@ -17,6 +17,7 @@ interface DocumentCardProps {
     coverImageUrl?: string;
     author?: string;
     featured?: boolean;
+    price?: number; // Price in cents
 }
 
 export default function DocumentCard({
@@ -32,6 +33,7 @@ export default function DocumentCard({
     coverImageUrl,
     author,
     featured,
+    price,
 }: DocumentCardProps) {
     const formatFileSize = (bytes: number) => {
         if (bytes < 1024) return bytes + " B";
@@ -110,6 +112,21 @@ export default function DocumentCard({
                         <p className="text-sm text-gray-600 mb-4 line-clamp-2">
                             {description}
                         </p>
+                    )}
+
+                    {/* Price Tag */}
+                    {price !== undefined && (
+                        <div className="mb-4">
+                            {price === 0 ? (
+                                <span className="inline-block bg-green-100 text-green-700 text-sm font-bold px-3 py-1 rounded-full">
+                                    FREE
+                                </span>
+                            ) : (
+                                <span className="inline-block bg-gradient-to-r from-orange-500 to-amber-500 text-white text-lg font-bold px-4 py-2 rounded-full">
+                                    ${(price / 100).toFixed(2)}
+                                </span>
+                            )}
+                        </div>
                     )}
 
                     {/* Stats */}

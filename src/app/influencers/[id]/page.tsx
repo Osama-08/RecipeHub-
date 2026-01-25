@@ -64,6 +64,7 @@ export default function InfluencerDetailPage({
 
     useEffect(() => {
         fetchInfluencer();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [resolvedParams.id]);
 
     const fetchInfluencer = async () => {
