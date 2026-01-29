@@ -7,25 +7,39 @@ import { prisma } from "@/lib/db";
 export async function GET(request: Request) {
     try {
         const { searchParams } = new URL(request.url);
-        const status = searchParams.get("status") || "live";
+        const filter = searchParams.get("filter") || "live";
+
+        let whereClause = {};
+
+        if (filter === "live") {
+            // Active streams (not ended)
+            whereClause = { endedAt: null };
+        } else if (filter === "ended") {
+            // Past streams
+            whereClause = { endedAt: { not: null } };
+        }
+        // "all" returns everything
 
         const sessions = await prisma.liveSession.findMany({
-            where: {
-                status: status,
-            },
+            where: whereClause,
             include: {
                 user: {
                     select: {
                         id: true,
                         name: true,
                         image: true,
+                        influencerProfile: {
+                            select: {
+                                displayName: true,
+                            },
+                        },
                     },
                 },
             },
             orderBy: {
                 startedAt: "desc",
             },
-            take: status === "ended" ? 20 : undefined, // Limit past streams to 20
+            take: filter === "ended" ? 20 : undefined, // Limit past streams to 20
         });
 
         return NextResponse.json({ sessions });
@@ -39,7 +53,7 @@ export async function GET(request: Request) {
     }
 }
 
-// POST create new live session
+// POST create new live session (redirects to LiveKit creation)
 export async function POST(request: Request) {
     try {
         const session = await getServerSession(authOptions);
@@ -49,7 +63,7 @@ export async function POST(request: Request) {
         }
 
         const body = await request.json();
-        const { title, description, youtubeUrl, youtubeVideoId: providedId } = body;
+        const { title, description } = body;
 
         if (!title) {
             return NextResponse.json(
@@ -58,31 +72,51 @@ export async function POST(request: Request) {
             );
         }
 
-        let youtubeVideoId = providedId || null;
-        if (youtubeUrl && !youtubeVideoId) {
-            const { extractYouTubeVideoId } = await import('@/lib/youtube');
-            youtubeVideoId = extractYouTubeVideoId(youtubeUrl);
-        }
-
         const user = await prisma.user.findUnique({
             where: { email: session.user.email },
+            include: { influencerProfile: true },
         });
 
         if (!user) {
             return NextResponse.json({ error: "User not found" }, { status: 404 });
         }
 
+        if (!user.influencerProfile) {
+            return NextResponse.json(
+                { error: "Only influencers can create live streams" },
+                { status: 403 }
+            );
+        }
+
+        // Forward to LiveKit room creation
+        const { createLiveKitRoom, generateRoomName } = await import('@/lib/livekit');
+        const roomName = generateRoomName(user.id);
+
+        const livekitRoom = await createLiveKitRoom(roomName, {
+            maxParticipants: 100,
+        });
+
         const liveSession = await prisma.liveSession.create({
             data: {
                 title,
                 description: description || null,
-                youtubeVideoId,
+                roomName,
+                livekitRoomId: livekitRoom.sid,
                 userId: user.id,
-                status: "live", // Platform-wide streams are usually created when already live
+                isRecorded: true,
+            },
+            include: {
+                user: {
+                    select: {
+                        id: true,
+                        name: true,
+                        image: true,
+                    },
+                },
             },
         });
 
-        return NextResponse.json({ session: liveSession });
+        return NextResponse.json({ session: liveSession, roomName });
     } catch (error: unknown) {
         console.error("Error creating live session:", error);
         const message = error instanceof Error ? error.message : "Unknown error";

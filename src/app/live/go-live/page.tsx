@@ -25,7 +25,8 @@ export default function GoLivePage() {
     // Redirect if not authenticated
     useEffect(() => {
         if (status === "unauthenticated") {
-            router.push("/auth/signin");
+            router.push("/login");
+            return;
         }
     }, [status, router]);
 

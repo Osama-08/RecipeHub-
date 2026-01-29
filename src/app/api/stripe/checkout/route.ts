@@ -75,6 +75,10 @@ export async function POST(request: NextRequest) {
             );
         }
 
+        // Calculate platform fee
+        const platformFeePercentage = parseFloat(process.env.NEXT_PUBLIC_PLATFORM_FEE_PERCENTAGE || "2");
+        const platformFeeAmount = Math.round(document.price * (platformFeePercentage / 100));
+
         // Create Stripe checkout session
         const checkoutSession = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
@@ -91,6 +95,17 @@ export async function POST(request: NextRequest) {
                     },
                     quantity: 1,
                 },
+                {
+                    price_data: {
+                        currency: 'usd',
+                        product_data: {
+                            name: 'Platform Fee',
+                            description: `Transaction fee (${platformFeePercentage}%)`,
+                        },
+                        unit_amount: platformFeeAmount,
+                    },
+                    quantity: 1,
+                },
             ],
             mode: 'payment',
             success_url: `${process.env.NEXTAUTH_URL}/e-store/${document.slug}?payment=success`,
@@ -99,6 +114,7 @@ export async function POST(request: NextRequest) {
                 userId: user.id,
                 documentId: document.id,
                 userEmail: user.email || '',
+                platformFee: platformFeeAmount.toString(),
             },
         });
 

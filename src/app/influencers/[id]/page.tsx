@@ -6,8 +6,10 @@ import Header from '@/components/layout/Header';
 import SocialMediaButtons from '@/components/community/SocialMediaButtons';
 import VideoUploadModal from '@/components/community/VideoUploadModal';
 import BecomeInfluencerModal from '@/components/community/BecomeInfluencerModal';
+import GoLiveButton from '@/components/livekit/GoLiveButton';
+import RecordedStreamPlayer from '@/components/livekit/RecordedStreamPlayer';
 import Image from 'next/image';
-import { Star, Video, Trash2, Edit, Play } from 'lucide-react';
+import { Star, Video, Trash2, Edit, Play, Radio } from 'lucide-react';
 import { use } from 'react';
 
 interface InfluencerVideo {
@@ -55,6 +57,9 @@ export default function InfluencerDetailPage({
     const [showEditModal, setShowEditModal] = useState(false);
     const [selectedVideo, setSelectedVideo] = useState<InfluencerVideo | null>(null);
     const [currentUserEmail, setCurrentUserEmail] = useState<string | null>(null);
+    const [liveStreams, setLiveStreams] = useState<any[]>([]);
+    const [activeStreams, setActiveStreams] = useState<any[]>([]);
+    const [pastStreams, setPastStreams] = useState<any[]>([]);
 
     useEffect(() => {
         if (session?.user?.email) {
@@ -72,6 +77,16 @@ export default function InfluencerDetailPage({
             const res = await fetch(`/api/influencers/${resolvedParams.id}`);
             const data = await res.json();
             setInfluencer(data.influencer);
+
+            // Fetch live streams for this influencer
+            const streamsRes = await fetch(`/api/influencers/${resolvedParams.id}/streams`, {
+                cache: 'no-store', // Always get fresh stream data
+            });
+            if (streamsRes.ok) {
+                const streamsData = await streamsRes.json();
+                setActiveStreams(streamsData.activeStreams || []);
+                setPastStreams(streamsData.pastStreams || []);
+            }
         } catch (error) {
             console.error('Error fetching influencer:', error);
         } finally {
@@ -205,15 +220,97 @@ export default function InfluencerDetailPage({
                             youtubeUrl={influencer.youtubeUrl}
                         />
                         {isOwner && (
-                            <button
-                                onClick={() => setShowVideoModal(true)}
-                                className="px-6 py-2 bg-white text-purple-600 rounded-lg font-semibold hover:bg-gray-100 transition-colors flex items-center gap-2"
-                            >
-                                <Video className="w-5 h-5" />
-                                <span>Post Video</span>
-                            </button>
+                            <>
+                                <GoLiveButton isInfluencer={true} />
+                                <button
+                                    onClick={() => setShowVideoModal(true)}
+                                    className="px-6 py-2 bg-white text-purple-600 rounded-lg font-semibold hover:bg-gray-100 transition-colors flex items-center gap-2"
+                                >
+                                    <Video className="w-5 h-5" />
+                                    <span>Post Video</span>
+                                </button>
+                            </>
                         )}
                     </div>
+                </div>
+            </div>
+
+            {/* Live Streams Section */}
+            <div className="container mx-auto px-4 py-12 bg-gray-100">
+                <div className="max-w-6xl mx-auto">
+                    <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+                        <Radio className="w-6 h-6 text-red-500" />
+                        Live Streams
+                    </h2>
+
+                    {/* Active Streams */}
+                    {activeStreams.length > 0 && (
+                        <div className="mb-8">
+                            <h3 className="text-xl font-bold text-gray-700 mb-4 flex items-center gap-2">
+                                <span className="relative flex h-3 w-3">
+                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                                    <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                                </span>
+                                Live Now
+                            </h3>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                {activeStreams.map((stream) => (
+                                    <a
+                                        key={stream.id}
+                                        href={`/live/${stream.id}`}
+                                        className="bg-white rounded-xl border border-gray-200 p-4 hover:shadow-lg transition-all"
+                                    >
+                                        <div className="flex items-center gap-3 mb-2">
+                                            <span className="px-2 py-1 bg-red-500 text-white text-xs font-bold rounded animate-pulse">
+                                                LIVE
+                                            </span>
+                                            <span className="text-gray-600 text-sm">
+                                                {stream.viewerCount} watching
+                                            </span>
+                                        </div>
+                                        <h4 className="font-bold text-gray-900 mb-1">{stream.title}</h4>
+                                        {stream.description && (
+                                            <p className="text-sm text-gray-600 line-clamp-2">
+                                                {stream.description}
+                                            </p>
+                                        )}
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Past Streams */}
+                    {pastStreams.length > 0 ? (
+                        <div>
+                            <h3 className="text-xl font-bold text-gray-700 mb-4">Past Streams</h3>
+                            <div className="space-y-6">
+                                {pastStreams.map((stream) => (
+                                    <RecordedStreamPlayer
+                                        key={stream.id}
+                                        recordingUrl={stream.recordingUrl || ''}
+                                        title={stream.title}
+                                        description={stream.description || undefined}
+                                        hostName={influencer.displayName}
+                                        hostImage={influencer.user.image || undefined}
+                                        startedAt={stream.startedAt}
+                                    />
+                                ))}
+                            </div>
+                        </div>
+                    ) : (
+                        !activeStreams.length && (
+                            <div className="bg-white rounded-xl border border-gray-200 p-12 text-center">
+                                <Radio className="w-16 h-16 mx-auto  text-gray-300 mb-4" />
+                                <h3 className="text-xl font-bold text-gray-800 mb-2">No streams yet</h3>
+                                <p className="text-gray-600">
+                                    {isOwner
+                                        ? 'Click "Go Live" to start your first stream!'
+                                        : 'This influencer hasn\'t gone live yet.'}
+                                </p>
+                            </div>
+                        )
+                    )}
                 </div>
             </div>
 

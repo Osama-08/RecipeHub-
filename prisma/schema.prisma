@@ -11,17 +11,17 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String    @unique
-  emailVerified DateTime?
-  image         String?
-  password      String?   // For email/password auth
-  role          UserRole  @default(USER)
-  bio           String?   @db.Text
-  hasSeenTutorial Boolean @default(false) // Onboarding tutorial status
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  id              String    @id @default(cuid())
+  name            String?
+  email           String    @unique
+  emailVerified   DateTime?
+  image           String?
+  password        String? // For email/password auth
+  role            UserRole  @default(USER)
+  bio             String?   @db.Text
+  hasSeenTutorial Boolean   @default(false) // Onboarding tutorial status
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
 
   accounts        Account[]
   sessions        Session[]
@@ -32,31 +32,35 @@ model User {
   aiConversations AIConversation[]
   recipes         Recipe[] // Recipes created by the user
   liveSessions    LiveSession[]
-  
+
   // Community features
-  posts           Post[]    @relation("UserPosts")
-  comments        Comment[] @relation("UserComments")
-  likes           Like[]    @relation("UserLikes")
-  
+  posts    Post[]    @relation("UserPosts")
+  comments Comment[] @relation("UserComments")
+  likes    Like[]    @relation("UserLikes")
+
   // Groups
-  createdGroups   Group[]   @relation("CreatedGroups")
+  createdGroups    Group[]           @relation("CreatedGroups")
   groupMemberships GroupMembership[]
-  groupPosts      GroupPost[] @relation("UserGroupPosts")
-  groupMessages   GroupMessage[] @relation("UserMessages")
-  
+  groupPosts       GroupPost[]       @relation("UserGroupPosts")
+  groupMessages    GroupMessage[]    @relation("UserMessages")
+
   // Live cooking sessions
-  hostedSessions  LiveCookingSession[] @relation("HostedSessions")
-  
+  hostedSessions LiveCookingSession[] @relation("HostedSessions")
+
   // Reactions and Notifications
-  reactions       Reaction[] @relation("UserReactions")
-  notifications   Notification[] @relation("UserNotifications")
-  
+  reactions     Reaction[]     @relation("UserReactions")
+  notifications Notification[] @relation("UserNotifications")
+
   // Influencer profile
   influencerProfile Influencer?
-  
+
   // E Store - Cooking documents uploaded by admin
-  cookingDocuments  CookingDocument[]
-  purchases         Purchase[]
+  cookingDocuments CookingDocument[]
+  purchases        Purchase[]
+
+  // Live stream engagement
+  liveStreamComments LiveStreamComment[]
+  liveStreamLikes    LiveStreamLike[]
 }
 
 model Account {
@@ -106,60 +110,60 @@ enum UserRole {
 // ===================================
 
 model Recipe {
-  id              String   @id @default(cuid())
-  slug            String   @unique
-  spoonacularId   Int?     @unique // ID from Spoonacular API
-  title           String
-  description     String   @db.Text
-  summary         String?  @db.Text // Short description for card back
-  
+  id            String  @id @default(cuid())
+  slug          String  @unique
+  spoonacularId Int?    @unique // ID from Spoonacular API
+  title         String
+  description   String  @db.Text
+  summary       String? @db.Text // Short description for card back
+
   // Metadata
-  prepTime        Int      // minutes
-  cookTime        Int      // minutes
-  totalTime       Int      // minutes (readyInMinutes from API)
-  servings        Int      @default(4)
-  difficulty      String   @default("Medium") // Easy, Medium, Hard
-  
+  prepTime   Int // minutes
+  cookTime   Int // minutes
+  totalTime  Int // minutes (readyInMinutes from API)
+  servings   Int    @default(4)
+  difficulty String @default("Medium") // Easy, Medium, Hard
+
   // Media
-  imageUrl        String
-  videoUrl        String?  // Cloudflare/Bunny.net URL (future)
-  videoType       String?  // "cloudflare", "bunny", "youtube"
-  youtubeId       String?  // YouTube video ID
-  videoCreatorName    String?  // YouTube channel/creator name
-  videoCreatorChannelId String?  // YouTube channel ID for linking
-  videoTranscript     String?  @db.Text // Video transcript for AI parsing (future)
-  
+  imageUrl              String
+  videoUrl              String? // Cloudflare/Bunny.net URL (future)
+  videoType             String? // "cloudflare", "bunny", "youtube"
+  youtubeId             String? // YouTube video ID
+  videoCreatorName      String? // YouTube channel/creator name
+  videoCreatorChannelId String? // YouTube channel ID for linking
+  videoTranscript       String? @db.Text // Video transcript for AI parsing (future)
+
   // Stats
-  views           Int      @default(0)
-  averageRating   Float    @default(0)
-  ratingCount     Int      @default(0)
-  
+  views         Int   @default(0)
+  averageRating Float @default(0)
+  ratingCount   Int   @default(0)
+
   // Source info
-  sourceUrl       String?  // Original recipe URL
-  sourceName      String?  @default("RecipeHub") // "Spoonacular", "RecipeHub", etc.
-  
+  sourceUrl  String? // Original recipe URL
+  sourceName String? @default("RecipeHub") // "Spoonacular", "RecipeHub", etc.
+
   // Relationships
-  authorId        String?
-  author          User?    @relation(fields: [authorId], references: [id])
-  
-  categoryId      String
-  category        Category @relation(fields: [categoryId], references: [id])
-  
+  authorId String?
+  author   User?   @relation(fields: [authorId], references: [id])
+
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id])
+
   // Optional filters
-  occasion        String?  // "Quick & Easy", "Holiday Favorites", "Party Food", etc.
-  cuisine         String?  // "Italian", "Mexican", "Asian", "American", etc.
-  
-  ingredients     Ingredient[]
-  directions      Direction[]
-  nutrition       Nutrition?
-  reviews         Review[]
-  savedBy         SavedRecipe[]
-  videos          Video[]
-  
+  occasion String? // "Quick & Easy", "Holiday Favorites", "Party Food", etc.
+  cuisine  String? // "Italian", "Mexican", "Asian", "American", etc.
+
+  ingredients Ingredient[]
+  directions  Direction[]
+  nutrition   Nutrition?
+  reviews     Review[]
+  savedBy     SavedRecipe[]
+  videos      Video[]
+
   // Timestamps
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   @@index([slug])
   @@index([categoryId])
   @@index([spoonacularId])
@@ -172,28 +176,28 @@ model Category {
   imageUrl  String?
   recipes   Recipe[]
   createdAt DateTime @default(now())
-  
+
   @@index([slug])
 }
 
 model Ingredient {
-  id               String  @id @default(cuid())
-  recipeId         String
-  amount           String  // "3", "1/2", "2-3"
-  unit             String? // "tablespoons", "cups", "cloves", null
-  name             String  // "olive oil", "onion, chopped"
-  original         String  // Original string from API: "3 tablespoons olive oil"
-  optional         Boolean @default(false)
-  order            Int     // Display order
-  
+  id       String  @id @default(cuid())
+  recipeId String
+  amount   String // "3", "1/2", "2-3"
+  unit     String? // "tablespoons", "cups", "cloves", null
+  name     String // "olive oil", "onion, chopped"
+  original String // Original string from API: "3 tablespoons olive oil"
+  optional Boolean @default(false)
+  order    Int // Display order
+
   // Nutrition (from Spoonacular per-ingredient data)
-  calories         Float?
-  protein          Float?  // grams
-  carbs            Float?  // grams
-  fat              Float?  // grams
-  
-  recipe           Recipe  @relation(fields: [recipeId], references: [id], onDelete: Cascade)
-  
+  calories Float?
+  protein  Float? // grams
+  carbs    Float? // grams
+  fat      Float? // grams
+
+  recipe Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+
   @@index([recipeId])
 }
 
@@ -203,29 +207,29 @@ model Direction {
   stepNumber  Int
   instruction String  @db.Text
   imageUrl    String? // Step-by-step image from Spoonacular
-  
-  recipe      Recipe  @relation(fields: [recipeId], references: [id], onDelete: Cascade)
-  
+
+  recipe Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+
   @@unique([recipeId, stepNumber])
   @@index([recipeId])
 }
 
 model Nutrition {
-  id             String @id @default(cuid())
-  recipeId       String @unique
-  
+  id       String @id @default(cuid())
+  recipeId String @unique
+
   // Macros (per serving)
-  calories       Int
-  protein        Float  // grams
-  carbs          Float  // grams
-  fat            Float  // grams
-  saturatedFat   Float? // grams
-  fiber          Float? // grams
-  sugar          Float? // grams
-  sodium         Int?   // mg
-  cholesterol    Int?   // mg
-  
-  recipe         Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  calories     Int
+  protein      Float // grams
+  carbs        Float // grams
+  fat          Float // grams
+  saturatedFat Float? // grams
+  fiber        Float? // grams
+  sugar        Float? // grams
+  sodium       Int? // mg
+  cholesterol  Int? // mg
+
+  recipe Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
 }
 
 model SavedRecipe {
@@ -243,7 +247,7 @@ model SavedRecipe {
 
 model Review {
   id        String   @id @default(cuid())
-  rating    Int      // 1-5 stars
+  rating    Int // 1-5 stars
   comment   String?  @db.Text
   userId    String
   recipeId  String
@@ -251,7 +255,7 @@ model Review {
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   recipe Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
-  
+
   @@index([recipeId])
   @@index([userId])
 }
@@ -266,7 +270,7 @@ model Video {
 
   user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   recipe Recipe? @relation(fields: [recipeId], references: [id], onDelete: SetNull)
-  
+
   @@index([userId])
   @@index([recipeId])
 }
@@ -278,7 +282,7 @@ model ShoppingList {
   createdAt DateTime @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
+
   @@index([userId])
 }
 
@@ -289,35 +293,86 @@ model AIConversation {
   createdAt DateTime @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
+
   @@index([userId])
 }
 
 model LiveSession {
-  id              String    @id @default(cuid())
-  title           String
-  description     String?
-  youtubeVideoId  String?   // YouTube video ID
-  status          String    @default("live")  // "live", "ended", "scheduled"
-  viewerCount     Int       @default(0)
-  thumbnailUrl    String?
-  userId          String
-  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  startedAt       DateTime  @default(now())
-  endedAt         DateTime?
-  
+  id          String  @id @default(cuid())
+  title       String
+  description String?
+
+  // LiveKit room details
+  roomName      String  @unique // Unique LiveKit room identifier
+  livekitRoomId String? // LiveKit's internal room ID
+
+  // Recording metadata
+  recordingId        String? // LiveKit recording ID
+  recordingUrl       String? // URL to playback the recording
+  recordingStartedAt DateTime?
+  recordingEndedAt   DateTime?
+  isRecorded         Boolean   @default(true) // Auto-record by default
+
+  // Stream metadata
+  thumbnailUrl String?
+  viewerCount  Int      @default(0)
+  maxViewers   Int      @default(0) // Peak concurrent viewers
+  cohostIds    String[] // Array of user IDs who joined as co-hosts
+
+  // Host/Influencer
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Timestamps
+  startedAt DateTime  @default(now())
+  endedAt   DateTime?
+
+  comments LiveStreamComment[]
+  likes    LiveStreamLike[]
+
   @@index([userId])
-  @@index([status])
+  @@index([roomName])
+  @@index([startedAt])
+}
+
+// Live stream comments
+model LiveStreamComment {
+  id        String   @id @default(cuid())
+  sessionId String
+  userId    String
+  content   String   @db.Text
+  createdAt DateTime @default(now())
+
+  session LiveSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  user    User        @relation(fields: [userId], references: [id])
+
+  @@index([sessionId])
+  @@index([createdAt])
+}
+
+// Live stream likes/dislikes
+model LiveStreamLike {
+  id        String   @id @default(cuid())
+  sessionId String
+  userId    String
+  isLike    Boolean // true = like, false = dislike
+  createdAt DateTime @default(now())
+
+  session LiveSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  user    User        @relation(fields: [userId], references: [id])
+
+  @@unique([sessionId, userId])
+  @@index([sessionId])
 }
 
 model Tip {
   id          String   @id @default(cuid())
   title       String
   slug        String   @unique
-  category    String   // "Cooking Basics", "Temperature Tips", etc.
-  description String   // Short summary
+  category    String // "Cooking Basics", "Temperature Tips", etc.
+  description String // Short summary
   content     String   @db.Text // Full detailed content
-  imageUrl    String?  // Optional tip image
+  imageUrl    String? // Optional tip image
   views       Int      @default(0)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -334,14 +389,14 @@ model KitchenTip {
   id          String   @id @default(cuid())
   slug        String   @unique
   title       String
-  category    String   // "knife-skills", "food-safety", "storage", "meal-prep", "cooking-basics"
+  category    String // "knife-skills", "food-safety", "storage", "meal-prep", "cooking-basics"
   content     String   @db.Text
   imageUrl    String?
   views       Int      @default(0)
   featured    Boolean  @default(false)
   publishedAt DateTime @default(now())
   createdAt   DateTime @default(now())
-  
+
   @@index([category])
   @@index([featured])
   @@index([slug])
@@ -353,13 +408,13 @@ model TrendPost {
   title       String
   summary     String   @db.Text
   content     String   @db.Text
-  source      String?  // Original source URL
+  source      String? // Original source URL
   imageUrl    String?
   views       Int      @default(0)
   featured    Boolean  @default(false)
   publishedAt DateTime @default(now())
   createdAt   DateTime @default(now())
-  
+
   @@index([featured])
   @@index([slug])
 }
@@ -369,14 +424,14 @@ model CookingHack {
   slug        String   @unique
   title       String
   content     String   @db.Text
-  difficulty  String   // "easy", "medium", "advanced"
+  difficulty  String // "easy", "medium", "advanced"
   timeToRead  Int      @default(60) // seconds
   imageUrl    String?
   views       Int      @default(0)
   featured    Boolean  @default(false)
   publishedAt DateTime @default(now())
   createdAt   DateTime @default(now())
-  
+
   @@index([difficulty])
   @@index([featured])
   @@index([slug])
@@ -384,15 +439,15 @@ model CookingHack {
 
 model ContentJob {
   id          String    @id @default(cuid())
-  type        String    // "kitchen-tip", "trend", "hack", "featured-recipe"
-  status      String    // "pending", "running", "completed", "failed"
+  type        String // "kitchen-tip", "trend", "hack", "featured-recipe"
+  status      String // "pending", "running", "completed", "failed"
   scheduledAt DateTime
   startedAt   DateTime?
   completedAt DateTime?
   error       String?   @db.Text
   result      String?   @db.Text // JSON result data
   createdAt   DateTime  @default(now())
-  
+
   @@index([status])
   @@index([scheduledAt])
   @@index([type])
@@ -403,34 +458,34 @@ model ContentJob {
 // ===================================
 
 model Post {
-  id          String    @id @default(cuid())
-  content     String    @db.Text
-  imageUrl    String?
-  authorId    String
-  author      User      @relation("UserPosts", fields: [authorId], references: [id], onDelete: Cascade)
-  
-  likes       Like[]
-  comments    Comment[]
-  reactions   Reaction[] @relation("PostReactions")
-  
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  
+  id       String  @id @default(cuid())
+  content  String  @db.Text
+  imageUrl String?
+  authorId String
+  author   User    @relation("UserPosts", fields: [authorId], references: [id], onDelete: Cascade)
+
+  likes     Like[]
+  comments  Comment[]
+  reactions Reaction[] @relation("PostReactions")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   @@index([authorId])
   @@index([createdAt])
 }
 
 model Comment {
-  id        String   @id @default(cuid())
-  content   String   @db.Text
-  postId    String
-  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
-  authorId  String
-  author    User     @relation("UserComments", fields: [authorId], references: [id], onDelete: Cascade)
-  
+  id       String @id @default(cuid())
+  content  String @db.Text
+  postId   String
+  post     Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  authorId String
+  author   User   @relation("UserComments", fields: [authorId], references: [id], onDelete: Cascade)
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  
+
   @@index([postId])
   @@index([authorId])
 }
@@ -442,7 +497,7 @@ model Like {
   postId    String
   post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
-  
+
   @@unique([userId, postId])
   @@index([postId])
   @@index([userId])
@@ -460,18 +515,18 @@ model Group {
   coverImageUrl String?
   rules         String?   @db.Text
   type          GroupType @default(PUBLIC)
-  
-  creatorId     String
-  creator       User      @relation("CreatedGroups", fields: [creatorId], references: [id])
-  
-  members       GroupMembership[]
-  posts         GroupPost[]
-  messages      GroupMessage[]
-  liveSessions  LiveCookingSession[]
-  
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  
+
+  creatorId String
+  creator   User   @relation("CreatedGroups", fields: [creatorId], references: [id])
+
+  members      GroupMembership[]
+  posts        GroupPost[]
+  messages     GroupMessage[]
+  liveSessions LiveCookingSession[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   @@index([slug])
   @@index([type])
   @@index([creatorId])
@@ -483,15 +538,15 @@ enum GroupType {
 }
 
 model GroupMembership {
-  id        String          @id @default(cuid())
-  userId    String
-  user      User            @relation(fields: [userId], references: [id], onDelete: Cascade)
-  groupId   String
-  group     Group           @relation(fields: [groupId], references: [id], onDelete: Cascade)
-  role      GroupRole       @default(MEMBER)
-  status    MemberStatus    @default(ACTIVE)
-  joinedAt  DateTime        @default(now())
-  
+  id       String       @id @default(cuid())
+  userId   String
+  user     User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  groupId  String
+  group    Group        @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  role     GroupRole    @default(MEMBER)
+  status   MemberStatus @default(ACTIVE)
+  joinedAt DateTime     @default(now())
+
   @@unique([userId, groupId])
   @@index([groupId])
   @@index([userId])
@@ -510,18 +565,18 @@ enum MemberStatus {
 }
 
 model GroupPost {
-  id        String   @id @default(cuid())
-  content   String   @db.Text
-  imageUrl  String?
-  
-  authorId  String
-  author    User     @relation("UserGroupPosts", fields: [authorId], references: [id], onDelete: Cascade)
-  groupId   String
-  group     Group    @relation(fields: [groupId], references: [id], onDelete: Cascade)
-  
+  id       String  @id @default(cuid())
+  content  String  @db.Text
+  imageUrl String?
+
+  authorId String
+  author   User   @relation("UserGroupPosts", fields: [authorId], references: [id], onDelete: Cascade)
+  groupId  String
+  group    Group  @relation(fields: [groupId], references: [id], onDelete: Cascade)
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  
+
   @@index([groupId])
   @@index([authorId])
   @@index([createdAt])
@@ -532,20 +587,20 @@ model GroupPost {
 // ===================================
 
 model GroupMessage {
-  id        String   @id @default(cuid())
-  content   String   @db.Text
-  imageUrl  String?
-  
-  authorId  String
-  author    User     @relation("UserMessages", fields: [authorId], references: [id], onDelete: Cascade)
-  groupId   String
-  group     Group    @relation(fields: [groupId], references: [id], onDelete: Cascade)
-  
+  id       String  @id @default(cuid())
+  content  String  @db.Text
+  imageUrl String?
+
+  authorId String
+  author   User   @relation("UserMessages", fields: [authorId], references: [id], onDelete: Cascade)
+  groupId  String
+  group    Group  @relation(fields: [groupId], references: [id], onDelete: Cascade)
+
   readBy    String[] // Array of user IDs who read this message
   reactions Reaction[] @relation("MessageReactions")
-  
+
   createdAt DateTime @default(now())
-  
+
   @@index([groupId, createdAt])
   @@index([authorId])
 }
@@ -555,29 +610,29 @@ model GroupMessage {
 // ===================================
 
 model LiveCookingSession {
-  id            String    @id @default(cuid())
-  title         String
-  description   String?   @db.Text
-  
-  scheduledAt   DateTime
-  startedAt     DateTime?
-  endedAt       DateTime?
-  
-  videoType     String    @default("youtube") // "youtube", "jitsi"
-  videoUrl      String?   // Direct link or YouTube URL
-  youtubeVideoId String?  // Extracted YouTube ID
-  streamVisibility String @default("PUBLIC") // "PUBLIC", "UNLISTED"
-  
-  hostId        String
-  host          User      @relation("HostedSessions", fields: [hostId], references: [id])
-  groupId       String
-  group         Group     @relation(fields: [groupId], references: [id], onDelete: Cascade)
-  
-  status        SessionStatus @default(SCHEDULED)
-  
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  
+  id          String  @id @default(cuid())
+  title       String
+  description String? @db.Text
+
+  scheduledAt DateTime
+  startedAt   DateTime?
+  endedAt     DateTime?
+
+  videoType        String  @default("youtube") // "youtube", "jitsi"
+  videoUrl         String? // Direct link or YouTube URL
+  youtubeVideoId   String? // Extracted YouTube ID
+  streamVisibility String  @default("PUBLIC") // "PUBLIC", "UNLISTED"
+
+  hostId  String
+  host    User   @relation("HostedSessions", fields: [hostId], references: [id])
+  groupId String
+  group   Group  @relation(fields: [groupId], references: [id], onDelete: Cascade)
+
+  status SessionStatus @default(SCHEDULED)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   @@index([groupId])
   @@index([hostId])
   @@index([status])
@@ -591,24 +646,31 @@ enum SessionStatus {
   CANCELLED
 }
 
+// LiveKit stream roles
+enum LiveStreamRole {
+  HOST
+  COHOST
+  VIEWER
+}
+
 // ===================================
 // REACTIONS SYSTEM
 // ===================================
 
 model Reaction {
-  id        String   @id @default(cuid())
-  emoji     String   // "👍", "❤️", "😂", etc.
-  userId    String
-  user      User     @relation("UserReactions", fields: [userId], references: [id], onDelete: Cascade)
-  
+  id     String @id @default(cuid())
+  emoji  String // "👍", "❤️", "😂", etc.
+  userId String
+  user   User   @relation("UserReactions", fields: [userId], references: [id], onDelete: Cascade)
+
   // Can react to posts or messages
   postId    String?
-  post      Post?    @relation("PostReactions", fields: [postId], references: [id], onDelete: Cascade)
+  post      Post?         @relation("PostReactions", fields: [postId], references: [id], onDelete: Cascade)
   messageId String?
   message   GroupMessage? @relation("MessageReactions", fields: [messageId], references: [id], onDelete: Cascade)
-  
+
   createdAt DateTime @default(now())
-  
+
   @@unique([userId, emoji, postId])
   @@unique([userId, emoji, messageId])
   @@index([postId])
@@ -620,18 +682,18 @@ model Reaction {
 // ===================================
 
 model Notification {
-  id        String   @id @default(cuid())
-  type      String   // "NEW_MESSAGE", "MENTION", "REACTION", "NEW_MEMBER", "LIVE_SESSION"
-  title     String
-  message   String
-  linkUrl   String?
-  isRead    Boolean  @default(false)
-  
-  userId    String
-  user      User     @relation("UserNotifications", fields: [userId], references: [id], onDelete: Cascade)
-  
+  id      String  @id @default(cuid())
+  type    String // "NEW_MESSAGE", "MENTION", "REACTION", "NEW_MEMBER", "LIVE_SESSION"
+  title   String
+  message String
+  linkUrl String?
+  isRead  Boolean @default(false)
+
+  userId String
+  user   User   @relation("UserNotifications", fields: [userId], references: [id], onDelete: Cascade)
+
   createdAt DateTime @default(now())
-  
+
   @@index([userId, isRead])
   @@index([createdAt])
 }
@@ -641,26 +703,26 @@ model Notification {
 // ===================================
 
 model Influencer {
-  id          String   @id @default(cuid())
-  userId      String   @unique
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
+  id     String @id @default(cuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   // Profile information
   displayName String
-  bio         String?  @db.Text
-  
+  bio         String? @db.Text
+
   // Social media links (all optional)
   facebookUrl  String?
   instagramUrl String?
   tiktokUrl    String?
   youtubeUrl   String?
-  
+
   // Videos posted by this influencer
-  videos      InfluencerVideo[]
-  
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  
+  videos InfluencerVideo[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   @@index([userId])
 }
 
@@ -668,21 +730,21 @@ model InfluencerVideo {
   id           String     @id @default(cuid())
   influencerId String
   influencer   Influencer @relation(fields: [influencerId], references: [id], onDelete: Cascade)
-  
-  title        String
-  description  String?    @db.Text
-  
+
+  title       String
+  description String? @db.Text
+
   // Video source (YouTube or uploaded file)
-  videoType    String     // "youtube" or "uploaded"
-  youtubeId    String?    // YouTube video ID
-  videoUrl     String?    // UploadThing URL for uploaded videos
-  thumbnailUrl String?    // Thumbnail image
-  
-  views        Int        @default(0)
-  
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
-  
+  videoType    String // "youtube" or "uploaded"
+  youtubeId    String? // YouTube video ID
+  videoUrl     String? // UploadThing URL for uploaded videos
+  thumbnailUrl String? // Thumbnail image
+
+  views Int @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   @@index([influencerId])
   @@index([createdAt])
 }
@@ -692,45 +754,45 @@ model InfluencerVideo {
 // ===================================
 
 model CookingDocument {
-  id          String   @id @default(cuid())
+  id          String  @id @default(cuid())
   title       String
-  slug        String   @unique
-  description String?  @db.Text
-  category    String   // "Recipe Books", "Cooking Guides", "Techniques", "Nutrition", etc.
-  
+  slug        String  @unique
+  description String? @db.Text
+  category    String // "Recipe Books", "Cooking Guides", "Techniques", "Nutrition", etc.
+
   // File information
-  fileUrl     String   // UploadThing URL
-  fileName    String   // Original file name
-  fileSize    Int      // Size in bytes
-  fileType    String   // "pdf", "doc", "docx", "epub"
-  
+  fileUrl  String // UploadThing URL
+  fileName String // Original file name
+  fileSize Int // Size in bytes
+  fileType String // "pdf", "doc", "docx", "epub"
+
   // Preview/Cover
   coverImageUrl String? // Optional cover image
-  
+
   // Metadata
-  author      String?  // Author/Publisher
-  publishedYear Int?   // Year of publication
-  
+  author        String? // Author/Publisher
+  publishedYear Int? // Year of publication
+
   // Stats
-  downloads   Int      @default(0)
-  views       Int      @default(0)
-  
+  downloads Int @default(0)
+  views     Int @default(0)
+
   // Pricing - amount in cents (e.g., 999 = $9.99, 0 = free)
-  price       Int      @default(0)
-  
+  price Int @default(0)
+
   // Uploaded by (admin)
   uploadedById String
-  uploadedBy   User    @relation(fields: [uploadedById], references: [id])
-  
+  uploadedBy   User   @relation(fields: [uploadedById], references: [id])
+
   // Purchase tracking
-  purchases   Purchase[]
-  
+  purchases Purchase[]
+
   // Featured flag
-  featured    Boolean  @default(false)
-  
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  
+  featured Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   @@index([slug])
   @@index([category])
   @@index([uploadedById])
@@ -742,20 +804,18 @@ model CookingDocument {
 // ===================================
 
 model Purchase {
-  id                    String   @id @default(cuid())
+  id                    String          @id @default(cuid())
   userId                String
-  user                  User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user                  User            @relation(fields: [userId], references: [id], onDelete: Cascade)
   documentId            String
   document              CookingDocument @relation(fields: [documentId], references: [id], onDelete: Cascade)
-  amount                Int      // Amount paid in cents
-  stripePaymentIntentId String   @unique
-  status                String   @default("pending") // "pending", "completed", "failed"
-  createdAt             DateTime @default(now())
-  
+  amount                Int // Amount paid in cents
+  stripePaymentIntentId String          @unique
+  status                String          @default("pending") // "pending", "completed", "failed"
+  createdAt             DateTime        @default(now())
+
   @@unique([userId, documentId])
   @@index([userId])
   @@index([documentId])
   @@index([stripePaymentIntentId])
 }
-
-

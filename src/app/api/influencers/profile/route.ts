@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
-import { prisma } from '@/lib/prisma';
+import { prisma } from '@/lib/db';
 
 // GET /api/influencers/profile - Get current user's influencer profile
 export async function GET() {
@@ -70,6 +70,8 @@ export async function POST(request: NextRequest) {
         }
 
         const body = await request.json();
+        console.log('POST /api/influencers/profile - body:', body);
+        console.log('Session email:', session?.user?.email);
         const { displayName, bio, facebookUrl, instagramUrl, tiktokUrl, youtubeUrl } = body;
 
         if (!displayName) {

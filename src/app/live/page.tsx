@@ -25,16 +25,11 @@ export default function LivePage() {
     const [liveSessions, setLiveSessions] = useState<LiveSession[]>([]);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        fetchLiveSessions();
-        // Poll every 10 seconds for updates
-        const interval = setInterval(fetchLiveSessions, 10000);
-        return () => clearInterval(interval);
-    }, []);
-
     const fetchLiveSessions = async () => {
         try {
-            const res = await fetch("/api/live");
+            const res = await fetch("/api/live?filter=live", {
+                cache: 'no-store', // Don't cache - always get fresh data
+            });
             const data = await res.json();
             setLiveSessions(data.sessions || []);
         } catch (error) {
@@ -43,6 +38,13 @@ export default function LivePage() {
             setLoading(false);
         }
     };
+
+    useEffect(() => {
+        fetchLiveSessions();
+        // Poll every 10 seconds for updates
+        const interval = setInterval(fetchLiveSessions, 10000);
+        return () => clearInterval(interval);
+    }, []);
 
     return (
         <div className="min-h-screen bg-gray-50">
@@ -62,18 +64,6 @@ export default function LivePage() {
                             <div className="inline-flex items-center gap-2 px-6 py-3 bg-red-500 rounded-full animate-pulse">
                                 <span className="w-3 h-3 bg-white rounded-full animate-ping"></span>
                                 <span className="font-bold">{liveSessions.length} Live Now</span>
-                            </div>
-                        )}
-
-                        {session && (
-                            <div className="mt-6">
-                                <Link
-                                    href="/live/go-live"
-                                    className="inline-flex items-center gap-2 px-8 py-3 bg-white text-red-600 rounded-lg font-bold hover:bg-red-50 transition-colors"
-                                >
-                                    <Video className="w-5 h-5" />
-                                    Start Broadcasting
-                                </Link>
                             </div>
                         )}
                     </div>
@@ -170,7 +160,7 @@ export default function LivePage() {
                             <div className="space-y-4">
                                 <p className="text-sm text-gray-500">Sign in to start streaming</p>
                                 <Link
-                                    href="/auth/signin"
+                                    href="/login"
                                     className="inline-block px-8 py-3 bg-gray-900 text-white rounded-lg font-bold hover:bg-gray-800 transition-colors"
                                 >
                                     Sign In
